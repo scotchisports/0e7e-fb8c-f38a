@@ -867,13 +867,24 @@ const GAMES = /* ===== BAKED GAMES START ===== */
 html,body{width:100vw;height:100vh;overflow:hidden;background:radial-gradient(ellipse at top,#121a2a 0%,var(--bg) 70%);color:var(--txt);
   font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
 #app{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100%;width:100%;gap:0;min-height:0;overflow:hidden;position:relative}
-header{display:flex;align-items:center;gap:.6vw;padding:4px 10px;border-bottom:2px solid var(--line);min-height:0;height:40px}
+header{display:flex;align-items:center;gap:.5vw;padding:4px 10px;border-bottom:2px solid var(--line);min-height:40px;height:auto;flex-wrap:wrap}
+header .counts,#sndbtn,#fsbtn,.upd,.vs-pill{flex-shrink:0}
+header .legend{flex:1 1 180px;min-width:0}
 header h1{font-size:clamp(15px,2.4vh,28px);letter-spacing:.12em;font-weight:900;
   background:linear-gradient(90deg,var(--gold),#fff2b8);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
 .vs-pill{display:flex;align-items:center;gap:.4em;font-size:clamp(11px,1.5vh,16px);font-weight:900;letter-spacing:.08em;white-space:nowrap}
 .vs-pill .p-stu{color:var(--stu)} .vs-pill .p-bruce{color:var(--bruce)} .vs-pill .p-vs{color:var(--dim);font-weight:700}
-.counts{display:flex;gap:.35vw;font-size:clamp(12px,1.8vh,20px);font-weight:800;white-space:nowrap}
-.counts span{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.05em .4em}
+.counts{display:flex;gap:6px;align-items:center;font-size:clamp(10px,1.3vh,13px);font-weight:800;white-space:nowrap;min-width:0;flex-shrink:1}
+.count-player{display:inline-flex;align-items:center;gap:5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.count-player.stu{border-color:#3a2e10}
+.count-player.bruce{border-color:#12383a}
+.count-player .cname{letter-spacing:.06em;font-weight:900}
+.count-player.stu .cname{color:var(--stu)}
+.count-player.bruce .cname{color:var(--bruce)}
+.count-player .clive.up{color:#4ade80}
+.count-player .clive.down{color:#f87171}
+.count-player .clive.mix{color:#fbbf24}
+.count-player .clive.none{color:var(--dim)}
 .legend{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:1;min-width:0}
 .legend .lg{display:inline-flex;align-items:center;gap:4px}
 .sw{width:11px;height:11px;border-radius:3px;border:2px solid #000;flex:0 0 11px}
@@ -1008,9 +1019,10 @@ header h1{font-size:clamp(15px,2.4vh,28px);letter-spacing:.12em;font-weight:900;
 
 .rail{
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:8px;
-  min-height:0;height:168px;flex-shrink:0;overflow:hidden;
+  min-height:0;height:176px;flex-shrink:0;overflow:hidden;
 }
-.live-grid.n1 ~ .rail,.live-grid.n2 ~ .rail{height:188px}
+.live-grid.n1 ~ .rail{height:228px}
+.live-grid.n2 ~ .rail,.live-grid.n3 ~ .rail{height:210px}
 .board.no-live .rail{height:auto;min-height:0;grid-template-rows:auto minmax(0,1fr);grid-template-columns:1fr;align-content:stretch}
 .board.no-live .rail-upnext{min-height:0}
 .rail-sec{
@@ -1022,10 +1034,9 @@ header h1{font-size:clamp(15px,2.4vh,28px);letter-spacing:.12em;font-weight:900;
 .rail-upnext .rail-list{grid-template-columns:1fr 1fr}
 .board.no-live .rail-list,.board.no-live .rail-upnext .rail-list{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
 .chip{
-  display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.9fr) minmax(0,.9fr);
-  align-items:center;gap:6px;
+  display:flex;flex-direction:column;gap:2px;justify-content:center;
   background:var(--panel2);border:1px solid var(--line);border-radius:6px;
-  padding:3px 7px;min-height:24px;min-width:0;overflow:hidden;
+  padding:3px 6px 4px;min-height:0;min-width:0;overflow:hidden;
 }
 .chip.both_win,.chip.stu_only_win{background:#0f2a1a;border-color:#4ade80}
 .chip.both_lose,.chip.stu_only_lose,.chip.bruce_only_lose{background:#2a1014;border-color:#f87171}
@@ -1033,17 +1044,59 @@ header h1{font-size:clamp(15px,2.4vh,28px);letter-spacing:.12em;font-weight:900;
 .chip.bruce_up,.chip.bruce_only_win{background:#0c1f1c;border-color:#2dd4bf}
 .chip.pending{background:#1c2028;border-color:#3a4150}
 .chip.nobet-final{background:#161a22;border-color:#4a5160}
-.chip.pending img,.chip.pending .lcirc{filter:grayscale(.7);opacity:.85}
+.chip.pending img:not(.picked-stu):not(.picked-bruce):not(.picked-both),
+.chip.pending .lcirc:not(.picked-stu):not(.picked-bruce):not(.picked-both){filter:grayscale(.7);opacity:.85}
 .chip-game{display:flex;align-items:center;gap:4px;min-width:0}
 .chip-game img,.chip-game .lcirc{height:18px;width:auto;max-width:22px;object-fit:contain;flex-shrink:0}
-.chip-game .ab{font-size:11px;font-weight:800}
+.chip-game img.picked-stu,.chip-game .lcirc.picked-stu{outline:2px solid var(--stu);border-radius:3px;filter:none;opacity:1}
+.chip-game img.picked-bruce,.chip-game .lcirc.picked-bruce{outline:2px solid var(--bruce);border-radius:3px;filter:none;opacity:1}
+.chip-game img.picked-both,.chip-game .lcirc.picked-both{outline:2px solid var(--stu);box-shadow:0 0 0 3px var(--bruce);border-radius:3px;filter:none;opacity:1}
+.chip-game .ab{font-size:11px;font-weight:800;color:var(--txt)}
+.chip-game .ab.picked-stu{color:var(--stu);font-weight:900}
+.chip-game .ab.picked-bruce{color:var(--bruce);font-weight:900}
+.chip-game .ab.picked-both{
+  font-weight:900;
+  background:linear-gradient(90deg,var(--stu),var(--bruce));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
 .chip-game .pts{font-size:11px;font-weight:800;white-space:nowrap;margin:0 4px;color:var(--txt)}
 .chip-game .at{color:var(--dim);font-weight:800;font-size:10px;margin:0 1px}
-.chip-game .when{font-size:10px;font-weight:700;color:var(--dim);white-space:nowrap;margin-left:auto;padding-left:4px}
-.chip-pick{font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.chip-pick.stu{color:var(--stu)}
-.chip-pick.bruce{color:var(--bruce)}
-.chip-pick .nob{color:var(--dim);font-size:10px;letter-spacing:.06em}
+.chip-game .when{font-size:10px;font-weight:700;color:var(--dim);white-space:nowrap;margin-left:auto;padding-left:4px;flex-shrink:0}
+.chip-rel{
+  font-size:8px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;
+  border-radius:3px;padding:1px 5px;white-space:nowrap;flex-shrink:0;line-height:1.3;
+}
+.chip-rel.h2h{color:#fecaca;border:1px solid #8a2a33;background:#2a1014}
+.chip-rel.same{color:#bbf7d0;border:1px solid #2f7a48;background:#0f2a1a}
+.chip-picks{display:grid;grid-template-columns:1fr 1fr;gap:4px;min-width:0}
+.chip-pick{
+  display:flex;align-items:baseline;gap:3px;min-width:0;overflow:hidden;
+  font-size:10px;font-weight:800;white-space:nowrap;
+  border:1px solid var(--line);border-radius:4px;padding:1px 6px;
+}
+.chip-pick .who{font-weight:900;letter-spacing:.01em;flex-shrink:0}
+.chip-pick .sel{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.chip-pick .od{color:var(--dim);font-weight:700;flex-shrink:0}
+.chip-pick .mark{flex-shrink:0;font-size:10px}
+.chip-pick.stu{color:var(--stu);background:#16120a;border-color:#3a2e10}
+.chip-pick.bruce{color:var(--bruce);background:#0a1616;border-color:#12383a}
+.chip-pick.win{background:#0f2a1a;border-color:#2f7a48}
+.chip-pick.lose{background:#2a1014;border-color:#8a2a33}
+.chip-pick.nob{opacity:.45;border-style:dashed;background:transparent;color:var(--dim);font-weight:700}
+.chip-badge{
+  font-size:8px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;
+  border-radius:3px;padding:1px 5px;white-space:nowrap;flex-shrink:0;line-height:1.3;margin-left:auto;
+}
+.chip-badge.won{color:#bbf7d0;background:#14532d;border:1px solid #22c55e}
+.chip-badge.lost{color:#fecaca;background:#7f1d1d;border:1px solid #ef4444}
+.chip-badge.push{color:#e5e7eb;background:#374151;border:1px solid #9ca3af}
+.chip-margin{font-size:9px;font-weight:700;color:var(--dim);white-space:nowrap;flex-shrink:1;overflow:hidden;text-overflow:ellipsis}
+.chip-margin.win{color:#86efac}
+.chip-margin.lose{color:#fca5a5}
+.chip-margin.level{color:#d1d5db}
+.chip.result .chip-pick{gap:4px}
+.rail-results .rail-list{overflow-y:auto;overflow-x:hidden;align-content:start;scrollbar-width:thin}
+
 .rail-empty{color:var(--dim);font-size:11px;font-weight:700;padding:6px 2px}
 
 @keyframes scoreflash{0%{background:#fff7c2}30%{background:#ffc83d}100%{}}
@@ -1188,9 +1241,14 @@ header h1{font-size:clamp(15px,2.4vh,28px);letter-spacing:.12em;font-weight:900;
   .rail-results{order:2}
   .rail-sec{flex:0 0 auto}
   .rail-list{overflow:visible}
-  .chip{grid-template-columns:1fr;gap:2px;padding:8px}
+  .chip{padding:8px;gap:5px}
   .chip-game .ab,.chip-game .pts,.chip-game .when{font-size:13px}
-  .chip-pick{font-size:13px}
+  .chip-picks{grid-template-columns:1fr;gap:4px}
+  .chip-pick{font-size:13px;padding:6px 8px}
+  .chip-rel{font-size:10px;padding:2px 6px}
+  .chip-badge{font-size:10px;padding:2px 6px}
+  .chip-margin{font-size:11px}
+
   .accas{grid-template-columns:1fr;gap:4px;padding:4px 8px calc(6px + env(safe-area-inset-bottom))}
   .acca-toggle{min-height:44px;padding:8px 10px}
   .acca-panel.open .acca-body{max-height:min(60vh,520px)}
@@ -1288,7 +1346,31 @@ header h1{font-size:clamp(15px,2.4vh,28px);letter-spacing:.12em;font-weight:900;
   .midscore{min-width:64px}
   .teams .ab{width:auto;min-width:24px}
 }
+
+/* Layout 3 rail + header counts: phone stack, mid-width rail height */
+@media (max-width: 700px){
+  .board .rail,
+  .board .live-grid.n1 ~ .rail,
+  .board .live-grid.n2 ~ .rail,
+  .board .live-grid.n3 ~ .rail{
+    height:auto;overflow:visible;flex:0 0 auto;
+  }
+  .board .rail-list,
+  .board .rail-upnext .rail-list,
+  .board.no-live .rail-list,
+  .board.no-live .rail-upnext .rail-list{
+    grid-template-columns:1fr;overflow:visible;
+  }
+  .counts{flex:1 0 100%;order:4;flex-wrap:wrap;white-space:normal;font-size:11px;gap:6px}
+  .count-player{flex:1 1 auto;padding:4px 8px;justify-content:space-between}
+}
+@media (min-width: 701px) and (max-width: 860px){
+  .rail{height:200px}
+  .live-grid.n1 ~ .rail{height:240px}
+  .live-grid.n2 ~ .rail,.live-grid.n3 ~ .rail{height:220px}
+}
 </style>
+
 <script>
 /* Pre-recorded announcer clips (TTS voice en-US-GuyNeural, original lines), mono Ogg Opus 16 kbps.
    t_<ESPN abbr> = team name. Category clips have numbered variants (s_td_0, s_td_1 ...) and one is picked at random,
@@ -1430,7 +1512,7 @@ const VOICE_CLIPS = {"g_over_0":"data:audio/ogg;base64,T2dnUwACAAAAAAAAAABMHd80A
   <header>
     <h1>🏈 SUNDAY TICKET</h1>
     <div class="vs-pill"><span class="p-stu" id="name-stu">SCOTCHI</span><span class="p-vs">vs</span><span class="p-bruce" id="name-bruce">BOET</span></div>
-    <div class="counts"><span id="cW">✅ 0</span><span id="cL">❌ 0</span><span id="cD">➖ 0</span><span id="cP">⏳ 0</span></div>
+    <div class="counts" id="counts"><div class="count-player stu" id="counts-stu"></div><div class="count-player bruce" id="counts-bruce"></div></div>
     <div class="legend" aria-label="Game colours">
       <span class="lg"><span class="sw both-win"></span> Both up</span>
       <span class="lg"><span class="sw both-lose"></span> Both down</span>
@@ -1518,6 +1600,54 @@ function applyDisplayNames(){
   const bruceUp = document.getElementById('leg-bruce-up');
   if(stuUp) stuUp.textContent = stu + ' up';
   if(bruceUp) bruceUp.textContent = bruce + ' up';
+}
+
+function tallyLegs(legs, states, games){
+  const t = {w:0,l:0,d:0,live:0,pending:0,liveUp:0,liveDown:0,liveLevel:0};
+  const counted = new Set();
+  for(const g of games){
+    const leg = legForPlayer(g, legs);
+    if(!leg) continue;
+    counted.add(leg);
+    const st = states.get(leg);
+    if(g.state==='post'){
+      if(st==='win') t.w++;
+      else if(st==='lose') t.l++;
+      else if(st==='level') t.d++;
+      else t.pending++;
+    } else if(g.state==='in'){
+      t.live++;
+      if(st==='win') t.liveUp++;
+      else if(st==='lose') t.liveDown++;
+      else t.liveLevel++;
+    } else {
+      t.pending++;
+    }
+  }
+  for(const leg of legs){ if(!counted.has(leg)) t.pending++; }
+  return t;
+}
+function headerCountsHtml(who, t){
+  const name = displayName(who).toUpperCase();
+  let liveCls = 'mix';
+  if(!t.live) liveCls = 'none';
+  else if(t.liveUp===t.live) liveCls = 'up';
+  else if(t.liveDown===t.live) liveCls = 'down';
+  return `<span class="cname">${esc(name)}</span>`+
+    `<span class="cw">✅ ${t.w}</span>`+
+    `<span class="cl">❌ ${t.l}</span>`+
+    `<span class="cd">➖ ${t.d}</span>`+
+    `<span class="clive ${liveCls}">🔴 ${t.live} live</span>`+
+    `<span class="cp">⏳ ${t.pending}</span>`;
+}
+function paintHeaderCounts(stuT, bruT, hasBruce){
+  const stuBox = document.getElementById('counts-stu');
+  const bruBox = document.getElementById('counts-bruce');
+  if(stuBox) stuBox.innerHTML = headerCountsHtml('stu', stuT);
+  if(bruBox){
+    bruBox.style.display = hasBruce ? '' : 'none';
+    if(hasBruce) bruBox.innerHTML = headerCountsHtml('bruce', bruT);
+  }
 }
 
 function gbp(n){
@@ -1614,8 +1744,8 @@ function clockText(g){
 }
 function clockTextShort(g){
   if(g.state!=='pre') return clockText(g);
-  if(ukDate(g.date)===ukDate(new Date())) return fmtKoToday.format(g.date);
-  return fmtKo.format(g.date);
+  const t = ukDate(g.date)===ukDate(new Date()) ? fmtKoToday.format(g.date) : fmtKo.format(g.date);
+  return t + ' UK';
 }
 function pickLabel(leg){
   if(!leg) return '';
@@ -1819,26 +1949,85 @@ function renderLiveCard(g, stuLeg, sStu, bruceLeg, sBruce, hasBruce){
     <div class="lc-covers">${renderCoverPick('stu', stuLeg, sStu, false)}${renderCoverPick('bruce', bruceLeg, sBruce, !hasBruce)}</div>
   </div>`;
 }
+function chipPickLabel(leg){
+  if(!leg) return '';
+  if(leg.type==='total') return `${leg.side==='over'?'Over':'Under'} ${Number(leg.line)}`;
+  if(leg.type==='spread'){ const l=Number(leg.line); return `${leg.team} ${l>0?'+':''}${l}`; }
+  return `${leg.team} ML`;
+}
+function pickRelation(stuLeg, bruceLeg){
+  if(!stuLeg || !bruceLeg) return '';
+  if(stuLeg.type==='total' && bruceLeg.type==='total') return stuLeg.side===bruceLeg.side ? 'same' : 'h2h';
+  if(stuLeg.type==='total' || bruceLeg.type==='total') return '';
+  return stuLeg.team===bruceLeg.team ? 'same' : 'h2h';
+}
+function pickedClass(ab, stuLeg, bruceLeg){
+  const s = !!(stuLeg && stuLeg.type!=='total' && stuLeg.team===ab);
+  const b = !!(bruceLeg && bruceLeg.type!=='total' && bruceLeg.team===ab);
+  if(s && b) return 'picked-both';
+  if(s) return 'picked-stu';
+  if(b) return 'picked-bruce';
+  return '';
+}
+function fmtMarginNum(n){
+  const a = Math.abs(n);
+  if(Number.isInteger(a)) return String(a);
+  return a.toFixed(1).replace(/\.0$/,'');
+}
+function marginText(g, leg, st){
+  if(!leg || !g || g.state==='pre' || leg.type!=='spread') return '';
+  const me = g.teams.find(t=>t.ab===leg.team), op = g.teams.find(t=>t.ab!==leg.team);
+  if(!me || !op) return '';
+  const m = me.score + Number(leg.line||0) - op.score;
+  if(m===0 || st==='level') return 'pushed';
+  return (st==='win' || m>0) ? `covered by ${fmtMarginNum(m)}` : `missed by ${fmtMarginNum(m)}`;
+}
+function resultBadge(st){
+  if(st==='win') return '<span class="chip-badge won">WON</span>';
+  if(st==='lose') return '<span class="chip-badge lost">LOST</span>';
+  if(st==='level') return '<span class="chip-badge push">PUSH</span>';
+  return '';
+}
+function renderChipPick(who, leg, status, waiting, g, final){
+  const side = who==='stu' ? 'stu' : 'bruce';
+  const name = displayName(who);
+  if(waiting) return `<div class="chip-pick ${side} nob"><span class="who">${esc(name)}:</span> <span class="sel">—</span></div>`;
+  if(!leg) return `<div class="chip-pick ${side} nob"><span class="who">${esc(name)}:</span> <span class="sel">No bet</span></div>`;
+  const st = status||'pre';
+  const odds = `<span class="od">@${Number(leg.odds).toFixed(2)}</span>`;
+  const body = `<span class="who">${esc(name)}:</span> <span class="sel">${esc(chipPickLabel(leg))}</span> ${odds}`;
+  if(final){
+    const marg = marginText(g, leg, st);
+    return `<div class="chip-pick ${side} ${st}">${body}`+
+      `${marg?`<span class="chip-margin ${st}">${esc(marg)}</span>`:''}`+
+      resultBadge(st)+`</div>`;
+  }
+  return `<div class="chip-pick ${side} ${st}">${body}</div>`;
+}
 function renderChip(g, stuLeg, sStu, bruceLeg, sBruce, hasBruce, pre, final){
   const h2h = h2hClass(sStu, sBruce, hasBruce, pre, final, !!stuLeg);
   const aw = g.teams[0], ho = g.teams[1];
+  const pcA = pickedClass(aw.ab, stuLeg, hasBruce?bruceLeg:null);
+  const pcH = pickedClass(ho.ab, stuLeg, hasBruce?bruceLeg:null);
   const mid = pre
-    ? `<span class="at">@</span>${logoHtml(ho)}<span class="ab">${esc(ho.ab)}</span><span class="when">${esc(clockTextShort(g))}</span>`
-    : `<span class="pts">${aw.score}–${ho.score}</span>${logoHtml(ho)}<span class="ab">${esc(ho.ab)}</span>`;
-  const mark = (leg,st) => !leg ? '' : (st==='win'?' ✅':st==='lose'?' ❌':st==='level'?' ➖':'');
-  const stuTxt = stuLeg ? `${pickLabelHtml(stuLeg)}${mark(stuLeg,sStu)}` : '<span class="nob">NO BET</span>';
-  const bruTxt = (!hasBruce) ? '<span class="nob">—</span>' : (bruceLeg ? `${pickLabelHtml(bruceLeg)}${mark(bruceLeg,sBruce)}` : '<span class="nob">NO BET</span>');
-  return `<div class="chip ${h2h}" data-id="${g.id}">
-    <div class="chip-game">${logoHtml(aw)}<span class="ab">${esc(aw.ab)}</span>${mid}</div>
-    <div class="chip-pick stu">${stuTxt}</div>
-    <div class="chip-pick bruce">${bruTxt}</div>
+    ? `<span class="at">@</span>${logoHtml(ho, pcH)}<span class="ab ${pcH}">${esc(ho.ab)}</span>`
+    : `<span class="pts">${aw.score}–${ho.score}</span>${logoHtml(ho, pcH)}<span class="ab ${pcH}">${esc(ho.ab)}</span>`;
+  const rel = hasBruce ? pickRelation(stuLeg, bruceLeg) : '';
+  const badge = rel==='h2h' ? '<span class="chip-rel h2h">head-to-head</span>'
+    : rel==='same' ? '<span class="chip-rel same">same side</span>' : '';
+  const when = pre ? `<span class="when">${esc(clockTextShort(g))}</span>`
+    : (final ? '<span class="when">FINAL</span>' : '');
+  return `<div class="chip ${h2h}${final?' result':''}" data-id="${g.id}">
+    <div class="chip-game">${logoHtml(aw, pcA)}<span class="ab ${pcA}">${esc(aw.ab)}</span>${mid}${when}${badge}</div>
+    <div class="chip-picks">${renderChipPick('stu', stuLeg, sStu, false, g, final)}${renderChipPick('bruce', bruceLeg, sBruce, !hasBruce, g, final)}</div>
   </div>`;
 }
-function logoHtml(t){
+function logoHtml(t, cls){
   const emb = LOGOS[t.ab.toLowerCase()];
   const src = emb ? 'data:image/png;base64,'+emb : t.logo;
-  const circ = `<span class="lcirc" style="background:#${esc(t.color||'444')}">${esc(t.ab)}</span>`;
-  return src ? `<img src="${esc(src)}" alt="" onerror="this.outerHTML=this.dataset.fb" data-fb="${esc(circ)}">` : circ;
+  const extra = (cls||'').trim();
+  const circ = `<span class="lcirc${extra?' '+extra:''}" style="background:#${esc(t.color||'444')}">${esc(t.ab)}</span>`;
+  return src ? `<img class="${esc(extra)}" src="${esc(src)}" alt="" onerror="this.outerHTML=this.dataset.fb" data-fb="${esc(circ)}">` : circ;
 }
 function legFor(g){
   return BETS.legs.find(l => g.teams.some(t=>t.ab===l.team));
@@ -1966,7 +2155,6 @@ function render(){
   applyDemo();
   const games = GAMES.slice().sort((a,b)=> a.date-b.date || a.teams[1].ab.localeCompare(b.teams[1].ab));
   const board = document.getElementById('board');
-  let w=0,l=0,p=0,d=0;
   const stuStates = new Map();
   const bruceStates = new Map();
   const live=[], results=[], upcoming=[];
@@ -1976,7 +2164,7 @@ function render(){
     const bruceLeg = hasBruce ? legForPlayer(g, players.bruce.legs) : null;
     const sStu = stuLeg ? legStatus(g, stuLeg) : null;
     const sBruce = bruceLeg ? legStatus(g, bruceLeg) : null;
-    if(stuLeg){ stuStates.set(stuLeg, sStu); if(sStu==='win') w++; else if(sStu==='lose') l++; else if(sStu==='level') d++; else p++; }
+    if(stuLeg) stuStates.set(stuLeg, sStu);
     if(bruceLeg) bruceStates.set(bruceLeg, sBruce);
 
     const scoreKey = g.teams.map(t=>t.score).join('-');
@@ -2008,7 +2196,6 @@ function render(){
     else if(final) results.push(rec);
     else upcoming.push(rec);
   }
-  for(const leg of players.stu.legs){ if(!stuStates.has(leg)) p++; }
 
   const nLive = live.length;
   const liveCls = 'n' + Math.min(Math.max(nLive,0), 8);
@@ -2031,10 +2218,7 @@ function render(){
   firstRun = false;
 
   applyDisplayNames();
-  document.getElementById('cW').textContent = `✅ ${w}`;
-  document.getElementById('cL').textContent = `❌ ${l}`;
-  document.getElementById('cD').textContent = `➖ ${d}`;
-  document.getElementById('cP').textContent = `⏳ ${p}`;
+  paintHeaderCounts(tallyLegs(players.stu.legs, stuStates, games), tallyLegs(players.bruce.legs, bruceStates, games), hasBruce);
 
   const accas = document.getElementById('accas');
   accas.innerHTML = renderAccaPanel('stu', players.stu, stuStates, false) + renderAccaPanel('bruce', players.bruce, bruceStates, !hasBruce);
