@@ -415,10 +415,10 @@ const GAMES = /* ===== BAKED GAMES START ===== */
     "date": "2026-11-15T14:30Z",
     "state": "in",
     "completed": false,
-    "detail": "0:33 - 2nd",
-    "name": "STATUS_IN_PROGRESS",
+    "detail": "Halftime",
+    "name": "STATUS_HALFTIME",
     "period": 2,
-    "clock": "0:33",
+    "clock": "0:00",
     "teams": [
       {
         "id": "17",
@@ -437,12 +437,12 @@ const GAMES = /* ===== BAKED GAMES START ===== */
         "color": "0076b6"
       }
     ],
-    "yardLine": 84,
+    "yardLine": 81,
     "down": 1,
-    "possessionText": "NE 16",
-    "possession": "8",
-    "redZone": true,
-    "dd": "1st & 10"
+    "possessionText": "",
+    "possession": null,
+    "redZone": false,
+    "dd": ""
   },
   {
     "id": "401873058",
@@ -860,43 +860,25 @@ const GAMES = /* ===== BAKED GAMES START ===== */
 /* OPTION D LAYOUT */
 :root{
   --bg:#07090d; --panel:#11151d; --panel2:#171c26; --line:#252c3a;
-  --txt:#f2f4f8; --dim:#8a93a6; --gold:#ffc83d; --green:#22d36b; --red:#ff3b47; --amber:#ffb020;
+  --txt:#f2f4f8; --dim:#8a93a6; --muted:#5e6678;
+  --gold:#ffc83d; --green:#22d36b; --red:#ff3b47; --amber:#ffb020;
   --stu:#ffc83d; --bruce:#3ad0d4;
+  --win-bg:#0b2316; --win-bd:#22d36b;
+  --lose-bg:#2a0e12; --lose-bd:#ff3b47;
+  --push-bg:#241c0c; --push-bd:#ffb020;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100vw;height:100vh;overflow:hidden;background:radial-gradient(ellipse at top,#121a2a 0%,var(--bg) 70%);color:var(--txt);
   font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
 #app{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100%;width:100%;gap:0;min-height:0;overflow:hidden;position:relative}
-header{display:flex;align-items:center;gap:6px 10px;padding:4px 10px;border-bottom:2px solid var(--line);min-height:40px;height:auto;flex-wrap:wrap}
-.hdr-main{display:flex;align-items:center;gap:6px 10px;flex:1 1 auto;min-width:0;flex-wrap:wrap}
+header{display:flex;align-items:center;gap:6px 10px;padding:4px 10px;border-bottom:2px solid var(--line);min-height:36px;height:auto;flex-wrap:nowrap}
+.hdr-main{display:flex;align-items:center;gap:6px 10px;flex:1 1 auto;min-width:0}
 .hdr-right{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
-header .counts,.vs-pill{flex-shrink:1;min-width:0}
 header h1{font-size:clamp(15px,2.2vh,26px);letter-spacing:.12em;font-weight:900;
   background:linear-gradient(90deg,var(--gold),#fff2b8);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
 .vs-pill{display:flex;align-items:center;gap:.4em;font-size:clamp(11px,1.5vh,16px);font-weight:900;letter-spacing:.08em;white-space:nowrap}
 .vs-pill .p-stu{color:var(--stu)} .vs-pill .p-bruce{color:var(--bruce)} .vs-pill .p-vs{color:var(--dim);font-weight:700}
-.counts{display:flex;gap:6px;align-items:center;font-size:clamp(10px,1.3vh,13px);font-weight:800;white-space:nowrap;min-width:0;flex-shrink:1}
-.count-player{display:inline-flex;align-items:center;gap:5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
-.count-player.stu{border-color:#3a2e10}
-.count-player.bruce{border-color:#12383a}
-.count-player .cname{letter-spacing:.06em;font-weight:900}
-.count-player.stu .cname{color:var(--stu)}
-.count-player.bruce .cname{color:var(--bruce)}
-.count-player .clive.up{color:#4ade80}
-.count-player .clive.down{color:#f87171}
-.count-player .clive.mix{color:#fbbf24}
-.count-player .clive.none{color:var(--dim)}
-.legend{display:none;align-items:center;gap:10px;color:var(--dim);font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:1;min-width:0}
-@media (min-width:1500px){.legend{display:flex;flex:0 1 auto}}
-.legend .lg{display:inline-flex;align-items:center;gap:4px}
-.sw{width:11px;height:11px;border-radius:3px;border:2px solid #000;flex:0 0 11px}
-.sw.both-win{background:#15803d;border-color:#4ade80}
-.sw.both-lose{background:#b91c1c;border-color:#f87171}
-.sw.stu-up{background:linear-gradient(90deg,#15803d 50%,#b91c1c 50%);border-color:#ffc83d}
-.sw.bruce-up{background:linear-gradient(90deg,#b91c1c 50%,#0f766e 50%);border-color:#3ad0d4}
-.sw.pending{background:#2a2e36;border-color:#727986}
 .hint{font-size:11px;color:var(--dim);font-weight:700;white-space:nowrap}
-.spacer{flex:1;min-width:4px}
 .upd{font-size:clamp(10px,1.3vh,13px);color:var(--dim);display:flex;align-items:center;gap:.35em;white-space:nowrap;flex-shrink:0}
 .dot{width:.75em;height:.75em;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2s infinite}
 .dot.bad{background:var(--red);box-shadow:0 0 10px var(--red);animation:none}
@@ -906,8 +888,7 @@ header h1{font-size:clamp(15px,2.2vh,26px);letter-spacing:.12em;font-weight:900;
 #sndbtn.off{border-color:var(--red);color:#ffb3b8}
 #banner{display:none;background:#5a0d12;color:#ffd6d9;border:1px solid var(--red);border-radius:8px;padding:.15em .55em;font-size:12px;white-space:nowrap}
 
-
-/* ===== LAYOUT 3 SPOTLIGHT BOARD ===== */
+/* ===== OPTION 3: LIVE HERO + PLAYER PANELS ===== */
 .board{
   display:flex;
   flex-direction:column;
@@ -916,240 +897,198 @@ header h1{font-size:clamp(15px,2.2vh,26px);letter-spacing:.12em;font-weight:900;
   min-height:0;
   overflow:hidden;
 }
+
+/* Hero strip: all live games */
 .live-grid{
   display:grid;
   gap:8px;
   min-height:0;
   overflow:hidden;
-  align-content:start;
+  align-content:stretch;
   height:auto;
   flex:0 1 auto;
 }
 .live-grid.n0{display:none}
-.live-grid.n1,.live-grid.n2{flex:0 0 auto;max-height:none}
-.live-grid.n1{grid-template-columns:1fr;grid-template-rows:auto}
-.live-grid.n2{grid-template-columns:1fr 1fr;grid-template-rows:auto}
-.live-grid.n3,.live-grid.n4{
-  grid-template-columns:1fr 1fr;
-  grid-template-rows:repeat(2,minmax(0,1fr));
-  flex:1 1 58%;
-  max-height:68%;
-  min-height:320px;
-}
+.live-grid.n1{grid-template-columns:1fr;flex:0 0 auto;max-height:46%}
+.live-grid.n2{grid-template-columns:1fr 1fr;flex:0 1 auto;max-height:min(260px,42%)}
+.live-grid.n3{grid-template-columns:1fr 1fr 1fr;flex:0 1 auto;max-height:min(250px,42%)}
+.live-grid.n4{grid-template-columns:1fr 1fr 1fr 1fr;flex:0 1 auto;max-height:min(250px,42%)}
 .live-grid.n5,.live-grid.n6{
   grid-template-columns:1fr 1fr 1fr;
   grid-template-rows:repeat(2,minmax(0,1fr));
-  flex:1 1 60%;
-  max-height:70%;
-  min-height:280px;
+  flex:0 0 auto;
+  height:clamp(196px,28vh,280px);
 }
 .live-grid.n7,.live-grid.n8{
   grid-template-columns:repeat(4,minmax(0,1fr));
   grid-template-rows:repeat(2,minmax(0,1fr));
-  flex:1 1 62%;
-  max-height:70%;
-  min-height:280px;
+  flex:0 0 auto;
+  height:clamp(196px,28vh,280px);
 }
 
 .livecard{
-  display:flex;flex-direction:column;gap:6px;min-width:0;min-height:0;overflow:hidden;
+  display:flex;flex-direction:column;gap:5px;min-width:0;min-height:0;overflow:hidden;
   background:#0c1f16;border:2px solid #4ade80;border-radius:10px;
-  padding:8px 10px 8px;
+  padding:6px 8px 7px;
+}
+.livecard.wide{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(280px,2.2fr) minmax(0,1fr);
+  gap:10px;align-items:center;
+  padding:8px 12px 8px;
 }
 .livecard.both_win,.livecard.stu_only_win{background:#0c1f16;border-color:#4ade80}
 .livecard.both_lose,.livecard.stu_only_lose,.livecard.bruce_only_lose{background:#1f0c10;border-color:#f87171}
-.livecard.stu_up{background:#1a1c12;border-color:#ffc83d}
-.livecard.bruce_up,.livecard.bruce_only_win{background:#0c1f1c;border-color:#2dd4bf}
+.livecard.stu_up{background:#14180e;border-color:#86efac}
+.livecard.bruce_up,.livecard.bruce_only_win{background:#0c1f16;border-color:#86efac}
 .livecard.redzone{box-shadow:inset 0 0 0 2px #ff3b4780}
 .lc-top{display:flex;align-items:center;gap:8px;min-width:0;flex-shrink:0}
 .live-tag{font-size:10px;font-weight:900;letter-spacing:.12em;color:#4ade80;border:1px solid #4ade80;border-radius:4px;padding:1px 6px;white-space:nowrap}
 .lc-top .clock{font-size:15px;font-weight:900;color:var(--amber);letter-spacing:.02em;white-space:nowrap}
 .lc-top .dd{font-size:11px;font-weight:700;color:#cfd6e4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.lc-scores{display:flex;align-items:center;justify-content:center;gap:14px;min-height:0;flex:0 0 auto}
-.lc-team{display:flex;align-items:center;gap:8px;min-width:0}
+.lc-top .tag{margin-left:auto}
+.tag{display:inline-block;font-size:8px;font-weight:900;letter-spacing:.08em;border-radius:3px;padding:1px 5px;white-space:nowrap;border:1px solid;flex-shrink:0}
+.tag.h2h{color:#ffb4b8;border-color:#8a2a32;background:#2a1014}
+.tag.same{color:#b7f0c8;border-color:#1d6a3a;background:#0d2416}
+.lc-scores{display:flex;align-items:center;justify-content:center;gap:10px;min-height:0;flex:0 0 auto}
+.lc-team{display:flex;align-items:center;gap:6px;min-width:0}
 .lc-team .id{display:flex;flex-direction:column;line-height:1}
 .lc-team.home .id{align-items:flex-end}
-.lc-team .ab{font-size:16px;font-weight:900;letter-spacing:.06em}
-.lc-team .ab.mine{color:var(--stu)}
-.lc-team .pts{font-size:42px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
-.lc-scores .at{font-size:16px;color:var(--dim);font-weight:800}
-.lc-team img,.lc-team .lcirc{height:48px;width:auto;max-width:58px;object-fit:contain;flex-shrink:0}
+.lc-team .ab{font-size:14px;font-weight:900;letter-spacing:.06em}
+.lc-team .pts{font-size:34px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+.lc-scores .at{font-size:14px;color:var(--dim);font-weight:800}
+.lc-team img,.lc-team .lcirc{height:40px;width:auto;max-width:52px;object-fit:contain;flex-shrink:0}
 .lcirc{display:inline-flex;align-items:center;justify-content:center;height:28px;width:28px;aspect-ratio:1;border-radius:50%;font-weight:900;font-size:9px;color:#fff;border:2px solid rgba(255,255,255,.5)}
 .ou-chip{display:inline-block;font-weight:900;letter-spacing:.06em;border:1px solid currentColor;border-radius:4px;padding:.05em .4em;line-height:1.25}
 
 .livecard .fieldpos{flex:0 0 auto;min-width:0;padding:0}
 .livecard .fieldlabel{font-size:10px;line-height:1.2;color:#d7ffe6;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.livecard .fieldtrack{height:22px;position:relative;border:1px solid #ffffff55;border-radius:3px;overflow:hidden}
-.fieldball{position:absolute;top:50%;transform:translate(-50%,-50%);font-size:14px;line-height:1;filter:drop-shadow(0 0 4px #ffae00)}
+.livecard .fieldtrack{height:18px;position:relative;border:1px solid #ffffff55;border-radius:3px;overflow:hidden}
+.fieldball{position:absolute;top:50%;transform:translate(-50%,-50%);font-size:13px;line-height:1;filter:drop-shadow(0 0 4px #ffae00)}
 .endzone{position:absolute;width:6%;height:100%;background:#ffffff22;font-size:7px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;letter-spacing:.04em}
 
-.lc-covers{display:grid;grid-template-columns:1fr 1fr;gap:6px;flex-shrink:0;min-height:0}
-.lc-top,.lc-covers{flex-shrink:0}
-.live-grid.n3 .livecard .fieldpos,
-.live-grid.n4 .livecard .fieldpos,
-.live-grid.n5 .livecard .fieldpos,
-.live-grid.n6 .livecard .fieldpos,
-.live-grid.n7 .livecard .fieldpos,
-.live-grid.n8 .livecard .fieldpos{flex:1 1 auto;min-height:16px}
+.lc-covers{display:grid;grid-template-columns:1fr 1fr;gap:5px;flex:0 0 auto;min-height:0}
+.hero-side{display:flex;flex-direction:column;gap:4px;min-width:0;justify-content:center}
+.hero-mid{display:flex;flex-direction:column;gap:4px;min-width:0}
+.livecard.wide .pickbox{flex-wrap:wrap;align-items:center}
+.livecard.wide .pick-name{overflow:visible;text-overflow:clip}
+.livecard.wide .cover-lab{flex:1 0 100%;margin-left:0;text-align:right;padding-top:2px}
+
+/* Picks: green = correct, red = incorrect. Gold/teal only for player identity. */
 .pickbox{
-  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  display:flex;align-items:center;gap:6px;
   background:var(--panel);border:1px solid var(--line);border-radius:6px;
-  padding:4px 8px;min-width:0;min-height:0;
+  padding:4px 8px;min-width:0;min-height:0;overflow:hidden;
 }
-.pickbox.stu{border-color:#3a2e10}
-.pickbox.bruce{border-color:#12383a}
-.pickbox .pick-main{display:flex;flex-direction:row;align-items:baseline;gap:5px;min-width:0;flex-wrap:wrap}
-.pickbox .pick-name{font-size:14px;font-weight:800;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pickbox.stu .pick-name{color:var(--stu)}
-.pickbox.bruce .pick-name{color:var(--bruce)}
-.pickbox .pick-odds{font-size:11px;color:var(--dim);font-weight:700;white-space:nowrap}
-.pickbox .cover-lab{font-size:11px;font-weight:800;white-space:nowrap}
-.pickbox.win .cover-lab{color:#4ade80}
-.pickbox.lose .cover-lab{color:#f87171}
-.pickbox.level .cover-lab{color:#cfd6e4}
-.pickbox .mark{font-size:15px;line-height:1;flex:0 0 auto}
-.pickbox.empty, .pickbox.nobet{justify-content:center;border-style:dashed;background:transparent;opacity:.85}
-.pickbox.nobet .pick-name, .pickbox.empty .pick-name{color:var(--dim);font-size:11px;letter-spacing:.08em}
-.pickbox.win{background:#0f2a1a;border-color:#2f7a48}
-.pickbox.lose{background:#2a1014;border-color:#8a2a33}
-.pickbox.level{background:#1a1d24;border-color:#656a73}
+.pickbox .pwho{font-size:10px;font-weight:900;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+.pickbox .pwho.stu{color:var(--stu)}
+.pickbox .pwho.bruce{color:var(--bruce)}
+.pickbox .pick-name{font-size:13px;font-weight:800;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
+.pickbox .pick-odds{font-size:11px;color:var(--dim);font-weight:700;white-space:nowrap;flex-shrink:0}
+.pickbox .cover-lab{margin-left:auto;font-size:10px;font-weight:800;white-space:nowrap;letter-spacing:.02em;flex-shrink:0}
+.pickbox .cover-lab.is-badge{text-transform:uppercase;letter-spacing:.04em}
+.pickbox.empty, .pickbox.nobet{justify-content:flex-start;border-style:dashed;background:transparent;opacity:.8}
+.pickbox.nobet .pick-name, .pickbox.empty .pick-name, .faint{color:var(--muted);font-size:11px;font-weight:600;font-style:italic;letter-spacing:0}
+.pickbox.win{background:var(--win-bg);border-color:var(--win-bd);color:#d8ffe8}
+.pickbox.win .pick-name{color:#e8ffef}
+.pickbox.win .cover-lab{color:var(--green)}
+.pickbox.lose{background:var(--lose-bg);border-color:var(--lose-bd);color:#ffd6d9}
+.pickbox.lose .pick-name{color:#ffd6d9}
+.pickbox.lose .cover-lab{color:#ff8a90}
+.pickbox.level{background:var(--push-bg);border-color:var(--push-bd)}
+.pickbox.level .cover-lab{color:var(--amber)}
+.pickbox.pre{background:#141922;border-color:#2a3140}
 
-.live-grid.n1 .lc-team .pts{font-size:clamp(44px,7.5vh,64px)}
-.live-grid.n1 .lc-team img,.live-grid.n1 .lc-team .lcirc{height:clamp(40px,6.5vh,64px);max-width:80px}
-.live-grid.n1 .lc-top .clock{font-size:clamp(16px,2.6vh,22px)}
-.live-grid.n1 .livecard .fieldtrack{height:clamp(22px,3.8vh,36px)}
+/* Scale hero by live count */
+.live-grid.n1 .lc-team .pts{font-size:clamp(36px,6.2vh,64px)}
+.live-grid.n1 .lc-team img,.live-grid.n1 .lc-team .lcirc{height:clamp(36px,6vh,64px);max-width:80px}
+.live-grid.n1 .lc-top .clock{font-size:clamp(15px,2.4vh,22px)}
+.live-grid.n1 .livecard .fieldtrack{height:clamp(18px,3vh,32px)}
 .live-grid.n1 .livecard .fieldlabel{font-size:12px}
-.live-grid.n1 .pickbox .pick-name{font-size:clamp(15px,2.2vh,18px)}
-.live-grid.n1 .pickbox{padding:6px 12px}
-.live-grid.n1 .livecard,.live-grid.n2 .livecard{height:auto}
-.live-grid.n2 .lc-team .pts{font-size:56px}
-.live-grid.n2 .livecard .fieldtrack{height:40px}
-.live-grid.n3 .lc-team .pts,.live-grid.n4 .lc-team .pts{font-size:40px}
-.live-grid.n3 .lc-team img,.live-grid.n4 .lc-team img,
-.live-grid.n3 .lc-team .lcirc,.live-grid.n4 .lc-team .lcirc{height:40px;max-width:50px}
-.live-grid.n3 .livecard .fieldtrack,.live-grid.n4 .livecard .fieldtrack{height:28px}
-.live-grid.n5 .lc-team .pts,.live-grid.n6 .lc-team .pts{font-size:32px}
+.live-grid.n1 .pickbox{padding:8px 10px}
+.live-grid.n1 .pickbox .pick-name{font-size:clamp(14px,2vh,18px)}
+.live-grid.n1 .pickbox .cover-lab{font-size:11px}
+.live-grid.n2 .lc-team .pts,.live-grid.n3 .lc-team .pts,.live-grid.n4 .lc-team .pts{font-size:clamp(24px,4.2vh,40px)}
+.live-grid.n2 .lc-team img,.live-grid.n2 .lc-team .lcirc,
+.live-grid.n3 .lc-team img,.live-grid.n3 .lc-team .lcirc,
+.live-grid.n4 .lc-team img,.live-grid.n4 .lc-team .lcirc{height:clamp(24px,3.6vh,40px);max-width:46px}
+.live-grid.n2 .livecard .fieldtrack,.live-grid.n3 .livecard .fieldtrack,.live-grid.n4 .livecard .fieldtrack{height:14px}
+.live-grid.n3 .lc-top .clock,.live-grid.n4 .lc-top .clock{font-size:12px}
+.live-grid.n3 .pickbox .pick-name,.live-grid.n4 .pickbox .pick-name{font-size:11px}
+.live-grid.n3 .pickbox,.live-grid.n4 .pickbox{padding:3px 6px;gap:4px}
+.live-grid.n3 .pwho,.live-grid.n4 .pwho{display:none}
+.live-grid.n3 .lc-covers,.live-grid.n4 .lc-covers{grid-template-columns:1fr}
+.live-grid.n5 .lc-team .pts,.live-grid.n6 .lc-team .pts{font-size:24px}
 .live-grid.n5 .lc-team img,.live-grid.n6 .lc-team img,
-.live-grid.n5 .lc-team .lcirc,.live-grid.n6 .lc-team .lcirc{height:32px;max-width:40px}
-.live-grid.n5 .livecard .fieldtrack,.live-grid.n6 .livecard .fieldtrack{height:18px}
-.live-grid.n5 .lc-top .clock,.live-grid.n6 .lc-top .clock{font-size:13px}
-.live-grid.n5 .pickbox .pick-name,.live-grid.n6 .pickbox .pick-name{font-size:12px}
-.live-grid.n7 .lc-team .pts,.live-grid.n8 .lc-team .pts{font-size:28px}
+.live-grid.n5 .lc-team .lcirc,.live-grid.n6 .lc-team .lcirc{height:26px;max-width:34px}
+.live-grid.n5 .livecard .fieldtrack,.live-grid.n6 .livecard .fieldtrack{height:12px}
+.live-grid.n5 .livecard .fieldlabel,.live-grid.n6 .livecard .fieldlabel{display:none}
+.live-grid.n5 .lc-top .clock,.live-grid.n6 .lc-top .clock{font-size:12px}
+.live-grid.n5 .pickbox,.live-grid.n6 .pickbox{padding:2px 5px;gap:4px}
+.live-grid.n5 .pickbox .pick-name,.live-grid.n6 .pickbox .pick-name{font-size:11px}
+.live-grid.n5 .pwho,.live-grid.n6 .pwho{display:none}
+.live-grid.n5 .cover-lab,.live-grid.n6 .cover-lab,
+.live-grid.n7 .cover-lab,.live-grid.n8 .cover-lab{display:none}
+.live-grid.n5 .lc-covers,.live-grid.n6 .lc-covers{grid-template-columns:1fr 1fr}
+.live-grid.n7 .lc-team .pts,.live-grid.n8 .lc-team .pts{font-size:22px}
 .live-grid.n7 .lc-team img,.live-grid.n8 .lc-team img,
-.live-grid.n7 .lc-team .lcirc,.live-grid.n8 .lc-team .lcirc{height:28px;max-width:36px}
-.live-grid.n7 .lc-team .ab,.live-grid.n8 .lc-team .ab{font-size:13px}
-.live-grid.n7 .livecard .fieldtrack,.live-grid.n8 .livecard .fieldtrack{height:16px}
-.live-grid.n7 .livecard .fieldlabel,.live-grid.n8 .livecard .fieldlabel{font-size:8px}
-.live-grid.n7 .lc-top .clock,.live-grid.n8 .lc-top .clock{font-size:12px}
-.live-grid.n7 .pickbox,.live-grid.n8 .pickbox{padding:3px 6px}
-.live-grid.n7 .pickbox .pick-name,.live-grid.n8 .pickbox .pick-name{font-size:12px}
-.live-grid.n7 .pickbox .cover-lab,.live-grid.n8 .pickbox .cover-lab{font-size:10px}
-.live-grid.n7 .livecard,.live-grid.n8 .livecard{padding:6px 7px;gap:4px}
+.live-grid.n7 .lc-team .lcirc,.live-grid.n8 .lc-team .lcirc{height:22px;max-width:30px}
+.live-grid.n7 .lc-team .ab,.live-grid.n8 .lc-team .ab{font-size:11px}
+.live-grid.n7 .livecard .fieldpos,.live-grid.n8 .livecard .fieldpos{display:none}
+.live-grid.n7 .lc-top .clock,.live-grid.n8 .lc-top .clock{font-size:11px}
+.live-grid.n7 .lc-top .dd,.live-grid.n8 .lc-top .dd,.live-grid.n7 .tag,.live-grid.n8 .tag{display:none}
+.live-grid.n7 .pickbox,.live-grid.n8 .pickbox{padding:2px 5px;gap:3px}
+.live-grid.n7 .pickbox .pick-name,.live-grid.n8 .pickbox .pick-name{font-size:10px}
+.live-grid.n7 .pickbox .cover-lab,.live-grid.n8 .pickbox .cover-lab{font-size:9px}
+.live-grid.n7 .pwho,.live-grid.n8 .pwho{display:none}
+.live-grid.n7 .lc-covers,.live-grid.n8 .lc-covers{grid-template-columns:1fr 1fr}
+.live-grid.n7 .livecard,.live-grid.n8 .livecard{padding:4px 6px 5px;gap:3px;justify-content:flex-start}
+.live-grid.n7 .lc-scores,.live-grid.n8 .lc-scores{gap:6px}
+.live-grid.n7 .lc-team .pts,.live-grid.n8 .lc-team .pts{font-size:20px}
 
-.rail{
-  display:flex;flex-direction:column;gap:8px;
-  min-height:0;height:auto;overflow:hidden;
-  flex:1 1 auto;
+@media (max-height: 700px){
+  .live-grid.n3 .fieldlabel,.live-grid.n4 .fieldlabel{display:none}
+  .live-grid.n5 .fieldpos,.live-grid.n6 .fieldpos{display:none}
 }
-.rail-sec{
-  background:var(--panel);border:1px solid var(--line);border-radius:8px;
-  padding:6px 8px;display:flex;flex-direction:column;gap:5px;min-width:0;min-height:0;overflow:hidden;
-}
-.rail-results{flex:0 0 auto;max-height:34%}
-.rail-results:has(.rail-empty){display:none}
-.rail-upnext{flex:1 1 auto;min-height:0}
-.rail-sec h2{font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--dim);margin:0;flex-shrink:0}
-.rail-list{min-height:0;overflow:hidden;flex:1}
-.rail-results .rail-list{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:6px;overflow-y:auto;overflow-x:hidden;align-content:start;scrollbar-width:thin;
-}
-.rail-upnext .rail-list{
-  display:flex;flex-direction:column;gap:8px;
-  overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;
-}
-.kick-group{display:flex;flex-direction:column;gap:5px;flex:0 0 auto}
-.kick-head{
-  font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--dim);margin:0;padding:1px 2px 0;
-}
-.kick-games{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
-  gap:6px;align-content:start;
-}
-.chip{
-  display:flex;flex-direction:column;gap:4px;justify-content:center;
-  background:var(--panel2);border:1px solid var(--line);border-radius:6px;
-  padding:6px 8px;min-height:56px;min-width:0;overflow:visible;
-}
-.chip.both_win,.chip.stu_only_win{background:#0f2a1a;border-color:#4ade80}
-.chip.both_lose,.chip.stu_only_lose,.chip.bruce_only_lose{background:#2a1014;border-color:#f87171}
-.chip.stu_up{background:#1a1c12;border-color:#ffc83d}
-.chip.bruce_up,.chip.bruce_only_win{background:#0c1f1c;border-color:#2dd4bf}
-.chip.pending{background:#1c2028;border-color:#3a4150}
-.chip.nobet-final{background:#161a22;border-color:#4a5160}
-.chip.pending img:not(.picked-stu):not(.picked-bruce):not(.picked-both),
-.chip.pending .lcirc:not(.picked-stu):not(.picked-bruce):not(.picked-both){filter:grayscale(.7);opacity:.85}
-.chip-game{display:flex;align-items:center;gap:5px;min-width:0}
-.chip-game img,.chip-game .lcirc{height:22px;width:auto;max-width:28px;object-fit:contain;flex-shrink:0}
-.chip-game img.picked-stu,.chip-game .lcirc.picked-stu{outline:2px solid var(--stu);border-radius:3px;filter:none;opacity:1}
-.chip-game img.picked-bruce,.chip-game .lcirc.picked-bruce{outline:2px solid var(--bruce);border-radius:3px;filter:none;opacity:1}
-.chip-game img.picked-both,.chip-game .lcirc.picked-both{outline:2px solid var(--stu);box-shadow:0 0 0 3px var(--bruce);border-radius:3px;filter:none;opacity:1}
-.chip-game .ab{font-size:13px;font-weight:800;color:var(--txt)}
-.chip-game .ab.picked-stu{color:var(--stu);font-weight:900}
-.chip-game .ab.picked-bruce{color:var(--bruce);font-weight:900}
-.chip-game .ab.picked-both{
-  font-weight:900;
-  background:linear-gradient(90deg,var(--stu),var(--bruce));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.chip-game .pts{font-size:13px;font-weight:800;white-space:nowrap;margin:0 4px;color:var(--txt)}
-.chip-game .at{color:var(--dim);font-weight:800;font-size:10px;margin:0 1px}
-.chip-game .when{font-size:11px;font-weight:700;color:var(--dim);white-space:nowrap;margin-left:auto;padding-left:4px;flex-shrink:0}
-.chip-rel{
-  font-size:9px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;
-  border-radius:3px;padding:2px 6px;white-space:nowrap;flex-shrink:0;line-height:1.3;
-}
-.chip-rel.h2h{color:#fecaca;border:1px solid #8a2a33;background:#2a1014}
-.chip-rel.same{color:#bbf7d0;border:1px solid #2f7a48;background:#0f2a1a}
-.chip-picks{display:grid;grid-template-columns:1fr 1fr;gap:5px;min-width:0}
-.chip-pick{
-  display:flex;align-items:baseline;gap:4px;min-width:0;overflow:hidden;
-  font-size:12px;font-weight:800;white-space:nowrap;
-  border:1px solid var(--line);border-radius:4px;padding:3px 7px;
-}
-.chip-pick .who{font-weight:900;letter-spacing:.01em;flex-shrink:0}
-.chip-pick .sel{overflow:hidden;text-overflow:ellipsis;min-width:0}
-.chip-pick .od{color:var(--dim);font-weight:700;flex-shrink:0}
-.chip-pick .mark{flex-shrink:0;font-size:10px}
-.chip-pick.stu{color:var(--stu);background:#16120a;border-color:#3a2e10}
-.chip-pick.bruce{color:var(--bruce);background:#0a1616;border-color:#12383a}
-.chip-pick.win{background:#0f2a1a;border-color:#2f7a48}
-.chip-pick.lose{background:#2a1014;border-color:#8a2a33}
-.chip-pick.nob{opacity:.45;border-style:dashed;background:transparent;color:var(--dim);font-weight:700}
-.chip-badge{
-  font-size:9px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;
-  border-radius:3px;padding:2px 6px;white-space:nowrap;flex-shrink:0;line-height:1.3;margin-left:auto;
-}
-.chip-badge.won{color:#bbf7d0;background:#14532d;border:1px solid #22c55e}
-.chip-badge.lost{color:#fecaca;background:#7f1d1d;border:1px solid #ef4444}
-.chip-badge.push{color:#e5e7eb;background:#374151;border:1px solid #9ca3af}
-.chip-margin{font-size:10px;font-weight:700;color:var(--dim);white-space:nowrap;flex-shrink:1;overflow:hidden;text-overflow:ellipsis}
-.chip-margin.win{color:#86efac}
-.chip-margin.lose{color:#fca5a5}
-.chip-margin.level{color:#d1d5db}
-.chip.result .chip-pick{gap:4px}
-.chip.result .chip-margin{display:none}
-.chip.result .sel{min-width:0;overflow:hidden;text-overflow:ellipsis}
 
-.rail-empty{color:var(--dim);font-size:11px;font-weight:700;padding:6px 2px}
+/* Player slip panels */
+.panels{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.panel.stu{border-color:#3a2e10;box-shadow:inset 3px 0 0 var(--stu)}
+.panel.bruce{border-color:#12383a;box-shadow:inset -3px 0 0 var(--bruce)}
+.panel-head{flex:0 0 28px;display:flex;align-items:center;padding:0 8px;border-bottom:1px solid var(--line);background:#0c0f15;min-width:0}
+.counts{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;white-space:nowrap;min-width:0;overflow:hidden}
+.counts .cname{letter-spacing:.08em;font-weight:900}
+.counts.stu .cname{color:var(--stu)}
+.counts.bruce .cname{color:var(--bruce)}
+.counts .cw{color:var(--green)}
+.counts .cl{color:var(--red)}
+.counts .cd{color:var(--dim)}
+.counts .clive.up{color:var(--green)}
+.counts .clive.down{color:var(--red)}
+.counts .clive.mix{color:var(--amber)}
+.counts .clive.none{color:var(--dim)}
+.counts .cp{color:var(--dim)}
+.plist{flex:1;min-height:0;overflow-x:hidden;overflow-y:auto;scrollbar-width:thin;padding:4px 7px 6px;display:flex;flex-direction:column;gap:1px}
+.sec-mini{font-size:8px;font-weight:900;letter-spacing:.1em;color:var(--muted);padding:4px 0 2px;flex-shrink:0}
+.pleg{display:grid;grid-template-columns:108px minmax(0,1fr);gap:6px;align-items:center;padding:2px 0;border-bottom:1px solid #1b2130;flex-shrink:0}
+.pleg .gm{font-size:10px;font-weight:700;color:var(--dim);white-space:nowrap;display:flex;flex-direction:column;line-height:1.2;min-width:0;overflow:hidden}
+.pleg .gm .gt{font-size:8px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.pleg .pickbox{width:100%;padding:2px 6px}
+.pleg .pickbox .pick-name{font-size:11px}
+.pleg .pickbox .pick-odds{font-size:10px}
+.pleg .pickbox .cover-lab{font-size:9px}
+.pleg .pwho{display:none}
+.pleg.live-row{background:#0b231680;border-radius:5px;padding:2px 4px;border-bottom:0;margin:1px 0}
+.rail-empty,.plist-empty{color:var(--dim);font-size:11px;font-weight:700;padding:8px 2px}
+.waiting-box.panel-wait{min-height:80px;margin:12px 8px}
 
 @keyframes scoreflash{0%{background:#fff7c2}30%{background:#ffc83d}100%{}}
 @keyframes flipwin{0%,40%,80%{background:var(--green);transform:scale(1.03)}20%,60%,100%{transform:scale(1)}}
 @keyframes fliplose{0%,40%,80%{background:var(--red);transform:scale(1.03)}20%,60%,100%{transform:scale(1)}}
-.livecard.flash,.chip.flash{animation:scoreflash 1.6s ease-out 2}
-.livecard.flipwin,.chip.flipwin{animation:flipwin 1.2s ease-in-out 3}
-.livecard.fliplose,.chip.fliplose{animation:fliplose 1.2s ease-in-out 3}
+.livecard.flash,.pleg.flash{animation:scoreflash 1.6s ease-out 2}
+.livecard.flipwin,.pleg.flipwin{animation:flipwin 1.2s ease-in-out 3}
+.livecard.fliplose,.pleg.fliplose{animation:fliplose 1.2s ease-in-out 3}
 
 /* ===== SLIM COLLAPSED ACCA BAR (expanded bodies overlay the board) ===== */
 .accas{
@@ -1244,7 +1183,6 @@ header h1{font-size:clamp(15px,2.2vh,26px);letter-spacing:.12em;font-weight:900;
 .pill.alive{background:#15803d;color:#fff}
 #empty{display:none}
 
-
 /* PHONE LAYOUT */
 @media (max-width: 700px){
   html,body{width:100%;height:100%;height:100dvh;overflow:hidden}
@@ -1254,50 +1192,43 @@ header h1{font-size:clamp(15px,2.2vh,26px);letter-spacing:.12em;font-weight:900;
   .hdr-right{justify-content:flex-end}
   header h1{font-size:15px;letter-spacing:.08em}
   .vs-pill{font-size:12px}
-  .counts{font-size:11px;gap:4px;flex:1 0 100%;order:4;flex-wrap:wrap;white-space:normal}
-  .count-player{flex:1 1 auto;padding:4px 8px;justify-content:space-between}
-  .legend{display:none}
-  .hint{display:none}
   .upd{font-size:11px}
   #fsbtn,#sndbtn{font-size:11px;padding:.25em .5em}
   .board{
     display:flex;flex-direction:column;
     overflow-x:hidden;overflow-y:auto;
     -webkit-overflow-scrolling:touch;
-    grid-template-rows:none;
     gap:8px;padding:6px 8px 8px;align-items:stretch;
   }
-  .board.no-live{grid-template-rows:none}
   .live-grid,.live-grid.n1,.live-grid.n2,.live-grid.n3,.live-grid.n4,
   .live-grid.n5,.live-grid.n6,.live-grid.n7,.live-grid.n8{
     display:flex;flex-direction:column;flex:0 0 auto;height:auto;max-height:none;min-height:0;
     grid-template-columns:none;grid-template-rows:none;gap:8px;
   }
   .live-grid.n0{display:none}
-  .livecard{flex:0 0 auto;height:auto;min-height:0;padding:10px}
+  .livecard,.livecard.wide{
+    display:flex;flex-direction:column;flex:0 0 auto;height:auto;min-height:0;padding:10px;
+    grid-template-columns:none;
+  }
   .live-grid.n1 .lc-team .pts,.live-grid.n2 .lc-team .pts,
   .live-grid.n3 .lc-team .pts,.live-grid.n7 .lc-team .pts,.live-grid.n8 .lc-team .pts{font-size:42px}
   .live-grid.n1 .lc-team img,.live-grid.n1 .lc-team .lcirc,
   .live-grid.n7 .lc-team img,.live-grid.n7 .lc-team .lcirc{height:48px;max-width:58px}
   .live-grid.n1 .livecard .fieldtrack,.live-grid.n7 .livecard .fieldtrack{height:28px}
+  .live-grid.n7 .livecard .fieldpos,.live-grid.n8 .livecard .fieldpos{display:block}
   .live-grid.n1 .pickbox .pick-name,.live-grid.n7 .pickbox .pick-name{font-size:15px}
+  .live-grid.n3 .pwho,.live-grid.n4 .pwho,
+  .live-grid.n5 .pwho,.live-grid.n6 .pwho,
+  .live-grid.n7 .pwho,.live-grid.n8 .pwho{display:inline}
   .lc-covers{grid-template-columns:1fr}
-  .rail{
-    display:flex;flex-direction:column;height:auto;max-height:none;
-    overflow:visible;flex:0 0 auto;gap:8px;
-  }
-  .rail-upnext{order:1}
-  .rail-results{order:2;max-height:none}
-  .rail-sec,.rail-results,.rail-upnext{flex:0 0 auto;max-height:none}
-  .rail-list,.rail-upnext .rail-list,.rail-results .rail-list{overflow:visible}
-  .kick-games{grid-template-columns:1fr}
-  .chip{padding:8px;gap:5px;min-height:0}
-  .chip-game .ab,.chip-game .pts,.chip-game .when{font-size:13px}
-  .chip-picks{grid-template-columns:1fr;gap:4px}
-  .chip-pick{font-size:13px;padding:6px 8px}
-  .chip-rel{font-size:10px;padding:2px 6px}
-  .chip-badge{font-size:10px;padding:2px 6px}
-  .chip-margin{font-size:11px}
+  .panels{display:flex;flex-direction:column;flex:0 0 auto;min-height:0;height:auto;gap:8px}
+  .panel{flex:0 0 auto;min-height:0;overflow:visible}
+  .plist{overflow:visible;max-height:none}
+  .pleg{grid-template-columns:minmax(96px,auto) minmax(0,1fr);padding:4px 0}
+  .pleg .pickbox .pick-name{font-size:13px}
+  .pleg .gm{font-size:11px}
+  .counts{font-size:11px;gap:5px;flex-wrap:wrap;white-space:normal}
+  .panel-head{flex:0 0 auto;min-height:32px;height:auto;padding:6px 8px}
 
   .accas{grid-template-columns:1fr;gap:4px;padding:4px 8px calc(6px + env(safe-area-inset-bottom))}
   .acca-toggle{min-height:44px;padding:8px 10px}
@@ -1311,19 +1242,14 @@ header h1{font-size:clamp(15px,2.2vh,26px);letter-spacing:.12em;font-weight:900;
 @media (min-width: 701px) and (max-width: 1100px){
   header{padding:4px 8px;gap:6px 8px}
   header h1{font-size:16px;letter-spacing:.1em}
-  .legend{display:none}
-  .kick-games{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
-  .live-grid.n7,.live-grid.n8{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));max-height:70%;min-height:280px}
-  .count-player{padding:2px 6px;gap:4px}
+  .pleg{grid-template-columns:96px minmax(0,1fr);gap:5px}
+  .counts{gap:5px;font-size:10px}
+  .live-grid.n7,.live-grid.n8{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
 }
 @media (min-width: 701px) and (max-height: 700px){
-  .live-grid.n3 .lc-team .pts,.live-grid.n4 .lc-team .pts{font-size:32px}
-  .live-grid.n3 .lc-team img,.live-grid.n4 .lc-team img,
-  .live-grid.n3 .lc-team .lcirc,.live-grid.n4 .lc-team .lcirc{height:32px;max-width:40px}
-  .live-grid.n3 .livecard .fieldtrack,.live-grid.n4 .livecard .fieldtrack{height:20px}
-  .live-grid.n3 .pickbox .pick-name,.live-grid.n4 .pickbox .pick-name{font-size:13px}
-  .live-grid.n3 .pickbox,.live-grid.n4 .pickbox{padding:3px 8px}
-  .live-grid.n3 .livecard,.live-grid.n4 .livecard{padding:6px 8px;gap:4px}
+  .live-grid.n2 .lc-team .pts,.live-grid.n3 .lc-team .pts,.live-grid.n4 .lc-team .pts{font-size:26px}
+  .live-grid.n2 .livecard,.live-grid.n3 .livecard,.live-grid.n4 .livecard{padding:5px 6px;gap:3px}
+  .pleg{padding:1px 0}
 }
 
 </style>
@@ -1470,14 +1396,6 @@ const VOICE_CLIPS = {"g_over_0":"data:audio/ogg;base64,T2dnUwACAAAAAAAAAABMHd80A
     <div class="hdr-main">
       <h1>🏈 SUNDAY TICKET</h1>
       <div class="vs-pill"><span class="p-stu" id="name-stu">SCOTCHI</span><span class="p-vs">vs</span><span class="p-bruce" id="name-bruce">BOET</span></div>
-      <div class="counts" id="counts"><div class="count-player stu" id="counts-stu"></div><div class="count-player bruce" id="counts-bruce"></div></div>
-      <div class="legend" aria-label="Game colours">
-        <span class="lg"><span class="sw both-win"></span> Both up</span>
-        <span class="lg"><span class="sw both-lose"></span> Both down</span>
-        <span class="lg"><span class="sw stu-up"></span> <span id="leg-stu-up">Scotchi up</span></span>
-        <span class="lg"><span class="sw bruce-up"></span> <span id="leg-bruce-up">Boet up</span></span>
-        <span class="lg"><span class="sw pending"></span> To play</span>
-      </div>
     </div>
     <div id="banner"></div>
     <div class="hdr-right">
@@ -1894,21 +1812,141 @@ function renderCoverPick(who, leg, status, waiting){
   const cov = coverText(leg, st);
   return `<div class="pickbox ${side} ${st}"><div class="pick-main"><div class="pick-name">${pickLabelHtml(leg)}</div><div class="pick-odds">@ ${Number(leg.odds).toFixed(2)}</div>${cov?`<div class="cover-lab">${esc(cov)}</div>`:''}</div><div class="mark">${mark}</div></div>`;
 }
-function renderLiveCard(g, stuLeg, sStu, bruceLeg, sBruce, hasBruce){
+function resultMargin(g, leg, st){
+  if(!leg || !g || g.state==='pre') return '';
+  if(leg.type==='spread'){
+    const me = g.teams.find(t=>t.ab===leg.team), op = g.teams.find(t=>t.ab!==leg.team);
+    if(!me||!op) return '';
+    const m = me.score + Number(leg.line||0) - op.score;
+    if(m===0 || st==='level') return g.state==='post' ? 'pushed' : 'level';
+    if(g.state==='post') return (st==='win' || m>0) ? `covered by ${fmtMarginNum(m)}` : `missed by ${fmtMarginNum(m)}`;
+    return (st==='win' || m>0) ? `covering by ${fmtMarginNum(m)}` : `not covering · ${fmtMarginNum(m)} short`;
+  }
+  if(leg.type==='ml'){
+    const me = g.teams.find(t=>t.ab===leg.team), op = g.teams.find(t=>t.ab!==leg.team);
+    if(!me||!op) return '';
+    const m = me.score - op.score;
+    if(m===0) return g.state==='post' ? '' : 'level';
+    return (m>0 ? 'winning by ' : 'losing by ') + fmtMarginNum(m);
+  }
+  if(leg.type==='total'){
+    const total = g.teams.reduce((s,t)=>s+t.score,0);
+    const diff = total - Number(leg.line);
+    if(diff===0 || st==='level') return g.state==='post' ? 'pushed' : 'level';
+    const abs = fmtMarginNum(Math.abs(diff));
+    return diff>0 ? `${abs} over` : `${abs} under`;
+  }
+  return coverText(leg, st);
+}
+function statusWord(g, leg, st){
+  if(!leg || st==='pre' || !st) return '';
+  if(g && g.state==='post'){
+    if(st==='win') return 'WON';
+    if(st==='lose') return 'LOST';
+    if(st==='level') return 'PUSH';
+  }
+  return resultMargin(g, leg, st);
+}
+function relTag(stuLeg, bruceLeg, hasBruce){
+  if(!hasBruce) return '';
+  const rel = pickRelation(stuLeg, bruceLeg);
+  if(rel==='h2h') return '<span class="tag h2h">HEAD-TO-HEAD</span>';
+  if(rel==='same') return '<span class="tag same">SAME SIDE</span>';
+  return '';
+}
+function countsHtml(who, t){
+  const name = displayName(who).toUpperCase();
+  let liveCls = 'mix';
+  if(!t.live) liveCls = 'none';
+  else if(t.liveUp===t.live) liveCls = 'up';
+  else if(t.liveDown===t.live) liveCls = 'down';
+  return `<div class="counts ${who}">`+
+    `<span class="cname">${esc(name)}</span>`+
+    `<span class="cw">✅ ${t.w}</span>`+
+    `<span class="cl">❌ ${t.l}</span>`+
+    `<span class="cd">➖ ${t.d}</span>`+
+    `<span class="clive ${liveCls}">● ${t.live} live</span>`+
+    `<span class="cp">⏳ ${t.pending}</span>`+
+    `</div>`;
+}
+function renderPanelPick(who, leg, status, waiting, g){
+  const side = who==='stu' ? 'stu' : 'bruce';
+  const name = displayName(who);
+  if(waiting){
+    return `<div class="pickbox ${side} empty"><span class="pwho ${side}">${esc(name)}</span><span class="pick-name faint">—</span></div>`;
+  }
+  if(!leg){
+    return `<div class="pickbox ${side} nobet"><span class="pwho ${side}">${esc(name)}</span><span class="pick-name faint">No bet</span></div>`;
+  }
+  const st = status||'pre';
+  const note = statusWord(g, leg, st);
+  const marg = (g && g.state==='post' && leg.type==='spread') ? resultMargin(g, leg, st) : '';
+  const isBadge = !!(g && g.state==='post' && note);
+  const extra = (note && marg && marg!=='pushed' && note!=='PUSH') ? `<span class="cover-lab${isBadge?' is-badge':''}">${esc(note)} · ${esc(marg)}</span>` : (note?`<span class="cover-lab${isBadge?' is-badge':''}">${esc(note)}</span>`:'');
+  return `<div class="pickbox ${side} ${st}"><span class="pwho ${side}">${esc(name)}</span><span class="pick-name">${pickLabelHtml(leg)}</span><span class="pick-odds">@${Number(leg.odds).toFixed(2)}</span>${extra}</div>`;
+}
+function renderPleg(g, who, leg, status, waiting){
+  const aw = g.teams[0], ho = g.teams[1];
+  const live = g.state==='in' ? ' live-row' : '';
+  let gm;
+  if(g.state==='pre'){
+    gm = `${esc(aw.ab)} @ ${esc(ho.ab)}<span class="gt">${esc(clockTextShort(g))}</span>`;
+  } else if(g.state==='in'){
+    gm = `${esc(aw.ab)} ${aw.score}–${ho.score} ${esc(ho.ab)}<span class="gt">${esc(clockText(g))}</span>`;
+  } else {
+    gm = `${esc(aw.ab)} ${aw.score}–${ho.score} ${esc(ho.ab)}<span class="gt">FINAL</span>`;
+  }
+  return `<div class="pleg${live}" data-id="${g.id}" data-who="${who}"><div class="gm">${gm}</div>${renderPanelPick(who, leg, status, waiting, g)}</div>`;
+}
+function renderPlayerPanel(who, player, recs, tally, waiting){
+  const live = recs.filter(r=>r.g.state==='in');
+  const results = recs.filter(r=>r.g.state==='post');
+  const upcoming = recs.filter(r=>r.g.state==='pre');
+  const legOf = r => who==='stu' ? r.stuLeg : r.bruceLeg;
+  const stOf = r => who==='stu' ? r.sStu : r.sBruce;
+  const block = (title, rows, fn) => {
+    if(!rows.length) return '';
+    return `<div class="sec-mini">${esc(title)}</div>` + rows.map(fn).join('');
+  };
+  let body;
+  if(waiting){
+    body = `<div class="waiting-box panel-wait">Waiting for ${esc(possessiveName('bruce'))} bets</div>`;
+  } else {
+    body = block('LIVE', live, r => renderPleg(r.g, who, legOf(r), stOf(r), false))
+      + block('RESULTS', results, r => renderPleg(r.g, who, legOf(r), stOf(r), false))
+      + block('UP NEXT', upcoming, r => renderPleg(r.g, who, legOf(r), stOf(r), false));
+    if(!body) body = '<div class="plist-empty">No games yet</div>';
+  }
+  return `<section class="panel ${who}">`+
+    `<div class="panel-head">${countsHtml(who, tally)}</div>`+
+    `<div class="plist">${body}</div>`+
+    `</section>`;
+}
+
+function renderLiveCard(g, stuLeg, sStu, bruceLeg, sBruce, hasBruce, nLive){
   const h2h = h2hClass(sStu, sBruce, hasBruce, false, false, !!stuLeg);
   const aw = g.teams[0], ho = g.teams[1];
-  const mine = (t) => (stuLeg && stuLeg.team===t.ab && stuLeg.type!=='total') ? 'mine' : '';
-  return `<div class="livecard ${h2h} ${g.redZone?'redzone':''}" data-id="${g.id}">
-    <div class="lc-top"><span class="live-tag">LIVE</span><span class="clock">${esc(clockText(g))}</span><span class="dd">${esc(g.dd||'')}</span></div>
-    <div class="lc-scores">
-      <div class="lc-team">${logoHtml(aw)}<div class="id"><span class="ab ${mine(aw)}">${esc(aw.ab)}</span><span class="pts">${aw.score}</span></div></div>
+  const top = `<div class="lc-top"><span class="live-tag">LIVE</span><span class="clock">${esc(clockText(g))}</span><span class="dd">${esc(g.dd||'')}</span>${relTag(stuLeg, bruceLeg, hasBruce)}</div>`;
+  const scores = `<div class="lc-scores">
+      <div class="lc-team">${logoHtml(aw)}<div class="id"><span class="ab">${esc(aw.ab)}</span><span class="pts">${aw.score}</span></div></div>
       <span class="at">@</span>
-      <div class="lc-team home"><div class="id"><span class="ab ${mine(ho)}">${esc(ho.ab)}</span><span class="pts">${ho.score}</span></div>${logoHtml(ho)}</div>
-    </div>
-    ${fieldHtml(g, true)}
-    <div class="lc-covers">${renderCoverPick('stu', stuLeg, sStu, false)}${renderCoverPick('bruce', bruceLeg, sBruce, !hasBruce)}</div>
+      <div class="lc-team home"><div class="id"><span class="ab">${esc(ho.ab)}</span><span class="pts">${ho.score}</span></div>${logoHtml(ho)}</div>
+    </div>`;
+  const stuPick = renderPanelPick('stu', stuLeg, sStu, false, g);
+  const bruPick = renderPanelPick('bruce', bruceLeg, sBruce, !hasBruce, g);
+  if(nLive===1){
+    return `<div class="livecard wide ${h2h} ${g.redZone?'redzone':''}" data-id="${g.id}">
+      <div class="hero-side stu">${stuPick}</div>
+      <div class="hero-mid">${top}${scores}${fieldHtml(g, true)}</div>
+      <div class="hero-side bruce">${bruPick}</div>
+    </div>`;
+  }
+  return `<div class="livecard ${h2h} ${g.redZone?'redzone':''}" data-id="${g.id}">
+    ${top}${scores}${fieldHtml(g, true)}
+    <div class="lc-covers">${stuPick}${bruPick}</div>
   </div>`;
 }
+
 function chipPickLabel(leg){
   if(!leg) return '';
   if(leg.type==='total') return `${leg.side==='over'?'Over':'Under'} ${Number(leg.line)}`;
@@ -2208,15 +2246,14 @@ function render(){
   const nLive = live.length;
   const liveCls = 'n' + Math.min(Math.max(nLive,0), 8);
   board.className = 'board' + (nLive ? '' : ' no-live');
-  const liveHtml = live.map(r => renderLiveCard(r.g, r.stuLeg, r.sStu, r.bruceLeg, r.sBruce, hasBruce)).join('');
-  const resHtml = results.length
-    ? results.map(r => renderChip(r.g, r.stuLeg, r.sStu, r.bruceLeg, r.sBruce, hasBruce, false, true)).join('')
-    : '<div class="rail-empty">No results yet</div>';
-  const upHtml = renderUpNext(upcoming, hasBruce);
+  const liveHtml = live.map(r => renderLiveCard(r.g, r.stuLeg, r.sStu, r.bruceLeg, r.sBruce, hasBruce, nLive)).join('');
+  const allRecs = live.concat(results, upcoming);
+  const stuT = tallyLegs(players.stu.legs, stuStates, games);
+  const bruT = tallyLegs(players.bruce.legs, bruceStates, games);
   board.innerHTML = `<div class="live-grid ${liveCls}">${liveHtml}</div>
-    <div class="rail">
-      <section class="rail-sec rail-results"><h2>RESULTS${results.length?` · ${results.length}`:''}</h2><div class="rail-list">${resHtml}</div></section>
-      <section class="rail-sec rail-upnext"><h2>UP NEXT${upcoming.length?` · ${upcoming.length}`:''}</h2><div class="rail-list">${upHtml}</div></section>
+    <div class="panels">
+      ${renderPlayerPanel('stu', players.stu, allRecs, stuT, false)}
+      ${renderPlayerPanel('bruce', players.bruce, allRecs, bruT, !hasBruce)}
     </div>`;
   for(const [id,cls] of flashes){
     board.querySelectorAll(`[data-id="${id}"]`).forEach(el=>{ void el.offsetWidth; el.classList.add(cls); });
@@ -2224,7 +2261,6 @@ function render(){
   firstRun = false;
 
   applyDisplayNames();
-  paintHeaderCounts(tallyLegs(players.stu.legs, stuStates, games), tallyLegs(players.bruce.legs, bruceStates, games), hasBruce);
 
   const accas = document.getElementById('accas');
   accas.innerHTML = renderAccaPanel('stu', players.stu, stuStates, false) + renderAccaPanel('bruce', players.bruce, bruceStates, !hasBruce);
