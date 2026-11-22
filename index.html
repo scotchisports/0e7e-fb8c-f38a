@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
-<meta name="st-build" content="20261122-223553">
+<meta name="st-build" content="20261122-224739">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1762,6 +1762,25 @@ header h1 svg{width:26px;height:26px;flex:none}
 .grow.fin .pk.s-lose .pk-val b{background:rgba(248,113,113,.14)}
 .grow.fin .pk.s-manual .pk-val b{background:rgba(196,165,255,.14)}
 .fin-wrap[hidden]{display:none}
+.grow.fin{align-items:start}
+.pk-ride{font:700 11px/1 Inter,sans-serif;color:#ffe08a;margin-top:3px;white-space:nowrap}
+.tg-m{font:600 12px/1 Inter,sans-serif;color:#ffe08a;letter-spacing:0;align-self:center}
+.tg-m.dead{color:var(--lose)}
+.pc-best{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);display:grid;gap:3px}
+.pc-best>span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:600}
+.pc-best>b{font-size:16px;color:#ffe08a}
+.pc-best.dead>b{color:var(--lose)}
+.pc-best>em{font-style:normal;font-size:13px;color:var(--dim)}
+.pc-best ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
+.pc-best li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:baseline;font-size:13px}
+.pc-best li b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-best li i{font-style:normal;font-family:var(--num);font-weight:700;font-size:14px;color:var(--dim);white-space:nowrap}
+.pc-best li.s-win i{color:var(--win)} .pc-best li.s-lose i{color:var(--lose)} .pc-best li.s-open i{color:var(--open)}
+.pc-best li u{text-decoration:none;font:700 11px/1 Inter,sans-serif;color:#ffe08a}
+.pc-best li.more{color:var(--muted);display:block}
+.grow.rzswing:not(.sweat){animation:rzrow 1.8s ease-in-out infinite;border-radius:10px}
+@keyframes rzrow{0%,100%{background:rgba(255,170,40,.03)}50%{background:rgba(255,170,40,.11)}}
+.grow.rzswing .mf-clock b::after{content:"RED ZONE";margin-left:6px;font-size:10px;letter-spacing:.12em;color:#ffb347}
 
 /* sweat mode */
 .grow.sweat{animation:sweatrow 1.4s ease-in-out infinite;border-radius:10px;outline:2px solid rgba(255,77,79,.4);outline-offset:5px;margin:6px 0}
@@ -1834,6 +1853,7 @@ header{flex-wrap:wrap}
   .tug{gap:10px;padding:6px 12px}
   .tg-n em{font-size:12px} .tg-n b{font-size:22px} .tg-n small{font-size:13px}
   .tg-ton{display:none} .tg-cap{font-size:10px}
+  .tg-n{flex-wrap:wrap;row-gap:3px} .tg-m{order:3;flex-basis:100%;font-size:10.5px} .tg-n.bruce{justify-content:flex-end} .tg-n.bruce .tg-m{text-align:right}
   .v2{grid-template-areas:"main" "cards" "next"}   /* phone: live games first; the tug bar already shows the score */
   .grow.live::before{left:-6px}
   .fs{min-height:0}
@@ -2637,7 +2657,12 @@ function renderAccaPanel(who, player, legStates, waiting, games){
   const L = tagged.filter(l=>l.status==='lose').length;
   const D = tagged.filter(l=>l.status==='level').length;
   const rows = (player.bets||[]).map(b=>accaStats(tagged, b));
-  const summary = rows.map(accaBarPart).join(' · ');
+  const aliveRows = rows.filter(r=>!r.dead && r.onStand>0).sort((a,b)=>(b.rem||0)-(a.rem||0));
+  const offRows = rows.filter(r=>!r.dead && !(r.onStand>0));
+  const deadN = rows.filter(r=>r.dead).length;
+  const summary = aliveRows.map(r=>{ const m = accaRetText(r, true); return accaBarPart(r) + (m ? ` <b class="ok">${esc(m)}</b>` : ''); })
+    .concat(offRows.map(accaBarPart))
+    .concat(deadN ? [`<span class="bad">${deadN===rows.length ? 'all dead' : deadN+' dead'}</span>`] : []).join(' · ');
   const stake = (player.bets||[]).reduce((s,b)=>s+(b.total_stake||0),0);
   const top = rows[0];
   const topPill = top ? accaPill(top) : null;
@@ -3685,6 +3710,8 @@ function pickRowHtml(who, g, leg, st, waiting){
   const s = st || 'pre';
   const note = legNote(g, leg, s);
   const odds = (leg.odds==null || !Number.isFinite(Number(leg.odds))) ? '' : `<span class="pk-odds">@${Number(leg.odds).toFixed(2)}</span>`;
+  const ride = MONEY[who] && MONEY[who].riding.get(leg);
+  const rideHtml = ride && g.state!=='post' ? `<span class="pk-ride" title="Acca returns lost if this leg fails">${esc(gbpR(ride))} riding</span>` : '';
   const parts = partList(leg);
   const partsHtml = parts.length && g.state!=='pre'
     ? `<div class="pk-parts">${parts.length>1?`<div class="pp-head">All ${parts.length + (leg.type==='team_stat'?0:1)} parts must land</div>`:''}${parts.map(x=>partHtml(x,g)).join('')}</div>` : '';
@@ -3693,7 +3720,7 @@ function pickRowHtml(who, g, leg, st, waiting){
     <span class="pk-who" title="${esc(name)}">${ini}</span>
     <span class="pk-name"><span class="pk-sel" title="${esc(pickLabel(leg))}">${esc(rowTitle(leg))}</span>${odds}</span>
     ${barHtml(g, leg, s)}
-    <span class="pk-val"><b><span class="pk-g" aria-hidden="true">${ST_GLYPH[s]||''}</span> ${esc(note.text||ST_WORD[s]||'')}</b>${note.sub?`<small>${esc(note.sub)}</small>`:''}</span>
+    <span class="pk-val"><b><span class="pk-g" aria-hidden="true">${ST_GLYPH[s]||''}</span> ${esc(note.text||ST_WORD[s]||'')}</b>${note.sub?`<small>${esc(note.sub)}</small>`:''}${rideHtml}</span>
     ${partsHtml}
   </div>`;
 }
@@ -3741,7 +3768,7 @@ function gameRowHtml(r, hasBruce){
   const aw = g.teams[0], ho = g.teams[1];
   const sel = selectedId===String(g.id) ? ' selected' : '';
   const sweat = r.stuLegs.concat(r.bruceLegs).some(l=>sweatLegs.has(l)) ? ' sweat' : '';
-  const stCls = g.state==='post' ? ' fin' : g.state==='in' ? ' live' : '';
+  const stCls = (g.state==='post' ? ' fin' : g.state==='in' ? ' live' : '') + (rzSwingGames.has(String(g.id)) ? ' rzswing' : '');
   return `<article class="grow${stCls}${sweat}${sel}" data-id="${g.id}" role="button" tabindex="0"
       aria-label="${esc(aw.ab+' '+aw.score+', '+ho.ab+' '+ho.score+', '+(g.state==='in'?'live, ':'')+clockText(g)+'. Show game details')}">
     ${g.state==='post' ? finalScoreHtml(g) : miniFieldHtml(g)}
@@ -3790,7 +3817,7 @@ function playerCardHtml(who, player, states, games, waiting, recs){
     <div class="pc-cap">${started ? 'legs landing as it stands' : (legs.length===1?'leg, none started':'legs, none started')}</div>
     <div class="pc-strip" role="img" aria-label="${esc(name+' legs: '+landing+' landing of '+started+' started')}">${strip}</div>
     <div class="pc-chips">${chips}</div>
-    ${worry}
+    ${(player.bets||[]).length ? bestShotHtml(who, MONEY[who]) : worry}
   </section>`;
 }
 function nextHtml(upcoming, hasBruce){
@@ -3815,6 +3842,7 @@ function nextHtml(upcoming, hasBruce){
 }
 function renderBoardV2(board, ctx){
   const {live, results, upcoming, hasBruce, hasStu, players, stuStates, bruceStates, games} = ctx;
+  try{ MONEY = {stu: moneyModel(players.stu, stuStates, games), bruce: hasBruce ? moneyModel(players.bruce, bruceStates, games) : null}; }catch(e){ console.warn('money failed', e); MONEY = {stu:null, bruce:null}; }
   const liveRows = live.map(r=>gameRowHtml(r, hasBruce)).join('');
   const finals = results.slice().sort((a,b)=>b.g.date-a.g.date);
   const finRows = finals.map(r=>gameRowHtml(r, hasBruce)).join('');
@@ -4239,14 +4267,15 @@ function playVuvuzela(){
   return wait(dur*1000+60);
 }
 /* Crowd roar: filtered noise that swells, with the odd whoop on top. Does not block. */
-function playCrowd(sec){
+function playCrowd(sec, level){
   if(!audioReady()) return;
   const out = audioOut(), t0 = actx.currentTime + 0.02, dur = sec||3.2;
   const n = actx.createBufferSource(); n.buffer = noiseBuf(dur);
   const bp = actx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=900; bp.Q.value=0.6;
   const lp = actx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=2600;
-  const g = actx.createGain(); g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.85,t0+0.45);
-  g.gain.setValueAtTime(0.85,t0+dur*0.55); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  const g = actx.createGain(); g.gain.setValueAtTime(0.0001,t0); const lv = level || 0.85;
+  g.gain.exponentialRampToValueAtTime(lv,t0+0.45);
+  g.gain.setValueAtTime(lv,t0+dur*0.55); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
   const am = actx.createOscillator(); am.frequency.value = 3.1; const amg = actx.createGain(); amg.gain.value = 0.12; am.connect(amg); amg.connect(g.gain);
   n.connect(bp); bp.connect(lp); lp.connect(g); g.connect(out); n.start(t0); am.start(t0); n.stop(t0+dur); am.stop(t0+dur);
   for(let i=0;i<5;i++){                       // whoops
@@ -4300,6 +4329,7 @@ async function playFx(fx){
   else if(fx==='die'){ await playTrombone(); }
   else if(fx==='cash'){ playCrowd(3); await playRegister(); }
   else if(fx==='sweat'){ await playWhistle('kick'); }
+  else if(fx==='murmur'){ playCrowd(2.6, 0.35); await wait(700); }
 }
 
 /* ---------- speech helpers ---------- */
@@ -4481,12 +4511,138 @@ function funAfterGrade(players, stuStates, bruceStates, games, firstPass){
     }
   }
   sweatLegs = nextSweat;
+  try{ checkRedZones(games, players, firstPass); }catch(e){ console.warn('red zone check failed', e); }
   if(scrollTo && !selectedId && Date.now()-lastUserScroll > 20000){
     setTimeout(()=>{ const el = document.querySelector(`.grow[data-id="${scrollTo}"]`); if(el) el.scrollIntoView({behavior:'smooth', block:'center'}); }, 60);
   }
 }
 
+/* ---------- money on the line ---------- */
+function gbpR(n){ return '£' + Math.round(n).toLocaleString('en-GB'); }
+let MONEY = {stu:null, bruce:null};
+function moneyModel(player, states, games){
+  const legs = player.legs||[], bets = player.bets||[];
+  const info = legs.map(l=>{
+    const g = (games||[]).find(x=>gameHasLeg(x,l));
+    const st = states.get(l) || 'pre';
+    return {l, g, st, set: g ? legSettled(g, l, st) : null, odds: Number(l.odds) || 1};
+  });
+  const known = bets.filter(b=>!b.stakeUnknown);
+  const achievable = (bet, skip) => {
+    if(bet.stakeUnknown) return 0;
+    const n = bet.folds;
+    const allRaw = sumProducts(info.map(x=>x.odds), n);
+    const pool = [];
+    info.forEach((x,i)=>{ if(x.set!=='lose' && i!==skip) pool.push(x.set==='level' ? 1 : x.odds); });
+    const raw = sumProducts(pool, n);
+    if(bet.potential && allRaw>0) return bet.potential * raw / allRaw;
+    return raw * (bet.stake_per_line || 0);
+  };
+  const perBet = bets.map(b=>achievable(b, -1));
+  const banked = bets.reduce((sum, bet)=>{
+    if(bet.stakeUnknown) return sum;
+    const n = bet.folds, allRaw = sumProducts(info.map(x=>x.odds), n);
+    const pool = info.filter(x=>x.set==='win' || x.set==='level').map(x=>x.set==='level' ? 1 : x.odds);
+    const raw = sumProducts(pool, n);
+    return sum + (bet.potential && allRaw>0 ? bet.potential*raw/allRaw : raw*(bet.stake_per_line||0));
+  }, 0);
+  const aliveN = perBet.filter(v=>v>0).length;
+  const upTo = perBet.reduce((s,v)=>s+v, 0);
+  const riding = new Map();
+  info.forEach((x,i)=>{
+    if(x.set) return;
+    let lose = 0; bets.forEach((b,bi)=>{ if(perBet[bi]>0) lose += perBet[bi] - achievable(b, i); });
+    if(lose >= 1) riding.set(x.l, lose);
+  });
+  let best = null;
+  bets.forEach((b,bi)=>{ if(perBet[bi]>0 && (!best || perBet[bi]>best.amount)) best = {bet:b, amount:perBet[bi]}; });
+  if(!best && bets.length && !known.length){
+    // stakes unknown: still show the biggest fold that is alive
+    const alive = bets.filter(b=>{ const left = info.filter(x=>x.set!=='lose').length; return left >= b.folds; }).sort((a,c)=>c.folds-a.folds);
+    if(alive.length) best = {bet: alive[0], amount: 0};
+  }
+  if(best){
+    const won = info.filter(x=>x.set==='win' || x.set==='level').length;
+    const open = info.filter(x=>!x.set);
+    best.needK = Math.max(0, best.bet.folds - won);
+    best.open = open.sort((a,c)=>(c.g&&c.g.state==='in'?1:0)-(a.g&&a.g.state==='in'?1:0) || (riding.get(c.l)||0)-(riding.get(a.l)||0));
+  }
+  if(best){
+    // smallest number of legs still needed by any live bet
+    const won = info.filter(x=>x.set==='win' || x.set==='level').length;
+    best.minNeed = Math.min(...bets.filter((b,bi)=>perBet[bi]>0 || !known.length).map(b=>Math.max(0, b.folds-won)));
+  }
+  return {upTo, banked, aliveN, riding, best, nLegs: legs.length, hasMoney: known.length>0, deadAll: bets.length>0 && !best};
+}
+function bestShotHtml(who, m){
+  if(!m) return '';
+  if(m.deadAll) return `<div class="pc-best dead"><span>Best shot</span><b>Every acca is dead</b></div>`;
+  const b = m.best; if(!b) return '';
+  const one = m.aliveN<=1;
+  const name = one ? (b.bet.folds===m.nLegs ? `${b.bet.folds}-fold acca` : `${b.bet.folds}-folds`) : `${m.aliveN} accas alive`;
+  const top = one ? b.amount : m.upTo;
+  const money = top>0 ? ` · up to ${gbpR(top)}` : '';
+  const k = one ? b.needK : b.minNeed;
+  let need;
+  if(k===0) need = m.banked>=1 ? `${gbpR(m.banked)} already banked. Every leg still to go adds more` : 'Already paying. Every leg still to go adds more';
+  else if(k>=b.open.length) need = b.open.length===1 ? 'Needs this last one' : `Needs all ${b.open.length} still to go`;
+  else need = `Needs ${k} more of the ${b.open.length} still to go`;
+  const items = b.open.slice(0,4).map(x=>{
+    const note = !x.g || x.g.state==='pre' ? clockTextShort(x.g||{date:new Date()}) : (legNote(x.g, x.l, x.st).text || ST_WORD[x.st] || '');
+    const r = m.riding.get(x.l);
+    return `<li class="s-${x.g&&x.g.state==='in'?x.st:'pre'}"><b>${esc(rowTitle(x.l))}</b><i>${esc(note)}</i>${r?`<u title="Returns lost if this leg fails">${esc(gbpR(r))}</u>`:''}</li>`;
+  }).join('');
+  const more = b.open.length>4 ? `<li class="more">+${b.open.length-4} more</li>` : '';
+  return `<div class="pc-best"><span>Best shot</span><b>${esc(name)}${esc(money)}</b><em>${esc(need)}</em>${items?`<ul>${items}${more}</ul>`:''}</div>`;
+}
+
+/* ---------- red-zone alerts ---------- */
+const prevRz = {};
+let rzSwingGames = new Set();
+function mainOutcome(g, leg){
+  const c = legCushion(g, leg);
+  if(c==null) return null;
+  return c>0 ? 1 : c<0 ? -1 : 0;
+}
+function rzSwings(g, players){
+  const poss = g.teams.find(t=>String(t.id)===String(g.possession));
+  if(!poss) return [];
+  const out = [];
+  const after = {...g, teams: g.teams.map(t=>t===poss ? {...t, score: t.score+7} : t)};
+  for(const who of ['stu','bruce']){
+    for(const leg of legsForPlayer(g, players[who].legs||[])){
+      if(leg.type==='total' && leg._mainLock) continue;
+      if(leg._lock==='lose') continue;
+      const a = mainOutcome(g, leg), b = mainOutcome(after, leg);
+      if(a==null || b==null || a===b) continue;
+      out.push({who, leg, help: b>a});
+    }
+  }
+  return {poss, list: out};
+}
+function checkRedZones(games, players, firstPass){
+  const now = new Set();
+  for(const g of games){
+    if(g.state!=='in' || !g.redZone){ delete prevRz[g.id]; continue; }
+    const sw = rzSwings(g, players);
+    if(!sw.list || !sw.list.length){ prevRz[g.id] = g.possession; continue; }
+    now.add(String(g.id));
+    if(prevRz[g.id]===g.possession) continue;
+    prevRz[g.id] = g.possession;
+    if(firstPass) continue;
+    const lines = sw.list.map(x=> x.help ? `${possessiveName(x.who)} ${sayLeg(g, x.leg)} needs this` : `${possessiveName(x.who)} ${sayLeg(g, x.leg)} is in danger`);
+    queueAlert(`Red zone: ${sw.poss.name}`, false, [], null, {fx:'murmur', say:`${sw.poss.name} in the red zone. ${lines.join('. ')}.`});
+  }
+  rzSwingGames = now;
+}
+
 /* ---------- tonight's tug-of-war ---------- */
+function tugMoney(who){
+  const m = MONEY[who];
+  if(!m || !m.hasMoney) return '';
+  if(m.upTo < 1) return `<span class="tg-m dead">accas dead</span>`;
+  return `<span class="tg-m" title="Most the accas can still pay if every remaining leg lands">up to ${esc(gbpR(m.upTo))}</span>`;
+}
 function renderTug(players, stuStates, bruceStates, games, hasBruce){
   const el = document.getElementById('tug');
   if(!el) return;
@@ -4504,7 +4660,7 @@ function renderTug(players, stuStates, bruceStates, games, hasBruce){
   const lead = gap < 0.04 ? 'Dead level' : `${p1>p2?n1:n2} ${gap>0.3?'running away with it':gap>0.12?'pulling ahead':'just ahead'}`;
   const pct = (share*100).toFixed(1);
   el.innerHTML = `
-    <span class="tg-n stu"><em>${esc(n1)}</em><b>${l1}<small>/${s1}</small></b></span>
+    <span class="tg-n stu"><em>${esc(n1)}</em><b>${l1}<small>/${s1}</small></b>${tugMoney('stu')}</span>
     <div class="tg-mid">
       <div class="tg-track" role="img" aria-label="${esc(`${n1} ${l1} of ${s1} landing, ${n2} ${l2} of ${s2} landing. ${lead}.`)}">
         <i class="tg-a" style="width:${pct}%"></i><i class="tg-b" style="left:${pct}%"></i>
@@ -4513,7 +4669,7 @@ function renderTug(players, stuStates, bruceStates, games, hasBruce){
       </div>
       <div class="tg-cap"><span class="tg-ton">Tonight · </span>${esc(lead)}</div>
     </div>
-    <span class="tg-n bruce"><b>${l2}<small>/${s2}</small></b><em>${esc(n2)}</em></span>`;
+    <span class="tg-n bruce">${tugMoney('bruce')}<b>${l2}<small>/${s2}</small></b><em>${esc(n2)}</em></span>`;
 }
 
 /* ---------- sound panel + game-on ---------- */
