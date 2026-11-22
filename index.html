@@ -6,6 +6,9 @@
 <meta name="st-build" content="20261122-184112">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SUNDAY TICKET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script>
 /* =====================================================================
    SUNDAY TICKET - EDIT YOUR BETS HERE EACH WEEK
@@ -1515,6 +1518,196 @@ header h1{font-size:clamp(15px,2.2vh,26px);letter-spacing:.12em;font-weight:900;
   #app.has-detail .detail-body{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
 }
 
+/* ===================== BOARD v2: FIELD + CUSHION ===================== */
+:root{
+  --bg:#0a0f0c; --panel:#111915; --panel2:#16201b; --line:#22302a; --line2:#2c3d34;
+  --txt:#eef3ef; --dim:#9fb2a6; --muted:#6f8378;
+  --stu:#f5c542; --bruce:#3cc8e6;
+  --win:#4ade80; --lose:#f87171; --open:#93a9bd; --lvl:#d7dee0;
+  --turf:#2d6a35; --turf2:#29612f;
+  --num:"Barlow Condensed","Arial Narrow",sans-serif;
+}
+html,body{background:var(--bg);font-family:Inter,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-feature-settings:"tnum" 1}
+header{background:#0c130f;border-bottom:1px solid var(--line);padding:8px 16px;min-height:52px}
+header h1{display:flex;align-items:center;gap:10px;font-family:var(--num);font-weight:800;font-size:26px;letter-spacing:.1em;color:var(--txt);background:none;-webkit-background-clip:initial;background-clip:initial}
+header h1 svg{width:26px;height:26px;flex:none}
+.vs-pill{font-family:var(--num);font-size:17px;letter-spacing:.12em}
+.vs-pill .p-stu{color:var(--stu)} .vs-pill .p-bruce{color:var(--bruce)}
+.upd{font-size:13px;color:var(--dim)}
+#fsbtn,#sndbtn{font:600 13px/1 Inter,system-ui,sans-serif;background:transparent;border:1px solid var(--line2);border-radius:8px;padding:0 14px;height:36px;color:var(--txt)}
+#fsbtn:hover,#sndbtn:hover{background:var(--panel2)}
+#fsbtn:focus-visible,#sndbtn:focus-visible,.grow:focus-visible{outline:2px solid var(--bruce);outline-offset:2px}
+
+.board.v2b{overflow:auto;padding:14px 16px 18px;display:block;scrollbar-color:var(--line2) transparent}
+.v2{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-areas:"main cards" "main next";grid-template-rows:auto 1fr;gap:14px 18px;max-width:1880px;margin:0 auto;align-items:start}
+.v2-cards{grid-area:cards;display:grid;gap:12px}
+.v2-main{grid-area:main;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 16px 10px}
+.v2-next{grid-area:next;min-width:0}
+
+/* player cards */
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px 14px;position:relative;overflow:hidden}
+.pcard::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--pc)}
+.pcard.stu{--pc:var(--stu)} .pcard.bruce{--pc:var(--bruce)}
+.pc-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.pcard h2{font-family:var(--num);font-weight:800;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:var(--pc)}
+.pc-big{font-family:var(--num);font-weight:800;font-size:46px;line-height:.9;color:var(--txt)}
+.pc-big small{font-size:24px;color:var(--dim);font-weight:700}
+.pc-cap{font-size:12px;color:var(--dim);text-align:right;margin-top:2px}
+.pc-strip{display:flex;gap:3px;margin:10px 0 10px}
+.pc-strip i{flex:1;height:8px;border-radius:2px;background:#24332b}
+.pc-strip i.s-win{background:var(--win)} .pc-strip i.s-lose{background:var(--lose)}
+.pc-strip i.s-level{background:var(--lvl)} .pc-strip i.s-manual{background:#b48cff}
+.pc-strip i.s-open{background:repeating-linear-gradient(135deg,var(--open) 0 3px,transparent 3px 6px);box-shadow:inset 0 0 0 1px var(--open)}
+.pc-strip i.done{opacity:.55}
+.pc-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pc-chips .c{font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px;background:#18231d;color:var(--dim)}
+.pc-chips .c.win{color:var(--win)} .pc-chips .c.lose{color:var(--lose)} .pc-chips .c.open{color:var(--open)} .pc-chips .c.lvl{color:var(--lvl)}
+.pc-worry{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);display:grid;gap:2px}
+.pc-worry span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:600}
+.pc-worry b{font-size:16px}
+.pc-worry em{font-style:normal;font-size:13px;color:var(--lose)}
+.pc-wait{color:var(--dim);font-size:14px;margin-top:8px}
+
+/* section heads + axis */
+.sec-h{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px;align-items:end;padding:10px 0 8px;border-bottom:1px solid var(--line)}
+.sec-h h2{font-family:var(--num);font-weight:800;font-size:20px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt);display:flex;align-items:center;gap:8px}
+.sec-h h2 .n{font-family:Inter,sans-serif;font-size:12px;letter-spacing:0;background:#1d2a23;color:var(--dim);border-radius:999px;padding:2px 8px}
+.sec-h.fin{margin-top:14px}
+.axis{display:contents}
+.ax-sp{display:none}
+.ax-pk{display:grid;grid-template-columns:24px minmax(150px,1.05fr) minmax(140px,1fr) 150px;gap:12px;align-items:end}
+.ax-h{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:600}
+.ax-h.r{text-align:right}
+.ax-scale{position:relative;height:32px}
+.ax-scale i{position:absolute;top:0;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.ax-scale i.l{left:0;color:var(--lose)} .ax-scale i.r{right:0;color:var(--win)}
+.ax-scale b{position:absolute;bottom:0;transform:translateX(-50%);font:600 11px/1 var(--num);color:var(--muted);letter-spacing:.04em}
+.ax-scale b:first-of-type{transform:none} .ax-scale b:last-of-type{transform:translateX(-100%)}
+.ax-scale b.z{color:var(--txt);text-transform:uppercase}
+
+/* game row */
+.grow{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer;border-radius:10px;transition:background .15s}
+.grow:hover{background:#131d18}
+.grow.selected{background:#15221c;box-shadow:inset 0 0 0 1px var(--line2)}
+.grow.fin{opacity:.82}
+.grow.flash .mf{animation:v2flash 1.2s ease-out}
+.grow.flipwin{animation:v2flipwin 1.6s ease-out}
+.grow.fliplose{animation:v2fliplose 1.6s ease-out}
+@keyframes v2flash{0%{box-shadow:0 0 0 3px #ffffffaa}100%{box-shadow:0 0 0 0 transparent}}
+@keyframes v2flipwin{0%{background:#1f5a37}100%{background:transparent}}
+@keyframes v2fliplose{0%{background:#5a1f25}100%{background:transparent}}
+
+/* mini field */
+.mf{display:grid;grid-template-columns:62px minmax(0,1fr) 62px;height:96px;border-radius:9px;overflow:hidden;box-shadow:inset 0 0 0 2px #dfe8e0}
+.mf-ez{position:relative;background:var(--tc);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;box-shadow:inset 0 0 0 999px rgba(0,0,0,.18)}
+.mf-ez img,.mf-ez .lcirc{width:22px;height:22px;object-fit:contain;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}
+.mf-ez .lcirc{display:none}
+.mf-ab{font:700 12px/1 var(--num);letter-spacing:.08em;opacity:.95}
+.mf-pts{font:800 32px/1 var(--num);color:#ffffffc4}
+.mf-pts.lead{color:#fff}
+.mf-poss{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#ffd84a;box-shadow:0 0 6px #ffd84a}
+.mf-turf{position:relative;background:repeating-linear-gradient(90deg,var(--turf) 0 7.4%,var(--turf2) 7.4% 14.8%);overflow:hidden}
+.mf.rz .mf-turf{background:repeating-linear-gradient(90deg,#6b3030 0 7.4%,#632b2b 7.4% 14.8%)}
+.mf.fin .mf-turf{filter:saturate(.25) brightness(.7)}
+.mf-yl{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.28)}
+.mf-yl.mid{width:2px;background:rgba(255,255,255,.55)}
+.mf-turf::before,.mf-turf::after{content:"";position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.85)}
+.mf-turf::before{left:13%} .mf-turf::after{left:87%}
+.mf-ball{position:absolute;top:56%;width:20px;height:12px;margin-left:-10px;border-radius:50%;background:#8a4a1f;border:1.5px solid #5a2e10;box-shadow:0 2px 3px rgba(0,0,0,.45);transition:left .8s ease}
+.mf-ball::after{content:"";position:absolute;left:5px;right:5px;top:4px;height:1.5px;background:#fff}
+.mf-clock{position:absolute;left:50%;top:9px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;white-space:nowrap}
+.mf-clock b{font:700 13px/1 Inter,sans-serif;background:rgba(6,12,9,.82);color:#fff;padding:4px 9px;border-radius:999px;letter-spacing:.02em}
+.mf-clock span{font-size:11px;color:#e3efe5;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.mf-prog{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(0,0,0,.35)}
+.mf-prog i{display:block;height:100%;background:rgba(255,255,255,.75)}
+
+/* picks */
+.gpicks{display:grid;gap:8px;min-width:0}
+.pk{display:grid;grid-template-columns:24px minmax(150px,1.05fr) minmax(140px,1fr) 150px;grid-template-areas:"who name bar val" ". parts parts parts";gap:4px 12px;align-items:center;min-width:0}
+.pk-who{grid-area:who;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font:800 13px/1 var(--num);color:#0a0f0c;background:var(--pc)}
+.pk.stu{--pc:var(--stu)} .pk.bruce{--pc:var(--bruce)}
+.pk-name{grid-area:name;min-width:0;display:flex;align-items:baseline;gap:6px}
+.pk-sel{font-weight:650;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.pk-sel.muted,.muted{color:var(--muted);font-weight:500}
+.pk-odds{font-size:12px;color:var(--dim);flex:none}
+.pk-bar{grid-area:bar;position:relative;height:24px;border-radius:5px;background:linear-gradient(90deg,rgba(248,113,113,.07) 50%,rgba(74,222,128,.07) 50%)}
+.pk-bar::before{content:"";position:absolute;left:25%;right:25%;top:0;bottom:0;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.pk-bar::after{content:"";position:absolute;left:calc(50% - 1px);top:-3px;bottom:-3px;width:2px;background:#dfe8e0;border-radius:1px}
+.pk-bar.none{background:none}
+.pk-bar.none::before,.pk-bar.none::after{display:none}
+.pk-bar i{position:absolute;top:6px;height:12px;background:var(--pc)}
+.pk-bar i.pos{left:50%;border-radius:0 4px 4px 0}
+.pk-bar i.neg{right:50%;border-radius:4px 0 0 4px}
+.pk-bar i.open{background:transparent;box-shadow:inset 0 0 0 2px var(--pc);background-image:repeating-linear-gradient(135deg,color-mix(in srgb,var(--pc) 35%,transparent) 0 3px,transparent 3px 7px)}
+.pk-bar i.over.pos{border-radius:0}
+.pk-bar i.over.neg{border-radius:0}
+.pk-val{grid-area:val;text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.15}
+.pk-val b{font:700 15px/1.15 var(--num);letter-spacing:.02em;white-space:nowrap}
+.pk-val small{font-size:11px;color:var(--dim)}
+.pk.s-win .pk-val b{color:var(--win)} .pk.s-lose .pk-val b{color:var(--lose)}
+.pk.s-open .pk-val b{color:var(--open)} .pk.s-level .pk-val b{color:var(--lvl)} .pk.s-manual .pk-val b{color:#c4a5ff}
+.pk.s-pre .pk-val b{color:var(--dim)}
+.pk.s-none .pk-who{background:#2a3a31;color:var(--dim)}
+.pk-g{display:inline-block;min-width:.9em;text-align:center}
+.pk-parts{grid-area:parts;display:grid;gap:5px;padding:8px 10px;margin-top:2px;background:#0d1511;border:1px solid var(--line);border-radius:8px}
+.pp-head{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.pp{display:grid;grid-template-columns:16px minmax(120px,190px) minmax(60px,1fr) minmax(130px,auto);gap:10px;align-items:center;font-size:13px}
+.pp-g{font-weight:800;text-align:center}
+.pp-l{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pp-t{color:var(--dim);font-weight:500;font-size:12px}
+.pp-bar{height:7px;border-radius:4px;background:#22302a;overflow:hidden}
+.pp-bar i{display:block;height:100%;border-radius:4px;background:var(--open)}
+.pp-v{font:600 13px/1 var(--num);letter-spacing:.02em;color:#c9d6cd;text-align:right;white-space:nowrap}
+.pp.s-win .pp-g,.pp.s-win .pp-v{color:var(--win)} .pp.s-win .pp-bar i{background:var(--win)}
+.pp.s-lose .pp-g,.pp.s-lose .pp-v{color:var(--lose)} .pp.s-lose .pp-bar i{background:var(--lose)}
+.pp.s-open .pp-g{color:var(--open)}
+.pp.s-manual .pp-g,.pp.s-manual .pp-v{color:#c4a5ff}
+
+.nolive{display:flex;flex-direction:column;gap:4px;padding:28px 6px;color:var(--dim)}
+.nolive b{font-size:18px;color:var(--txt)}
+.v2-foot{font-size:12px;color:var(--muted);line-height:1.5;padding:12px 0 2px;max-width:900px}
+
+/* up next */
+.nextbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.nextbox h2{font-family:var(--num);font-weight:800;font-size:18px;letter-spacing:.14em;text-transform:uppercase}
+.nextbox h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:600;margin:12px 0 6px}
+.nx{padding:8px 0;border-top:1px solid var(--line);display:grid;gap:5px}
+.nx-g{display:flex;align-items:center;gap:6px;font-family:var(--num);font-size:17px}
+.nx-g .at{color:var(--muted);font-size:13px}
+.nx-g img,.nx-g .lcirc{width:18px;height:18px;object-fit:contain}
+.nx-g .lcirc{display:none}
+.nx-t{margin-left:auto;font-family:Inter,sans-serif;font-size:12px;color:var(--dim)}
+.nx-pk{display:flex;align-items:center;gap:8px;font-size:13px;min-width:0}
+.nx-pk span:not(.pk-who):not(.pk-odds){white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.nx-pk .pk-who{width:18px;height:18px;font-size:11px;border-radius:4px;flex:none}
+.nx-pk.stu{--pc:var(--stu)} .nx-pk.bruce{--pc:var(--bruce)}
+
+/* accas footer keeps its own styles; align its colours */
+.accas{background:#0c130f;border-top:1px solid var(--line)}
+
+@media (max-width:1280px){
+  .v2{grid-template-columns:minmax(0,1fr);grid-template-areas:"cards" "main" "next"}
+  .v2-cards{grid-template-columns:1fr 1fr}
+  .sec-h,.grow{grid-template-columns:300px minmax(0,1fr)}
+}
+@media (max-width:820px){
+  header{padding:8px 12px}
+  header h1{font-size:20px}
+  .board.v2b{padding:10px 10px 14px}
+  .v2-cards{grid-template-columns:1fr}
+  .v2-main{padding:4px 10px 8px}
+  .sec-h{grid-template-columns:1fr}
+  .axis{display:none}
+  .grow{grid-template-columns:1fr;gap:10px}
+  .mf{height:88px}
+  .pk{grid-template-columns:24px minmax(0,1fr) auto;grid-template-areas:"who name val" "bar bar bar" "parts parts parts"}
+  .pk-bar{height:18px}
+  .pk-bar i{top:4px;height:10px}
+  .pk-bar.none{display:none}
+  .pp{grid-template-columns:16px minmax(0,1fr) auto;grid-template-areas:"g l v" ". b b"}
+  .pp-g{grid-area:g} .pp-l{grid-area:l} .pp-v{grid-area:v} .pp-bar{grid-area:b}
+}
+@media (prefers-reduced-motion:reduce){.mf-ball{transition:none}.grow.flash .mf,.grow.flipwin,.grow.fliplose{animation:none}}
 </style>
 
 <script>
@@ -1657,7 +1850,7 @@ const VOICE_CLIPS = {"g_over_0":"data:audio/ogg;base64,T2dnUwACAAAAAAAAAABMHd80A
 <div id="app">
   <header>
     <div class="hdr-main">
-      <h1>🏈 SUNDAY TICKET</h1>
+      <h1><svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="16" rx="14" ry="9" transform="rotate(-35 16 16)" fill="#8a4a1f" stroke="#f5c542" stroke-width="1.5"/><path d="M11 21l10-10M13 15l2 2M15.5 12.5l2 2M17 17l2 2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>SUNDAY TICKET</h1>
       <div class="vs-pill"><span class="p-stu" id="name-stu">SCOTCHI</span><span class="p-vs">vs</span><span class="p-bruce" id="name-bruce">BOET</span></div>
     </div>
     <div id="banner"></div>
@@ -1687,31 +1880,56 @@ let lastData = null;
 function choose(n,k){ if(k<0||k>n) return 0; let r=1; for(let i=1;i<=k;i++){ r=r*(n-k+i)/i; } return Math.round(r); }
 function esc(s){ return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
+function normLine(raw, team){
+  let s = String(raw==null?'':raw).trim()
+    .replace(/[\u2212\u2013\u2014]/g,'-')          // unicode minus / dashes from betting apps
+    .replace(/\s*\u00bd/g,'.5')                     // 48½ -> 48.5
+    .replace(/\b(pts?|points)\b\.?/ig,'')
+    .replace(/\s+/g,' ').trim();
+  if(team){ s = s.replace(new RegExp('^'+String(team).replace(/[^A-Za-z]/g,'')+'\\s+','i'),''); } // "BUF -16.5" -> "-16.5"
+  return s.trim();
+}
 function mapLeg(l){
-  const raw = String(l.line||'').trim();
+  const raw = normLine(l.line, l.team);
   const odds = (l.odds==null || l.odds==='') ? null : Number(l.odds);
   const props = Array.isArray(l.props) ? l.props.map(mapProp) : [];
-  const rush = raw.match(/^(rush att|rushing attempts?)\s+(O|U|Over|Under)\s*([0-9.]+)$/i);
-  const ou = raw.match(/^(O|U|Over|Under)\s*([0-9.]+)$/i);
+  const rush = raw.match(/^(rush att|rushing att(?:empts?)?)\s+(O|U|Over|Under)\s*([0-9]+(?:\.[0-9]+)?)$/i);
+  const ou = raw.match(/^(O|U|Over|Under)\s*([0-9]+(?:\.[0-9]+)?)$/i);
+  const sp = raw.match(/^([+-]?[0-9]+(?:\.[0-9]+)?)$/);
   let leg;
   if(rush){
     leg = { team:l.team, opp:l.opp, type:'team_stat', stat:'rushingAttempts', side:rush[2][0].toUpperCase()==='O'?'over':'under', line:Number(rush[3]), odds };
-  } else if(/^ml$/i.test(raw)){
+  } else if(/^(ml|moneyline|money line|to win|win)$/i.test(raw)){
     leg = { team:l.team, opp:l.opp, type:'ml', odds };
   } else if(ou){
     leg = { team:l.team, opp:l.opp, type:'total', side:ou[1][0].toUpperCase()==='O'?'over':'under', line:Number(ou[2]), odds };
+  } else if(/^(pk|pick|pick'?em|pickem|ev|even)$/i.test(raw)){
+    leg = { team:l.team, opp:l.opp, type:'spread', line:0, odds };
+  } else if(sp){
+    leg = { team:l.team, opp:l.opp, type:'spread', line:Number(sp[1]), odds };
   } else {
-    leg = { team:l.team, opp:l.opp, type:'spread', line:Number(raw), odds };
+    // Unrecognised (team totals, halves, typos...): never guess, flag for a manual check.
+    leg = { team:l.team, opp:l.opp, type:'manual', raw:String(l.line||''), odds };
   }
   if(props.length) leg.props = props;
   if(l.label) leg.label = l.label;
   return leg;
 }
+function propOp(op){
+  const o = String(op==null||op===''?'>=':op).trim().toLowerCase();
+  if(['>=','gte','\u2265','=>','over','o','+','at least','min'].includes(o)) return '>=';
+  if(['>','gt','more than'].includes(o)) return '>';
+  if(['<','lt','under','u','less than'].includes(o)) return '<';
+  if(['<=','lte','\u2264','=<','at most','max'].includes(o)) return '<=';
+  if(['=','==','exactly'].includes(o)) return '=';
+  return null;   // unknown operator -> graded as a manual check, never guessed
+}
 function mapProp(p){
   return {
     player: String(p.player||'').trim(),
     stat: String(p.stat||'').trim(),
-    op: String(p.op||'>=').trim(),
+    op: propOp(p.op),
+    opRaw: String(p.op==null?'':p.op),
     line: Number(p.line),
     team: p.team || null
   };
@@ -1781,7 +1999,18 @@ function extractPlayerStats(data){
   return out;
 }
 function lookupPlayerStat(rows, player, stat, team){
-  const hits = rows.filter(r => namesMatch(r.name, player) && (!team || r.team===team));
+  const pool = rows.filter(r => !team || r.team===team);
+  const want = normPlayerName(player);
+  let hits = pool.filter(r => namesMatch(r.name, player));
+  if(!hits.length && want && !want.includes(' ')){
+    hits = pool.filter(r => normPlayerName(r.name).split(' ').slice(-1)[0]===want);  // surname only, e.g. "Moore"
+  }
+  const distinct = names => [...new Set(names.map(h => normPlayerName(h.name)+'|'+h.team))];
+  if(distinct(hits).length > 1){
+    const exact = hits.filter(r => normPlayerName(r.name)===want);
+    if(exact.length && distinct(exact).length===1) hits = exact;
+    else return {found:false, ambiguous:true, value:null};
+  }
   if(!hits.length) return {found:false, value:null};
   for(const h of hits){
     if(h.stats && h.stats[stat]!=null) return {found:true, value:Number(h.stats[stat]), name:h.name};
@@ -1789,12 +2018,13 @@ function lookupPlayerStat(rows, player, stat, team){
   return {found:true, value:0, name:hits[0].name};
 }
 function cmpLine(val, op, line){
-  if(op==='>=' || op==='gte') return val >= line;
-  if(op==='>' || op==='gt') return val > line;
-  if(op==='<=' || op==='lte') return val <= line;
-  if(op==='<' || op==='lt') return val < line;
-  if(op==='=' || op==='==') return val === line;
-  return val >= line;
+  const o = propOp(op);
+  if(o==='>=') return val >= line;
+  if(o==='>') return val > line;
+  if(o==='<=') return val <= line;
+  if(o==='<') return val < line;
+  if(o==='=') return val === line;
+  return false;
 }
 function boxData(g){
   if(!g) return null;
@@ -1815,27 +2045,60 @@ function gradeTeamStat(g, leg){
   const val = parseStatNum(map[leg.stat]);
   if(val==null) return (g.state==='post') ? 'manual' : 'pre';
   leg._live = val;
-  if(val === Number(leg.line)) return 'level';
-  const over = val > Number(leg.line);
-  return (leg.side==='over' ? over : !over) ? 'win' : 'lose';
+  return gradeOverUnder(val, Number(leg.line), leg.side, g.state==='post', leg);
+}
+/* Over/under on anything that only goes up (points, attempts, TDs, yards near enough).
+   Over:  reached -> win (locked); not yet -> 'open' while live, lost at FINAL.
+   Under: below -> win as it stands; passed -> lost (locked, cannot come back). */
+function gradeOverUnder(val, line, side, final, lockObj){
+  if(!Number.isFinite(val) || !Number.isFinite(line)) return final ? 'manual' : 'open';
+  if(side==='over'){
+    if(val > line){ if(lockObj) lockObj._mainLock='win'; return 'win'; }
+    if(val === line) return final ? 'level' : 'open';
+    return final ? 'lose' : 'open';
+  }
+  if(val < line) return 'win';
+  if(val === line) return 'level';
+  if(lockObj) lockObj._mainLock='lose';
+  return 'lose';
 }
 function gradeProp(g, prop){
+  prop._lock = null; prop._missing = false; prop._ambiguous = false;
+  const final = !!(g && g.state==='post');
+  const done = st => (prop._st = st);
+  if(!prop.op || !prop.player || !prop.stat || !Number.isFinite(prop.line)) return done('manual');
   const data = boxData(g);
-  if(!data || !hasPlayerBox(data)) return (g && g.state==='post') ? 'manual' : 'pre';
+  if(!data || !hasPlayerBox(data)) return done(final ? 'manual' : 'open');
   const rows = extractPlayerStats(data);
   const got = lookupPlayerStat(rows, prop.player, prop.stat, prop.team);
+  if(got.ambiguous){ prop._ambiguous = true; prop._live = null; return done('manual'); }
   if(!got.found){
-    prop._live = 0;
-    return cmpLine(0, prop.op, prop.line) ? 'win' : 'lose';
+    // ESPN only lists a player once he records a stat. Live: treat as 0 so far.
+    // At FINAL we cannot tell "0" from "name not matched", so ask for a check.
+    prop._missing = true; prop._live = null;
+    if(final) return done('manual');
+  } else {
+    prop._live = got.value;
   }
-  prop._live = got.value;
-  return cmpLine(got.value, prop.op, prop.line) ? 'win' : 'lose';
+  const val = got.found ? got.value : 0;
+  const met = cmpLine(val, prop.op, prop.line);
+  if(final) return done(met ? 'win' : 'lose');
+  if(prop.op==='>=' || prop.op==='>'){
+    if(met){ prop._lock = 'win'; return done('win'); }
+    return done('open');
+  }
+  if(prop.op==='<' || prop.op==='<='){
+    if(met) return done('win');
+    prop._lock = 'lose'; return done('lose');
+  }
+  return done(met ? 'win' : 'open');
 }
 function combineStatuses(list){
   const sts = (list||[]).filter(s => s!=null);
   if(!sts.length) return null;
   if(sts.some(s=>s==='lose')) return 'lose';
   if(sts.some(s=>s==='manual')) return 'manual';
+  if(sts.some(s=>s==='open')) return 'open';
   if(sts.some(s=>s==='pre')) return 'pre';
   if(sts.some(s=>s==='level')) return 'level';
   if(sts.every(s=>s==='win')) return 'win';
@@ -1892,7 +2155,7 @@ function applyDisplayNames(){
 }
 
 function tallyLegs(legs, states, games){
-  const t = {w:0,l:0,d:0,live:0,pending:0,liveUp:0,liveDown:0,liveLevel:0};
+  const t = {w:0,l:0,d:0,live:0,pending:0,liveUp:0,liveDown:0,liveLevel:0,liveOpen:0,locked:0};
   for(const leg of (legs||[])){
     const g = (games||[]).find(game => gameHasLeg(game, leg));
     const st = states.get(leg);
@@ -1905,7 +2168,8 @@ function tallyLegs(legs, states, games){
     } else if(state==='in'){
       t.live++;
       if(st==='win') t.liveUp++;
-      else if(st==='lose') t.liveDown++;
+      else if(st==='lose'){ t.liveDown++; if(leg._lock==='lose') t.locked++; }
+      else if(st==='open') t.liveOpen++;
       else t.liveLevel++;
     } else {
       t.pending++;
@@ -1983,11 +2247,12 @@ function accaStats(legs, bet){
   const lose = legs.filter(l=>l.status==='lose');
   const level = legs.filter(l=>l.status==='level');
   const pending = legs.filter(l=>l.status==='pre' || l.status==='manual');
+  const open = legs.filter(l=>l.status==='open');
   const loseFinal = lose.filter(l=>l.final);
   const loseLive = lose.filter(l=>!l.final);
   // On as it stands: winning, level/push, and not-yet-started keep a combo on.
   // Only a live-not-covering or final-lost leg knocks a combo off.
-  const onPool = win.concat(level, pending);
+  const onPool = win.concat(level, open, pending);
   const onStand = choose(onPool.length, n);
   const alreadyWon = choose(win.length + level.length, n);
   const standBusted = onStand<=0;
@@ -2006,7 +2271,7 @@ function accaStats(legs, bet){
     name:bet.name, short:foldShort(bet.name), title:foldTitle(bet.name), folds:n, total,
     stakeLabel:stakeLabel(bet), boost:bet.boost, stakeUnknown:!!bet.stakeUnknown,
     nLegs:N, isFull,
-    win:win.length, lose:lose.length, level:level.length, pending:pending.length,
+    win:win.length, lose:lose.length, level:level.length, pending:pending.length, open:open.length,
     loseFinal:loseFinal.length, loseLive:loseLive.length,
     onStand, alreadyWon, standBusted, settledAlive, dead, rem
   };
@@ -2026,7 +2291,7 @@ function accaRetText(r, compact){
   if(!r.rem) return compact ? '' : '—';
   const money = compact ? gbpCompact(r.rem) : gbp(r.rem);
   if(!money) return compact ? '' : '—';
-  return ((r.pending>0 && !compact) ? 'up to ' : '') + money;
+  return (((r.pending+r.open)>0 && !compact) ? 'up to ' : '') + money;
 }
 function accaBarPart(r){
   if(r.isFull){
@@ -2035,7 +2300,7 @@ function accaBarPart(r){
       const lose = r.lose ? ` (${r.lose} losing)` : '';
       return `<span class="bad">${esc(r.short)} ✗ as it stands${lose}</span>`;
     }
-    if(r.pending===0 && r.lose===0) return `<span class="ok">${esc(r.short)} won</span>`;
+    if(r.pending===0 && r.open===0 && r.lose===0) return `<span class="ok">${esc(r.short)} won</span>`;
     return `<span class="ok">${esc(r.short)} ON as it stands</span>`;
   }
   if(r.dead) return `<span class="bad">${esc(r.short)} DEAD</span>`;
@@ -2048,11 +2313,12 @@ function accaStandLine(r, html){
   if(r.win) bits.push(wrap('ok', r.win + ' winning'));
   if(r.lose) bits.push(wrap('bad', r.lose + ' losing'));
   if(r.level) bits.push(wrap('mid', r.level + ' level'));
+  if(r.open) bits.push(wrap('mid', r.open + ' still to hit'));
   if(r.pending) bits.push(r.pending + ' to play');
   return bits.join(' · ');
 }
 function accaSettledNote(r){
-  if(r.dead) return 'dead: lost final';
+  if(r.dead) return 'dead: a leg is lost for good';
   if(r.loseLive) return 'still alive: ' + r.loseLive + ' losing leg' + (r.loseLive===1 ? ' is' : 's are') + ' live';
   return 'still alive';
 }
@@ -2066,7 +2332,7 @@ function accaSub(r){
   if(r.isFull){
     if(r.dead) bits.push('DEAD');
     else if(r.standBusted) bits.push('BUSTED as it stands');
-    else if(r.pending===0 && r.lose===0) bits.push('won');
+    else if(r.pending===0 && r.open===0 && r.lose===0) bits.push('won');
     else bits.push('ON as it stands');
   } else {
     if(r.dead) bits.push('DEAD');
@@ -2092,7 +2358,7 @@ function accaRowNote(r){
 function accaPill(r){
   if(r.dead) return {cls:'dead', text:'DEAD'};
   if(r.standBusted) return {cls:'busted', text:'BUSTED'};
-  if(r.pending===0 && r.lose===0 && (r.isFull || r.onStand===r.total)) return {cls:'alive', text:'WON'};
+  if(r.pending===0 && r.open===0 && r.lose===0 && (r.isFull || r.onStand===r.total)) return {cls:'alive', text:'WON'};
   return {cls:'alive', text:'ON'};
 }
 
@@ -2137,6 +2403,7 @@ function clockTextShort(g){
 function basePickLabel(leg){
   if(!leg) return '';
   if(leg.label) return leg.label;
+  if(leg.type==='manual') return `${leg.team} ${leg.raw}`.trim();
   if(leg.type==='total') return `${leg.side==='over'?'O':'U'} ${Number(leg.line)}`;
   if(leg.type==='team_stat'){
     const side = leg.side==='over'?'O':'U';
@@ -2222,7 +2489,7 @@ function renderAccaPanel(who, player, legStates, waiting, games){
   const tagged = player.legs.map(l=>{
     const g = (games||[]).find(game => legForPlayer(game, [l]));
     const raw = legStates.get(l) || 'pre';
-    const final = !!(g && g.state==='post');
+    const final = !!(g && g.state==='post') || l._lock==='lose';   // a busted under can't come back
     return {...l, status: raw, final};
   });
   const W = tagged.filter(l=>l.status==='win').length;
@@ -2247,7 +2514,7 @@ function renderAccaPanel(who, player, legStates, waiting, games){
       ? (r.dead ? 'dead' : 'as it stands')
       : 'on as it stands';
     const linesNum = r.isFull
-      ? (r.dead ? 'DEAD' : (r.standBusted ? 'BUSTED' : (r.pending===0 && r.lose===0 ? 'WON' : 'ON')))
+      ? (r.dead ? 'DEAD' : (r.standBusted ? 'BUSTED' : (r.pending===0 && r.open===0 && r.lose===0 ? 'WON' : 'ON')))
       : `${r.onStand}/${r.total}`;
     return `<div class="betrow ${pill.cls}">
       <span class="pill ${pill.cls}">${esc(pill.text)}</span>
@@ -2334,7 +2601,8 @@ function fieldHtml(g, tall){
 }
 function coverText(leg, st){
   if(!leg || st==='pre' || !st) return '';
-  if(st==='manual') return 'needs box score';
+  if(st==='manual') return 'check manually';
+  if(st==='open') return 'still to hit';
   if(st==='level') return 'level';
   if(leg.type==='ml' || (leg.props&&leg.props.length) || leg.type==='team_stat') return st==='win' ? 'winning' : 'losing';
   return st==='win' ? 'covering' : 'not covering';
@@ -2354,6 +2622,8 @@ function renderCoverPick(who, leg, status, waiting){
 }
 function resultMargin(g, leg, st){
   if(!leg || !g || g.state==='pre') return '';
+  if(leg.type==='manual' || st==='manual') return 'check manually';
+  if((leg.props && leg.props.length) || leg.type==='team_stat' || st==='open') return legNote(g, leg, st).text;
   if(leg.type==='spread'){
     const me = g.teams.find(t=>t.ab===leg.team), op = g.teams.find(t=>t.ab!==leg.team);
     if(!me||!op) return '';
@@ -2663,13 +2933,12 @@ function legFor(g){
 }
 function gradeMainLine(g, leg){
   if(leg.type==='team_stat') return gradeTeamStat(g, leg);
+  if(leg.type==='manual') return 'manual';
   if(leg.type==='total'){
     const total = g.teams.reduce((s,t)=>s+t.score,0);
-    const line = Number(leg.line);
-    if(total === line) return 'level';
-    const over = total > line;
-    return (leg.side==='over' ? over : !over) ? 'win' : 'lose';
+    return gradeOverUnder(total, Number(leg.line), leg.side, g.state==='post', leg);
   }
+  if(leg.type==='spread' && !Number.isFinite(Number(leg.line))) return 'manual';
   const me = g.teams.find(t=>t.ab===leg.team), op = g.teams.find(t=>t.ab!==leg.team);
   if(!me || !op) return 'pre';
   const adj = me.score + (leg.type==='spread' ? Number(leg.line||0) : 0);
@@ -2680,20 +2949,21 @@ function gradeMainLine(g, leg){
 }
 function legStatus(g, leg){
   if(!g || !leg) return 'pre';
+  leg._mainLock = null; leg._lock = null;
   if(g.state==='pre') return 'pre';
-  const parts = [];
-  if(leg.type==='team_stat'){
-    parts.push(gradeTeamStat(g, leg));
-  } else {
-    parts.push(gradeMainLine(g, leg));
-    for(const prop of (leg.props||[])) parts.push(gradeProp(g, prop));
-  }
-  return combineStatuses(parts);
+  const parts = [gradeMainLine(g, leg)];
+  leg._mainSt = parts[0];
+  for(const prop of (leg.props||[])) parts.push(gradeProp(g, prop));   // props count on every leg type
+  // A part that can no longer come back (under passed) settles the whole leg as lost.
+  if(leg._mainLock==='lose' || (leg.props||[]).some(p=>p._lock==='lose')) leg._lock = 'lose';
+  const st = combineStatuses(parts);
+  if(g.state==='post' && st==='open') return 'lose';
+  return st;
 }
 function pickText(leg){
   return pickLabel(leg) || (leg && `${leg.team} to win`) || '';
 }
-function emojiFor(s){ return s==='win'?'✅':s==='lose'?'❌':s==='level'?'➖':s==='manual'?'❔':'⏳'; }
+function emojiFor(s){ return s==='win'?'✅':s==='lose'?'❌':s==='level'?'➖':s==='manual'?'❔':s==='open'?'○':'⏳'; }
 
 function selectGames(events){
   const games = events.filter(ev=>!isWomensEvent(ev)).map(parseEvent);
@@ -2817,7 +3087,7 @@ function applySelection(opts){
   const scroll = !!(opts && opts.scroll);
   const app = document.getElementById('app');
   if(app) app.classList.toggle('has-detail', !!selectedId);
-  document.querySelectorAll('.livecard.selected, .pleg.selected').forEach(el=>el.classList.remove('selected'));
+  document.querySelectorAll('.livecard.selected, .pleg.selected, .grow.selected').forEach(el=>el.classList.remove('selected'));
   if(!selectedId){
     renderDetail();
     return;
@@ -2829,7 +3099,7 @@ function applySelection(opts){
     renderDetail();
     return;
   }
-  document.querySelectorAll('.livecard[data-id="'+selectedId+'"], .pleg[data-id="'+selectedId+'"]').forEach(el=>el.classList.add('selected'));
+  document.querySelectorAll('.livecard[data-id="'+selectedId+'"], .pleg[data-id="'+selectedId+'"], .grow[data-id="'+selectedId+'"]').forEach(el=>el.classList.add('selected'));
   if(scroll) scrollSelectedRows();
   else ensureSelectedRowsVisible();
   renderDetail();
@@ -3130,6 +3400,294 @@ function renderDetail(){
   if(close) close.addEventListener('click', ev=>{ ev.preventDefault(); ev.stopPropagation(); clearSelect(); });
 }
 
+/* ===================== BOARD v2: FIELD + CUSHION =====================
+   Every live game is one row: a mini field (real ball spot, score, clock)
+   and both brothers' picks drawn on one shared "cushion" axis:
+   points to spare to the right of the line, points short to the left.
+   Multi-part bets list every condition underneath with live progress. */
+const CUSHION_CAP = 21;            // points at the edge of the bar track
+const ST_GLYPH = {win:'✓', lose:'✗', level:'=', open:'○', manual:'?', pre:'·'};
+const ST_WORD = {win:'landing', lose:'losing', level:'level', open:'still to hit', manual:'check', pre:'to play'};
+
+function gameProgress(g){
+  if(g.state==='post') return 1;
+  if(g.state!=='in') return 0;
+  if(/HALFTIME/i.test((g.name||'')+' '+(g.detail||''))) return 0.5;
+  const p = Number(g.period)||1;
+  if(p>4) return 1;
+  const m = String(g.clock||'').match(/(\d+):(\d+)/);
+  const left = m ? Number(m[1]) + Number(m[2])/60 : 15;
+  return Math.min(1, Math.max(0, ((p-1)*15 + (15-left))/60));
+}
+function legCushion(g, leg){
+  if(!leg || !g || g.state==='pre') return null;
+  const me = g.teams.find(t=>t.ab===leg.team), op = g.teams.find(t=>t.ab!==leg.team);
+  const total = g.teams.reduce((s,t)=>s+t.score,0);
+  const line = Number(leg.line);
+  if(leg.type==='ml' && me && op) return me.score - op.score;
+  if(leg.type==='spread' && me && op && Number.isFinite(line)) return me.score + line - op.score;
+  if(leg.type==='total' && Number.isFinite(line)) return leg.side==='over' ? total - line : line - total;
+  return null;
+}
+function statUnit(stat){
+  const s = String(stat||'');
+  if(/passingTouchdowns/i.test(s)) return 'pass TD';
+  if(/passingYards/i.test(s)) return 'pass yds';
+  if(/receivingYards/i.test(s)) return 'rec yds';
+  if(/rushingYards/i.test(s)) return 'rush yds';
+  if(/rushingAttempts/i.test(s)) return 'rush att';
+  if(/rushingTouchdowns/i.test(s)) return 'rush TD';
+  if(/receivingTouchdowns/i.test(s)) return 'rec TD';
+  if(/receptions/i.test(s)) return 'catches';
+  return s.replace(/([a-z])([A-Z])/g,'$1 $2').toLowerCase();
+}
+function surname(name){ return String(name||'').trim().split(/\s+/).slice(-1)[0] || String(name||''); }
+function mainLabel(leg){
+  if(!leg) return '';
+  if(leg.type==='manual') return `${leg.team} ${leg.raw}`.trim();
+  if(leg.type==='total') return `${leg.side==='over'?'Over':'Under'} ${fmtMarginNum(Number(leg.line))}`;
+  if(leg.type==='team_stat') return leg.label || `${leg.team} rush att ${leg.side==='over'?'over':'under'} ${Number(leg.line)}`;
+  if(leg.type==='spread') return `${leg.team} ${spreadText(leg)}`;
+  return `${leg.team} ML`;
+}
+function spreadText(leg){ const l=Number(leg.line); return l===0 ? 'PK' : (l>0?'+':'-')+fmtMarginNum(l); }
+function rowTitle(leg){
+  if(!leg) return '';
+  let main = leg.type==='spread' ? `${leg.team} ${spreadText(leg)}` : mainLabel(leg);
+  const n = (leg.props||[]).length;
+  return n ? `${main} + ${n} prop${n>1?'s':''}` : main;
+}
+function partList(leg){
+  const out = [];
+  if(leg.type==='team_stat'){
+    const over = leg.side==='over';
+    out.push({label:`${leg.team} rush att`, val:leg._live, line:Number(leg.line), over, st:leg._mainSt||'pre', unit:'att'});
+  }
+  for(const p of (leg.props||[])){
+    const over = p.op==='>=' || p.op==='>';
+    out.push({label:`${surname(p.player)} ${statUnit(p.stat)}`, full:p.player, val:p._live, line:p.line, op:p.op,
+      over, st:p._st||'pre', missing:!!p._missing, ambiguous:!!p._ambiguous, unit:/yds/.test(statUnit(p.stat))?'yds':''});
+  }
+  return out;
+}
+function partHtml(x, g){
+  const st = x.st || 'pre';
+  let txt, pct = 0;
+  const val = x.val==null ? 0 : Number(x.val);
+  if(st==='manual'){
+    txt = x.ambiguous ? 'name matches 2 players · check' : (g.state==='post' ? 'not in box score · check' : 'check manually');
+  } else if(x.over){
+    const need = x.op==='>' ? Math.floor(x.line)+1 : Math.ceil(x.line);
+    pct = need>0 ? Math.min(1, val/need) : 1;
+    txt = val>=need ? `${fmtMarginNum(val)} / ${need} · hit` : `${fmtMarginNum(val)} / ${need} · needs ${fmtMarginNum(need-val)}`;
+    if(x.missing && g.state==='in') txt = `0 / ${need} · no stats yet`;
+  } else {
+    const max = x.op==='<=' ? Math.floor(x.line) : Math.ceil(x.line)-1;
+    pct = max>0 ? Math.min(1, val/max) : 1;
+    txt = val>max ? `${fmtMarginNum(val)} · over by ${fmtMarginNum(val-max)}` : `${fmtMarginNum(val)} of max ${max} · ${fmtMarginNum(max-val)} spare`;
+  }
+  return `<div class="pp s-${st}" title="${esc(x.full||x.label)}">
+    <span class="pp-g" aria-hidden="true">${ST_GLYPH[st]||'·'}</span>
+    <span class="pp-l">${esc(x.label)} <span class="pp-t">${x.over?'≥':'<'}${esc(fmtMarginNum(x.over && x.op!=='>' ? Math.ceil(x.line) : x.line))}</span></span>
+    <span class="pp-bar"><i style="width:${(pct*100).toFixed(0)}%"></i></span>
+    <span class="pp-v">${esc(txt)}</span>
+  </div>`;
+}
+function legNote(g, leg, st){
+  if(!leg || !g || g.state==='pre' || !st || st==='pre') return {text:'', sub:''};
+  if(st==='manual') return {text:'check', sub: leg.type==='manual' ? 'line not recognised' : 'see below'};
+  const c = legCushion(g, leg);
+  const props = leg.props||[];
+  const hit = props.filter(p=>p._st==='win').length;
+  const sub = props.length ? `props ${hit}/${props.length} hit` : '';
+  const final = g.state==='post';
+  if(final){
+    const word = st==='win' ? 'WON' : st==='lose' ? 'LOST' : st==='level' ? 'PUSH' : 'TBC';
+    let by = '';
+    if(c!=null && c!==0) by = (c>0?' by ':' by ') + fmtMarginNum(c);
+    return {text: word + (st==='level'?'':by), sub};
+  }
+  let text = '';
+  if(leg.type==='team_stat'){
+    const v = Number(leg._live), line = Number(leg.line);
+    if(!Number.isFinite(v)) text = 'waiting for stats';
+    else if(leg.side==='under') text = v<line ? `${fmtMarginNum(line-v)} spare` : `over by ${fmtMarginNum(v-line)}`;
+    else text = v>line ? `in by ${fmtMarginNum(v-line)}` : `needs ${fmtMarginNum(Math.floor(line)+1-v)}`;
+  } else if(leg.type==='total'){
+    const total = g.teams.reduce((s,t)=>s+t.score,0), line = Number(leg.line);
+    if(leg.side==='over') text = total>line ? `in by ${fmtMarginNum(total-line)}` : `needs ${fmtMarginNum(Math.floor(line)+1-total)}`;
+    else text = total<line ? `${fmtMarginNum(line-total)} to spare` : `over by ${fmtMarginNum(total-line)}`;
+  } else if(c!=null){
+    if(c===0) text = 'level';
+    else if(leg.type==='ml') text = c>0 ? `up ${fmtMarginNum(c)}` : `down ${fmtMarginNum(c)}`;
+    else text = c>0 ? `covering +${fmtMarginNum(c)}` : `${fmtMarginNum(c)} short`;
+  }
+  return {text, sub};
+}
+function barHtml(g, leg, st){
+  const c = legCushion(g, leg);
+  if(c==null) return `<span class="pk-bar none"></span>`;
+  const w = Math.min(Math.abs(c), CUSHION_CAP)/CUSHION_CAP*50;
+  const dir = c>=0 ? 'pos' : 'neg';
+  const cls = st==='open' ? 'open' : '';
+  const over = Math.abs(c) > CUSHION_CAP ? ' over' : '';
+  return `<span class="pk-bar"><i class="${dir} ${cls}${over}" style="width:${w.toFixed(1)}%"></i></span>`;
+}
+function pickRowHtml(who, g, leg, st, waiting){
+  const name = displayName(who);
+  const ini = esc(stampInitial(who));
+  if(waiting || !leg){
+    return `<div class="pk ${who} s-none"><span class="pk-who" title="${esc(name)}">${ini}</span>
+      <span class="pk-name"><span class="pk-sel muted">${waiting?'Waiting for bets':'No bet'}</span></span>
+      <span class="pk-bar none"></span><span class="pk-val"></span></div>`;
+  }
+  const s = st || 'pre';
+  const note = legNote(g, leg, s);
+  const odds = (leg.odds==null || !Number.isFinite(Number(leg.odds))) ? '' : `<span class="pk-odds">@${Number(leg.odds).toFixed(2)}</span>`;
+  const parts = partList(leg);
+  const partsHtml = parts.length && g.state!=='pre'
+    ? `<div class="pk-parts">${parts.length>1?`<div class="pp-head">All ${parts.length + (leg.type==='team_stat'?0:1)} parts must land</div>`:''}${parts.map(x=>partHtml(x,g)).join('')}</div>` : '';
+  const aria = `${name}: ${rowTitle(leg)}, ${ST_WORD[s]||s}${note.text?', '+note.text:''}`;
+  return `<div class="pk ${who} s-${s}" aria-label="${esc(aria)}">
+    <span class="pk-who" title="${esc(name)}">${ini}</span>
+    <span class="pk-name"><span class="pk-sel" title="${esc(pickLabel(leg))}">${esc(rowTitle(leg))}</span>${odds}</span>
+    ${barHtml(g, leg, s)}
+    <span class="pk-val"><b><span class="pk-g" aria-hidden="true">${ST_GLYPH[s]||''}</span> ${esc(note.text||ST_WORD[s]||'')}</b>${note.sub?`<small>${esc(note.sub)}</small>`:''}</span>
+    ${partsHtml}
+  </div>`;
+}
+function miniFieldHtml(g){
+  const aw = g.teams[0], ho = g.teams[1];
+  const live = g.state==='in', fin = g.state==='post';
+  const ht = /HALFTIME/i.test((g.name||'')+' '+(g.detail||''));
+  const prog = gameProgress(g);
+  const possIdx = live ? g.teams.findIndex(t=>String(t.id)===String(g.possession)) : -1;
+  const hasYl = live && !ht && Number.isFinite(g.yardLine) && g.yardLine>=0 && g.yardLine<=100;
+  let ball = '';
+  if(hasYl){
+    const yl = 100 - g.yardLine;   // ESPN measures from the home goal line
+    const dir = possIdx===0 ? 'r' : possIdx===1 ? 'l' : '';
+    ball = `<span class="mf-ball ${dir}" style="left:${(13+yl*0.74).toFixed(1)}%" title="${esc(g.possessionText||'')}"></span>`;
+  }
+  const label = fin ? 'FINAL' : ht ? 'HALF-TIME' : (g.period>4 ? 'OT ' : 'Q'+(g.period||1)+' ') + (g.clock||'');
+  const sub = live && !ht ? [g.dd, g.possessionText].filter(Boolean).join(' · ') : '';
+  const lead = aw.score===ho.score ? -1 : (aw.score>ho.score ? 0 : 1);
+  const ez = (t, i) => `<div class="mf-ez" style="--tc:#${esc(t.color||'333')}">
+      ${logoHtml(t,'mf-logo')}<span class="mf-ab">${esc(t.ab)}</span>
+      <span class="mf-pts${lead===i?' lead':''}">${t.score}</span>${possIdx===i?'<span class="mf-poss" title="Possession"></span>':''}
+    </div>`;
+  const yards = [10,20,30,40,50,60,70,80,90].map(y=>`<span class="mf-yl${y===50?' mid':''}" style="left:${(13+y*0.74).toFixed(1)}%"></span>`).join('');
+  return `<div class="mf${g.redZone&&live?' rz':''}${fin?' fin':''}">
+    ${ez(aw,0)}
+    <div class="mf-turf">${yards}${ball}
+      <div class="mf-clock"><b>${esc(label)}</b>${sub?`<span>${esc(sub)}</span>`:''}</div>
+      <div class="mf-prog" aria-hidden="true"><i style="width:${(prog*100).toFixed(1)}%"></i></div>
+    </div>
+    ${ez(ho,1)}
+  </div>`;
+}
+function gameRowHtml(r, hasBruce){
+  const g = r.g;
+  const stuRows = (r.stuLegs.length ? r.stuLegs.map((l,i)=>pickRowHtml('stu', g, l, r.sStuList[i], false)) : [pickRowHtml('stu', g, null, null, false)]).join('');
+  const bruRows = (!hasBruce ? [pickRowHtml('bruce', g, null, null, true)]
+    : (r.bruceLegs.length ? r.bruceLegs.map((l,i)=>pickRowHtml('bruce', g, l, r.sBruceList[i], false)) : [pickRowHtml('bruce', g, null, null, false)])).join('');
+  const aw = g.teams[0], ho = g.teams[1];
+  const sel = selectedId===String(g.id) ? ' selected' : '';
+  return `<article class="grow${g.state==='post'?' fin':''}${sel}" data-id="${g.id}" role="button" tabindex="0"
+      aria-label="${esc(aw.ab+' '+aw.score+', '+ho.ab+' '+ho.score+', '+clockText(g)+'. Show game details')}">
+    ${miniFieldHtml(g)}
+    <div class="gpicks">${stuRows}${bruRows}</div>
+  </article>`;
+}
+function axisHtml(){
+  return `<div class="axis" aria-hidden="true"><span class="ax-sp"></span><span class="ax-pk"><span></span><span class="ax-h">Pick</span>
+    <span class="ax-scale"><i class="l">◀ short</i><i class="r">to spare ▶</i>
+      <b style="left:0">-${CUSHION_CAP}</b><b style="left:25%">-${Math.round(CUSHION_CAP/2)}</b><b class="z" style="left:50%">line</b><b style="left:75%">+${Math.round(CUSHION_CAP/2)}</b><b style="left:100%">+${CUSHION_CAP}</b></span>
+    <span class="ax-h r">Status</span></span></div>`;
+}
+function playerCardHtml(who, player, states, games, waiting, recs){
+  const name = displayName(who);
+  if(waiting) return `<section class="pcard ${who}"><h2>${esc(name)}</h2><p class="pc-wait">Waiting for ${esc(possessiveName(who))} bets</p></section>`;
+  const legs = player.legs||[];
+  const t = tallyLegs(legs, states, games);
+  const started = t.w + t.l + t.d + t.live;
+  const landing = t.w + t.liveUp;
+  const order = legs.map(l=>{
+    const g = (games||[]).find(x=>gameHasLeg(x,l));
+    return {l, g, st: states.get(l) || 'pre', t: g ? +new Date(g.date) : 0};
+  }).sort((a,b)=>a.t-b.t);
+  const strip = order.map(o=>`<i class="s-${o.st}${o.g&&o.g.state==='post'?' done':''}${o.l._lock==='lose'?' done':''}" title="${esc(pickLabel(o.l)+' · '+(ST_WORD[o.st]||o.st))}"></i>`).join('');
+  let worst = null;
+  for(const o of order){
+    if(!o.g || o.g.state!=='in' || o.st!=='lose') continue;
+    const c = legCushion(o.g, o.l);
+    const score = c==null ? -0.5 : c;
+    if(!worst || score < worst.score) worst = {o, score, c};
+  }
+  const chips = [
+    t.w ? `<span class="c win">✓ ${t.w} won</span>` : '',
+    t.liveUp ? `<span class="c win">▲ ${t.liveUp} up</span>` : '',
+    t.liveDown ? `<span class="c lose">▼ ${t.liveDown} down</span>` : '',
+    t.liveOpen ? `<span class="c open">○ ${t.liveOpen} to hit</span>` : '',
+    t.liveLevel ? `<span class="c lvl">= ${t.liveLevel} level</span>` : '',
+    t.l ? `<span class="c lose">✗ ${t.l} lost</span>` : '',
+    t.pending ? `<span class="c pre">${t.pending} to play</span>` : ''
+  ].filter(Boolean).join('');
+  const worry = worst ? (()=>{ const n = legNote(worst.o.g, worst.o.l, worst.o.st);
+      const gg = worst.o.g; return `<div class="pc-worry"><span>Biggest worry</span><b>${esc(rowTitle(worst.o.l))}</b><em>${esc(gg.teams[0].ab+' '+gg.teams[0].score+'–'+gg.teams[1].score+' '+gg.teams[1].ab)} · ${esc(n.text)}</em></div>`; })() : '';
+  return `<section class="pcard ${who}">
+    <div class="pc-top"><h2>${esc(name)}</h2>
+      <div class="pc-big">${started ? `${landing}<small>/${started}</small>` : legs.length}</div></div>
+    <div class="pc-cap">${started ? 'legs landing as it stands' : (legs.length===1?'leg, none started':'legs, none started')}</div>
+    <div class="pc-strip" role="img" aria-label="${esc(name+' legs: '+landing+' landing of '+started+' started')}">${strip}</div>
+    <div class="pc-chips">${chips}</div>
+    ${worry}
+  </section>`;
+}
+function nextHtml(upcoming, hasBruce){
+  if(!upcoming.length) return '';
+  const pickLine = (who, leg, waiting) => {
+    const ini = esc(stampInitial(who));
+    if(waiting) return `<div class="nx-pk ${who}"><span class="pk-who">${ini}</span><span class="muted">—</span></div>`;
+    if(!leg) return `<div class="nx-pk ${who}"><span class="pk-who">${ini}</span><span class="muted">No bet</span></div>`;
+    const odds = (leg.odds==null || !Number.isFinite(Number(leg.odds))) ? '' : ` <span class="pk-odds">@${Number(leg.odds).toFixed(2)}</span>`;
+    return `<div class="nx-pk ${who}"><span class="pk-who">${ini}</span><span title="${esc(pickLabel(leg))}">${esc(rowTitle(leg))}</span>${odds}</div>`;
+  };
+  return `<section class="nextbox"><h2>Up next</h2>${groupUpcoming(upcoming).map(gr=>`
+    <h3>${esc(gr.label)}</h3>
+    ${gr.recs.map(r=>{
+      const g=r.g, aw=g.teams[0], ho=g.teams[1];
+      const s = r.stuLegs.length ? r.stuLegs.map(l=>pickLine('stu', l, false)).join('') : pickLine('stu', null, false);
+      const b = !hasBruce ? pickLine('bruce', null, true) : (r.bruceLegs.length ? r.bruceLegs.map(l=>pickLine('bruce', l, false)).join('') : pickLine('bruce', null, false));
+      return `<div class="nx">
+        <div class="nx-g">${logoHtml(aw,'nx-logo')}<b>${esc(aw.ab)}</b><span class="at">@</span><b>${esc(ho.ab)}</b>${logoHtml(ho,'nx-logo')}<span class="nx-t">${esc(clockTextShort(g))}</span></div>
+        ${s}${b}
+      </div>`;}).join('')}`).join('')}</section>`;
+}
+function renderBoardV2(board, ctx){
+  const {live, results, upcoming, hasBruce, hasStu, players, stuStates, bruceStates, games} = ctx;
+  const liveRows = live.map(r=>gameRowHtml(r, hasBruce)).join('');
+  const finals = results.slice().sort((a,b)=>b.g.date-a.g.date);
+  const finRows = finals.map(r=>gameRowHtml(r, hasBruce)).join('');
+  const nextKick = upcoming.length ? upcoming.slice().sort((a,b)=>a.g.date-b.g.date)[0].g : null;
+  const empty = live.length ? '' : `<div class="nolive"><b>No games live right now</b>${nextKick?`<span>Next kick-off ${esc(clockTextShort(nextKick))}: ${esc(nextKick.teams[0].ab)} @ ${esc(nextKick.teams[1].ab)}</span>`:''}</div>`;
+  const allRecs = live.concat(results, upcoming);
+  board.className = 'board v2b';
+  board.innerHTML = `<div class="v2">
+    <div class="v2-cards">
+      ${playerCardHtml('stu', players.stu, stuStates, games, !hasStu, allRecs)}
+      ${playerCardHtml('bruce', players.bruce, bruceStates, games, !hasBruce, allRecs)}
+    </div>
+    <section class="v2-main" aria-label="Games">
+      <div class="sec-h"><h2>${live.length ? `Live <span class="n">${live.length}</span>` : 'Live'}</h2>${live.length?axisHtml():''}</div>
+      ${empty}${liveRows}
+      ${finRows ? `<div class="sec-h fin"><h2>Final <span class="n">${finals.length}</span></h2></div>${finRows}` : ''}
+      <p class="v2-foot">Bars show points either side of each spread, total or moneyline, up to ${CUSHION_CAP}. Hollow bars are overs still in play: they can only go up. Bets with props list every part underneath; the bet only lands if all of them do. ✓ landing · ✗ losing · ○ still to hit · ? check manually.</p>
+    </section>
+    <div class="v2-next">${nextHtml(upcoming, hasBruce)}</div>
+  </div>`;
+}
+
 function render(){
   const players = getPlayers();
   const hasBruce = hasBets(players.bruce);
@@ -3158,7 +3716,8 @@ function render(){
     const pv = prev[g.id];
     const lastTd = {};
     if(!firstRun && pv){
-      const flipped = stuLeg && pv.status!==sStu && pv.status!=='pre' && sStu!=='pre';
+      const real = s => s==='win' || s==='lose' || s==='level';
+      const flipped = stuLeg && pv.status!==sStu && real(pv.status) && real(sStu);
       if(flipped && (sStu==='win'||sStu==='lose')) flashes.push([g.id, sStu==='win'?'flipwin':'fliplose']);
       else if(pv.score!==scoreKey || flipped) flashes.push([g.id,'flash']);
       g.teams.forEach((t,i)=>{
@@ -3184,18 +3743,7 @@ function render(){
     else upcoming.push(rec);
   }
 
-  const nLive = live.length;
-  const liveCls = 'n' + Math.min(Math.max(nLive,0), 8);
-  board.className = 'board' + (nLive ? '' : ' no-live');
-  const liveHtml = live.map(r => renderLiveCard(r.g, r.stuLeg, r.sStu, r.bruceLeg, r.sBruce, hasBruce, nLive, r.stuLegs, r.sStuList, r.bruceLegs, r.sBruceList)).join('');
-  const allRecs = live.concat(results, upcoming);
-  const stuT = tallyLegs(players.stu.legs, stuStates, games);
-  const bruT = tallyLegs(players.bruce.legs, bruceStates, games);
-  board.innerHTML = `<div class="live-grid ${liveCls}">${liveHtml}</div>
-    <div class="panels">
-      ${renderPlayerPanel('stu', players.stu, allRecs, stuT, !hasStu)}
-      ${renderPlayerPanel('bruce', players.bruce, allRecs, bruT, !hasBruce)}
-    </div>`;
+  renderBoardV2(board, {live, results, upcoming, hasBruce, hasStu, players, stuStates, bruceStates, games});
   for(const [id,cls] of flashes){
     board.querySelectorAll(`[data-id="${id}"]`).forEach(el=>{ void el.offsetWidth; el.classList.add(cls); });
   }
@@ -3475,7 +4023,7 @@ document.addEventListener('keydown', e=>{
   if(tag==='input' || tag==='textarea' || tag==='select') return;
   if(e.key==='Escape'){ if(selectedId){ e.preventDefault(); clearSelect(); } return; }
   if(e.key==='Enter' || e.key===' '){
-    const t = e.target && e.target.closest && (e.target.closest('.livecard') || e.target.closest('.pleg.clickable'));
+    const t = e.target && e.target.closest && (e.target.closest('.grow') || e.target.closest('.livecard') || e.target.closest('.pleg.clickable'));
     if(t && t.dataset && t.dataset.id){ e.preventDefault(); toggleSelect(t.dataset.id); return; }
   }
   if(e.key==='f'||e.key==='F') toggleFs();
@@ -3484,7 +4032,7 @@ document.addEventListener('keydown', e=>{
   if(e.key==='a'||e.key==='A') toggleAccas();
 });
 document.getElementById('board').addEventListener('click', e=>{
-  const card = e.target.closest('.livecard');
+  const card = e.target.closest('.grow') || e.target.closest('.livecard');
   if(card && card.dataset.id){ toggleSelect(card.dataset.id); return; }
   const row = e.target.closest('.pleg');
   if(row && row.classList.contains('clickable') && row.dataset.id){ toggleSelect(row.dataset.id); }
