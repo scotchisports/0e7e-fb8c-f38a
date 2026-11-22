@@ -3,8 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
-<meta name="st-build" content="20261122-193303">
+<meta name="st-build" content="20261122-223553">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<meta name="theme-color" content="#0c130f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sunday Ticket">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>SUNDAY TICKET</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1708,6 +1716,133 @@ header h1 svg{width:26px;height:26px;flex:none}
   .pp-g{grid-area:g} .pp-l{grid-area:l} .pp-v{grid-area:v} .pp-bar{grid-area:b}
 }
 @media (prefers-reduced-motion:reduce){.mf-ball{transition:none}.grow.flash .mf,.grow.flipwin,.grow.fliplose{animation:none}}
+
+/* ===================== FUN: live vs final, sweat, tug, sound, share ===================== */
+/* jump chips */
+.jump{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0 2px}
+.jump a{display:inline-flex;align-items:center;gap:7px;font:600 13px/1 Inter,sans-serif;color:var(--dim);text-decoration:none;padding:7px 12px;border-radius:999px;border:1px solid var(--line2);background:#0e1612}
+.jump a b{font:800 16px/1 var(--num);color:var(--txt)}
+.jump a.live{border-color:#7a2a2f;background:#2a1215;color:#ffb4b4}
+.jump a.live b{color:#fff}
+.jump a:hover{background:var(--panel2)}
+
+/* live dot */
+.ldot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#ff4d4f;box-shadow:0 0 0 0 rgba(255,77,79,.7);animation:ldot 1.6s infinite}
+@keyframes ldot{0%{box-shadow:0 0 0 0 rgba(255,77,79,.65)}70%{box-shadow:0 0 0 8px rgba(255,77,79,0)}100%{box-shadow:0 0 0 0 rgba(255,77,79,0)}}
+
+/* section heads */
+.sec-h.live h2{color:#fff}
+.sec-h.live h2 .n{background:#ff4d4f;color:#fff}
+.sec-h.fin h2{color:var(--dim)}
+.sec-h.fin{margin-top:22px;padding-top:16px;border-top:2px solid var(--line2)}
+.sec-h .fin-tog{justify-self:end;font:600 12px/1 Inter,sans-serif;color:var(--dim);background:transparent;border:1px solid var(--line2);border-radius:999px;padding:6px 12px;cursor:pointer}
+.sec-h .fin-tog:hover{background:var(--panel2);color:var(--txt)}
+.sec-h.fin .fin-sum{font:600 12px/1 Inter,sans-serif;color:var(--muted);letter-spacing:0;text-transform:none}
+
+/* live rows: red edge + LIVE chip */
+.grow.live{position:relative}
+.grow.live::before{content:"";position:absolute;left:-10px;top:12px;bottom:12px;width:3px;border-radius:2px;background:#ff4d4f;box-shadow:0 0 10px rgba(255,77,79,.55)}
+.mf-clock b .lv{display:inline-flex;align-items:center;gap:5px;color:#ff8a8c;margin-right:6px;font-weight:800;letter-spacing:.06em}
+.mf-clock b .lv::before{content:"";width:7px;height:7px;border-radius:50%;background:#ff4d4f;animation:ldot 1.6s infinite}
+
+/* final rows: compact scoreline instead of a field */
+.grow.fin{opacity:1;padding:8px 0}
+.grow.fin:not(:hover) .gpicks{filter:saturate(.75)}
+.fs{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;background:#0d1511;border:1px solid var(--line);border-radius:9px;padding:8px 12px;min-height:58px}
+.fs-tm{display:grid;gap:4px}
+.fs-row{display:flex;align-items:center;gap:8px;font-family:var(--num);font-size:18px;color:var(--dim)}
+.fs-row img,.fs-row .lcirc{width:20px;height:20px;object-fit:contain}
+.fs-row .lcirc{display:none}
+.fs-row b{font-weight:800;min-width:2.2ch;text-align:right;font-size:22px;color:var(--dim)}
+.fs-row.won{color:var(--txt)} .fs-row.won b{color:#fff}
+.fs-row.won::after{content:"◀";font-size:11px;color:var(--dim)}
+.fs-tag{justify-self:end;font:800 12px/1 Inter,sans-serif;letter-spacing:.14em;color:var(--muted);border:1px solid var(--line2);border-radius:6px;padding:5px 8px}
+.grow.fin .pk-val b{padding:3px 8px;border-radius:6px;background:#1a2520}
+.grow.fin .pk.s-win .pk-val b{background:rgba(74,222,128,.14)}
+.grow.fin .pk.s-lose .pk-val b{background:rgba(248,113,113,.14)}
+.grow.fin .pk.s-manual .pk-val b{background:rgba(196,165,255,.14)}
+.fin-wrap[hidden]{display:none}
+
+/* sweat mode */
+.grow.sweat{animation:sweatrow 1.4s ease-in-out infinite;border-radius:10px;outline:2px solid rgba(255,77,79,.4);outline-offset:5px;margin:6px 0}
+@keyframes sweatrow{0%,100%{background:rgba(255,60,60,.04);box-shadow:0 0 0 5px rgba(255,60,60,.04);outline-color:rgba(255,77,79,.35)}50%{background:rgba(255,60,60,.12);box-shadow:0 0 0 5px rgba(255,60,60,.12);outline-color:rgba(255,77,79,.9)}}
+.pk.sweat .pk-name::after{content:"SWEAT";font:800 10px/1 Inter,sans-serif;letter-spacing:.14em;color:#fff;background:#e5383b;border-radius:4px;padding:3px 5px;flex:none;animation:sweattag 1.4s ease-in-out infinite}
+@keyframes sweattag{50%{background:#ff6b6e}}
+
+/* tug of war */
+header{flex-wrap:wrap}
+.tug{flex:1 0 100%;order:10;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;padding:8px 0 2px;margin-top:4px;border-top:1px solid var(--line)}
+.tug[hidden]{display:none}
+.tg-n{display:flex;align-items:baseline;gap:8px;font-family:var(--num);white-space:nowrap}
+.tg-n em{font-style:normal;font-weight:800;font-size:15px;letter-spacing:.14em;text-transform:uppercase}
+.tg-n b{font-weight:800;font-size:28px;line-height:1;color:var(--txt)}
+.tg-n small{font-size:16px;color:var(--dim);font-weight:700}
+.tg-n.stu em{color:var(--stu)} .tg-n.bruce em{color:var(--bruce)}
+.tg-mid{min-width:0}
+.tg-track{position:relative;height:12px;border-radius:6px;background:#1a2520;overflow:visible}
+.tg-a,.tg-b{position:absolute;top:0;bottom:0;transition:width 1.2s cubic-bezier(.3,1.3,.5,1),left 1.2s cubic-bezier(.3,1.3,.5,1)}
+.tg-a{left:0;background:linear-gradient(90deg,#b8901f,var(--stu));border-radius:6px 0 0 6px}
+.tg-b{right:0;background:linear-gradient(90deg,var(--bruce),#1f8fa8);border-radius:0 6px 6px 0}
+.tg-c{position:absolute;left:calc(50% - 1px);top:-4px;bottom:-4px;width:2px;background:#ffffffb0;border-radius:1px}
+.tg-ball{position:absolute;top:50%;width:26px;height:17px;margin:-8.5px 0 0 -13px;transition:left 1.2s cubic-bezier(.3,1.3,.5,1);filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
+.tg-ball svg{width:100%;height:100%;display:block}
+.tg-cap{text-align:center;font:600 11px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+
+/* sound panel */
+.hdr-right{position:relative}
+#sharebtn{font:600 13px/1 Inter,system-ui,sans-serif;background:transparent;border:1px solid var(--line2);border-radius:8px;padding:0 14px;height:36px;color:var(--txt);cursor:pointer}
+#sharebtn:hover{background:var(--panel2)}
+#sndbtn.on{border-color:#2f6b45;color:var(--win)}
+.sndpanel{position:absolute;right:0;top:calc(100% + 8px);z-index:60;width:300px;background:#101914;border:1px solid var(--line2);border-radius:12px;padding:12px 14px;box-shadow:0 18px 40px rgba(0,0,0,.55);display:grid;gap:10px;font-size:13px;color:var(--txt)}
+.sndpanel[hidden]{display:none}
+.sp-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sp-row input[type=range]{flex:1;accent-color:var(--win)}
+.sp-tog{font:700 12px/1 Inter,sans-serif;border-radius:999px;border:1px solid var(--line2);background:#1a2520;color:var(--dim);padding:7px 14px;cursor:pointer}
+.sp-tog.on{background:#1d4d31;border-color:#2f6b45;color:#c9ffd9}
+.sp-h{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.sp-try{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sp-try button{font:600 12px/1 Inter,sans-serif;background:#16201b;border:1px solid var(--line2);border-radius:8px;color:var(--txt);padding:9px 8px;cursor:pointer;display:flex;align-items:center;gap:6px;justify-content:center}
+.sp-try button:hover{background:#1d2a23}
+.sp-try .d{width:8px;height:8px;border-radius:2px}
+.sp-try .d.stu{background:var(--stu)} .sp-try .d.bruce{background:var(--bruce)}
+.sp-note{font-size:11.5px;color:var(--dim);line-height:1.45}
+
+/* game-on */
+.gameon{position:fixed;inset:0;z-index:80;background:rgba(4,8,6,.78);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px)}
+.gameon[hidden]{display:none}
+.go-card{width:min(420px,100%);background:#101914;border:1px solid var(--line2);border-radius:18px;padding:26px 24px 18px;text-align:center;display:grid;gap:12px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.go-ball svg{width:58px;height:58px;animation:goball 2.4s ease-in-out infinite}
+@keyframes goball{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(8deg) translateY(-6px)}}
+.go-card h2{font:800 34px/1 var(--num);letter-spacing:.08em;text-transform:uppercase}
+.go-card p{font-size:14px;color:var(--dim);line-height:1.5}
+.go-yes{font:800 20px/1 var(--num);letter-spacing:.1em;text-transform:uppercase;background:linear-gradient(90deg,var(--stu),var(--bruce));color:#0a0f0c;border:0;border-radius:12px;padding:16px;cursor:pointer}
+.go-no{font:600 13px/1 Inter,sans-serif;background:none;border:0;color:var(--dim);padding:8px;cursor:pointer}
+.gameon.wake{inset:auto 0 18px 0;background:none;backdrop-filter:none;pointer-events:none}
+.go-wake{pointer-events:auto;font:700 14px/1 Inter,sans-serif;background:#1d4d31;color:#d9ffe5;border:1px solid #2f6b45;border-radius:999px;padding:12px 18px;box-shadow:0 10px 30px rgba(0,0,0,.5);cursor:pointer}
+
+/* share */
+.sharebox{position:fixed;inset:0;z-index:85;background:rgba(4,8,6,.82);display:flex;align-items:center;justify-content:center;padding:16px}
+.sharebox[hidden]{display:none}
+.sh-card{background:#101914;border:1px solid var(--line2);border-radius:16px;padding:14px;display:grid;gap:12px;max-width:min(460px,100%);max-height:100%;overflow:auto}
+.sh-card img{width:100%;height:auto;border-radius:10px;display:block}
+.sh-wait{color:var(--dim);padding:30px 40px}
+.sh-btns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.sh-btns button,.sh-btns a{font:700 14px/1 Inter,sans-serif;border-radius:10px;padding:12px 16px;border:1px solid var(--line2);background:#16201b;color:var(--txt);text-decoration:none;cursor:pointer}
+.sh-btns .sh-go{background:linear-gradient(90deg,var(--stu),var(--bruce));color:#0a0f0c;border:0}
+
+@media (max-width:820px){
+  .tug{gap:10px;padding:6px 12px}
+  .tg-n em{font-size:12px} .tg-n b{font-size:22px} .tg-n small{font-size:13px}
+  .tg-ton{display:none} .tg-cap{font-size:10px}
+  .v2{grid-template-areas:"main" "cards" "next"}   /* phone: live games first; the tug bar already shows the score */
+  .grow.live::before{left:-6px}
+  .fs{min-height:0}
+  .hdr-right{flex-wrap:wrap}
+  #sharebtn,#sndbtn,#fsbtn{height:32px;padding:0 10px;font-size:12px}
+  #fsbtn{display:none}
+  .sndpanel{position:fixed;left:12px;right:12px;top:auto;bottom:12px;width:auto}
+}
+@media (prefers-reduced-motion:reduce){.ldot,.mf-clock b .lv::before,.grow.sweat,.pk.sweat .pk-name::after,.go-ball svg{animation:none}.tg-a,.tg-b,.tg-ball{transition:none}}
 </style>
 
 <script>
@@ -1856,11 +1991,16 @@ const VOICE_CLIPS = {"g_over_0":"data:audio/ogg;base64,T2dnUwACAAAAAAAAAABMHd80A
     <div id="banner"></div>
     <div class="hdr-right">
       <div class="upd"><div id="dot" class="dot"></div><span id="upd">Connecting…</span></div>
-      <button id="sndbtn" class="off" title="Sound alerts (S)">🔇 Sound off</button>
+      <button id="sharebtn" type="button" title="Share tonight's card">📸 Share</button>
+      <button id="sndbtn" class="off" title="Sound (S)">🔇 Sound off</button>
+      <div id="sndpanel" class="sndpanel" hidden></div>
       <button id="fsbtn" title="Full screen (F)">⛶ Full screen</button>
     </div>
+    <div id="tug" class="tug" hidden></div>
   </header>
   <div class="board" id="board"></div>
+  <div id="gameon" class="gameon" hidden></div>
+  <div id="sharebox" class="sharebox" hidden></div>
   <aside id="detail" class="detail-drawer"></aside>
   <div class="accas" id="accas"></div>
 </div>
@@ -1875,6 +2015,7 @@ const ukDate = d => new Intl.DateTimeFormat('en-CA',{timeZone:UK}).format(d);
 
 let prev = {};          // eventId -> {score:'a-b', status:'win|lose|pre'}
 let firstRun = true;
+let liveSynced = false;   // true once a live ESPN poll has been drawn; before that, changes are just stale cache catching up
 let lastData = null;
 
 function choose(n,k){ if(k<0||k>n) return 0; let r=1; for(let i=1;i<=k;i++){ r=r*(n-k+i)/i; } return Math.round(r); }
@@ -3548,7 +3689,7 @@ function pickRowHtml(who, g, leg, st, waiting){
   const partsHtml = parts.length && g.state!=='pre'
     ? `<div class="pk-parts">${parts.length>1?`<div class="pp-head">All ${parts.length + (leg.type==='team_stat'?0:1)} parts must land</div>`:''}${parts.map(x=>partHtml(x,g)).join('')}</div>` : '';
   const aria = `${name}: ${rowTitle(leg)}, ${ST_WORD[s]||s}${note.text?', '+note.text:''}`;
-  return `<div class="pk ${who} s-${s}" aria-label="${esc(aria)}">
+  return `<div class="pk ${who} s-${s}${sweatLegs.has(leg)?' sweat':''}" aria-label="${esc(aria)}">
     <span class="pk-who" title="${esc(name)}">${ini}</span>
     <span class="pk-name"><span class="pk-sel" title="${esc(pickLabel(leg))}">${esc(rowTitle(leg))}</span>${odds}</span>
     ${barHtml(g, leg, s)}
@@ -3580,11 +3721,17 @@ function miniFieldHtml(g){
   return `<div class="mf${g.redZone&&live?' rz':''}${fin?' fin':''}">
     ${ez(aw,0)}
     <div class="mf-turf">${yards}${ball}
-      <div class="mf-clock"><b>${esc(label)}</b>${sub?`<span>${esc(sub)}</span>`:''}</div>
+      <div class="mf-clock"><b>${live?'<span class="lv">LIVE</span>':''}${esc(label)}</b>${sub?`<span>${esc(sub)}</span>`:''}</div>
       <div class="mf-prog" aria-hidden="true"><i style="width:${(prog*100).toFixed(1)}%"></i></div>
     </div>
     ${ez(ho,1)}
   </div>`;
+}
+function finalScoreHtml(g){
+  const aw = g.teams[0], ho = g.teams[1];
+  const win = aw.score===ho.score ? -1 : (aw.score>ho.score ? 0 : 1);
+  const row = (t,i) => `<div class="fs-row${win===i?' won':''}">${logoHtml(t,'fs-logo')}<b>${t.score}</b><span>${esc(t.ab)}</span></div>`;
+  return `<div class="fs"><div class="fs-tm">${row(aw,0)}${row(ho,1)}</div><span></span><span class="fs-tag">FINAL${Number(g.period)>4?' / OT':''}</span></div>`;
 }
 function gameRowHtml(r, hasBruce){
   const g = r.g;
@@ -3593,9 +3740,11 @@ function gameRowHtml(r, hasBruce){
     : (r.bruceLegs.length ? r.bruceLegs.map((l,i)=>pickRowHtml('bruce', g, l, r.sBruceList[i], false)) : [pickRowHtml('bruce', g, null, null, false)])).join('');
   const aw = g.teams[0], ho = g.teams[1];
   const sel = selectedId===String(g.id) ? ' selected' : '';
-  return `<article class="grow${g.state==='post'?' fin':''}${sel}" data-id="${g.id}" role="button" tabindex="0"
-      aria-label="${esc(aw.ab+' '+aw.score+', '+ho.ab+' '+ho.score+', '+clockText(g)+'. Show game details')}">
-    ${miniFieldHtml(g)}
+  const sweat = r.stuLegs.concat(r.bruceLegs).some(l=>sweatLegs.has(l)) ? ' sweat' : '';
+  const stCls = g.state==='post' ? ' fin' : g.state==='in' ? ' live' : '';
+  return `<article class="grow${stCls}${sweat}${sel}" data-id="${g.id}" role="button" tabindex="0"
+      aria-label="${esc(aw.ab+' '+aw.score+', '+ho.ab+' '+ho.score+', '+(g.state==='in'?'live, ':'')+clockText(g)+'. Show game details')}">
+    ${g.state==='post' ? finalScoreHtml(g) : miniFieldHtml(g)}
     <div class="gpicks">${stuRows}${bruRows}</div>
   </article>`;
 }
@@ -3653,7 +3802,7 @@ function nextHtml(upcoming, hasBruce){
     const odds = (leg.odds==null || !Number.isFinite(Number(leg.odds))) ? '' : ` <span class="pk-odds">@${Number(leg.odds).toFixed(2)}</span>`;
     return `<div class="nx-pk ${who}"><span class="pk-who">${ini}</span><span title="${esc(pickLabel(leg))}">${esc(rowTitle(leg))}</span>${odds}</div>`;
   };
-  return `<section class="nextbox"><h2>Up next</h2>${groupUpcoming(upcoming).map(gr=>`
+  return `<section class="nextbox" id="sec-next"><h2>Up next</h2>${groupUpcoming(upcoming).map(gr=>`
     <h3>${esc(gr.label)}</h3>
     ${gr.recs.map(r=>{
       const g=r.g, aw=g.teams[0], ho=g.teams[1];
@@ -3679,9 +3828,14 @@ function renderBoardV2(board, ctx){
       ${playerCardHtml('bruce', players.bruce, bruceStates, games, !hasBruce, allRecs)}
     </div>
     <section class="v2-main" aria-label="Games">
-      <div class="sec-h"><h2>${live.length ? `Live <span class="n">${live.length}</span>` : 'Live'}</h2>${live.length?axisHtml():''}</div>
+      <nav class="jump" aria-label="Jump to">
+        ${live.length ? `<a class="live" href="#sec-live"><span class="ldot"></span><b>${live.length}</b> live now</a>` : ''}
+        ${finals.length ? `<a href="#sec-fin">✓ <b>${finals.length}</b> finished</a>` : ''}
+        ${upcoming.length ? `<a href="#sec-next">⏱ <b>${upcoming.length}</b> to come</a>` : ''}
+      </nav>
+      <div class="sec-h${live.length?' live':''}" id="sec-live"><h2>${live.length ? `<span class="ldot"></span>Live now <span class="n">${live.length}</span>` : 'Live'}</h2>${live.length?axisHtml():''}</div>
       ${empty}${liveRows}
-      ${finRows ? `<div class="sec-h fin"><h2>Final <span class="n">${finals.length}</span></h2></div>${finRows}` : ''}
+      ${finRows ? `<div class="sec-h fin" id="sec-fin"><h2>Finished <span class="n">${finals.length}</span></h2><button type="button" class="fin-tog" aria-expanded="${!finHidden}">${finHidden?'Show results':'Hide results'}</button></div><div class="fin-wrap"${finHidden?' hidden':''}>${finRows}</div>` : ''}
       <p class="v2-foot">Bars show points either side of each spread, total or moneyline, up to ${CUSHION_CAP}. Hollow bars are overs still in play: they can only go up. Bets with props list every part underneath; the bet only lands if all of them do. ✓ landing · ✗ losing · ○ still to hit · ? check manually.</p>
     </section>
     <div class="v2-next">${nextHtml(upcoming, hasBruce)}</div>
@@ -3715,7 +3869,7 @@ function render(){
     const scoreKey = g.teams.map(t=>t.score).join('-');
     const pv = prev[g.id];
     const lastTd = {};
-    if(!firstRun && pv){
+    if(!firstRun && liveSynced && pv){
       const real = s => s==='win' || s==='lose' || s==='level';
       const flipped = stuLeg && pv.status!==sStu && real(pv.status) && real(sStu);
       if(flipped && (sStu==='win'||sStu==='lose')) flashes.push([g.id, sStu==='win'?'flipwin':'fliplose']);
@@ -3727,13 +3881,16 @@ function render(){
       });
       if(pv.state==='pre' && g.state==='in') queueAlert(`Kick-off ${g.teams[0].name} at ${g.teams[1].name}`, false, [], 'kick');
       if(pv.state!=='post' && g.state==='post') queueAlert(`Game over ${g.teams[0].name} at ${g.teams[1].name}`, false, ['g_over'], 'final');
-      if(stuLeg){
-        const nm = (g.teams.find(t=>t.ab===stuLeg.team)||{}).name || stuLeg.team;
-        if(g.state==='post' && pv.state!=='post'){ const ph = sStu==='win'?'won':'lost'; queueAlert(`${nm} leg ${ph}`, false, ['t_'+stuLeg.team, LEG_CLIP[ph]]); }
-        else if(flipped){ const ph = 'now '+(sStu==='win'?'winning':sStu==='lose'?'losing':'level'); queueAlert(`${nm} leg ${ph}`, false, ['t_'+stuLeg.team, LEG_CLIP[ph]]); }
-      }
+      const flipFor = (who, leg, now, before) => {
+        if(!leg || g.state!=='in' || !real(before) || !real(now) || before===now) return;
+        if((leg.props||[]).length) return;   // multi-part bets: only landed / dead is announced
+        const ph = 'now '+(now==='win'?'winning':now==='lose'?'losing':'level');
+        queueAlert(`${displayName(who)}: ${leg.team} leg ${ph}`, false, ['t_'+leg.team, LEG_CLIP[ph]], null, {sig: who});
+      };
+      flipFor('stu', stuLeg, sStu, pv.status);
+      flipFor('bruce', bruceLeg, sBruce, pv.bstatus);
     }
-    prev[g.id] = {score:scoreKey, status:sStu, state:g.state, scores:g.teams.map(t=>t.score), td:[lastTd[0],lastTd[1]]};
+    prev[g.id] = {score:scoreKey, status:sStu, bstatus:sBruce, state:g.state, scores:g.teams.map(t=>t.score), td:[lastTd[0],lastTd[1]]};
 
     const pre = g.state==='pre';
     const final = g.state==='post';
@@ -3743,7 +3900,9 @@ function render(){
     else upcoming.push(rec);
   }
 
+  try{ funAfterGrade(players, stuStates, bruceStates, games, firstRun || !liveSynced); }catch(e){ console.error('fun failed', e); }
   renderBoardV2(board, {live, results, upcoming, hasBruce, hasStu, players, stuStates, bruceStates, games});
+  try{ renderTug(players, stuStates, bruceStates, games, hasBruce); lastShare = {players, stuStates, bruceStates, games}; syncWakeLock(live.length>0); }catch(e){ console.error('tug failed', e); }
   for(const [id,cls] of flashes){
     board.querySelectorAll(`[data-id="${id}"]`).forEach(el=>{ void el.offsetWidth; el.classList.add(cls); });
   }
@@ -3852,6 +4011,7 @@ async function poll(){
     try{ await prefetchPropSummaries(); }catch(e){ console.warn('box scores failed', e); }
     if(selectedId){ try{ await loadSummary(selectedId, true); }catch(e){} }
     safeRender();
+    liveSynced = true;
     pollTicks++;
     if(pollTicks % BUILD_CHECK_EVERY === 0) checkForNewBuild();
   }catch(e){
@@ -3911,8 +4071,8 @@ function playWhistle(kind){   // original synthesized referee whistle: kind 'kic
       for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
       const n=actx.createBufferSource(); n.buffer=nb; const bp=actx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=2850; bp.Q.value=6;
       const ng=actx.createGain(); ng.gain.setValueAtTime(0.0001,st); ng.gain.exponentialRampToValueAtTime(0.12,st+0.02); ng.gain.exponentialRampToValueAtTime(0.0001,en);
-      n.connect(bp); bp.connect(ng); ng.connect(actx.destination);
-      o.connect(g); g.connect(actx.destination);
+      n.connect(bp); bp.connect(ng); ng.connect(audioOut());
+      o.connect(g); g.connect(audioOut());
       o.start(st); lfo.start(st); n.start(st); o.stop(en+0.02); lfo.stop(en+0.02); n.stop(en+0.02);
     }
     const total = blasts[blasts.length-1][0]+blasts[blasts.length-1][1];
@@ -3925,7 +4085,7 @@ function playClip(k){
     if(!b || !actx || actx.state!=='running') return res(false);
     console.log('[clip]', k, b.duration.toFixed(2)+'s');
     const src = actx.createBufferSource(); src.buffer=b;
-    const g = actx.createGain(); g.gain.value=1.0; src.connect(g); g.connect(actx.destination);
+    const g = actx.createGain(); g.gain.value=1.0; src.connect(g); g.connect(audioOut());
     const to = setTimeout(()=>res(true), b.duration*1000+500);
     src.onended=()=>{ clearTimeout(to); res(true); };
     src.start();
@@ -3954,11 +4114,11 @@ function toggleSound(){
   if(soundOn){ unlockAudio(); } else { alertQueue.length=0; if(window.speechSynthesis) speechSynthesis.cancel(); }
   updateSoundBtn();
 }
-function queueAlert(text, horn, clips, whistle){
-  window.__alertLog.push({text, horn, clips, whistle, t:Date.now()});
+function queueAlert(text, horn, clips, whistle, extra){
+  window.__alertLog.push({text, horn, clips, whistle, ...(extra||{}), t:Date.now()});
   console.log('[alert]', whistle?('WHISTLE('+whistle+') +'):'', horn?'HORN +':'', text, JSON.stringify(clips||[]));
   if(!soundOn) return;
-  if(alertQueue.length < 20) alertQueue.push({text, horn, clips, whistle});
+  if(alertQueue.length < 20) alertQueue.push({text, horn, clips, whistle, ...(extra||{})});
   runQueue();
 }
 function playHorn(){
@@ -3966,10 +4126,10 @@ function playHorn(){
     if(!actx || actx.state!=='running') return res();
     const t0 = actx.currentTime, dur = 1.4;
     const out = actx.createGain(); out.gain.setValueAtTime(0.0001,t0);
-    out.gain.exponentialRampToValueAtTime(0.35,t0+0.08); out.gain.setValueAtTime(0.35,t0+dur-0.3);
+    out.gain.exponentialRampToValueAtTime(0.22,t0+0.08); out.gain.setValueAtTime(0.22,t0+dur-0.3);
     out.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
     const lp = actx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=1400; lp.Q.value=4;
-    lp.connect(out); out.connect(actx.destination);
+    lp.connect(out); out.connect(audioOut());
     for(const f of [174.6, 220, 261.6, 349.2]){       // stadium air-horn chord
       for(const det of [-6, 6]){
         const o = actx.createOscillator(); o.type='sawtooth'; o.frequency.value=f; o.detune.value=det;
@@ -3989,7 +4149,7 @@ function speak(text){
     if(!window.speechSynthesis) return res();
     const u = new SpeechSynthesisUtterance(text);
     if(gbVoice){ u.voice=gbVoice; u.lang=gbVoice.lang; } else u.lang='en-GB';
-    u.rate=1; u.volume=1;
+    u.rate=1.05; u.volume=Math.max(0.05, soundVol);
     const done=()=>{ clearTimeout(to); res(); };
     const to=setTimeout(res, 8000);   // safety net if onend never fires
     u.onend=done; u.onerror=done;
@@ -4001,16 +4161,580 @@ async function runQueue(){
   try{
     while(alertQueue.length && soundOn){
       const a = alertQueue.shift();
+      if(a.sig) await playSignature(a.sig);
+      if(a.fx) await playFx(a.fx);
       if(a.whistle) await playWhistle(a.whistle);
       if(a.horn) await playHorn();
       const keys = (a.clips||[]).map(resolveClip).filter(Boolean);
       if(keys.length===(a.clips||[]).length && keys.length){ for(const k of keys){ await playClip(k); } }
       else if((a.clips||[]).length && window.speechSynthesis && speechSynthesis.getVoices().length) await speak(a.text);  // fallback only
+      if(a.say) await speak(a.say);
       await new Promise(r=>setTimeout(r,300));
     }
   } finally { alertBusy=false; }
 }
-document.getElementById('sndbtn').addEventListener('click', toggleSound);
+/* ===================== FUN: signatures, big moments, sweat, tug, share ===================== */
+/* Everything here is synthesised with Web Audio (no sound files) and spoken with the phone's own voice. */
+let masterGain = null;
+let soundVol = (()=>{ try{ const v = parseFloat(localStorage.getItem('st_vol')); return Number.isFinite(v) ? Math.min(1, Math.max(0, v)) : 0.8; }catch(e){ return 0.8; } })();
+function audioOut(){
+  if(!actx) return null;
+  if(!masterGain){ masterGain = actx.createGain(); masterGain.gain.value = soundVol; masterGain.connect(actx.destination); }
+  return masterGain;
+}
+function setVolume(v){
+  soundVol = Math.min(1, Math.max(0, v));
+  try{ localStorage.setItem('st_vol', String(soundVol)); }catch(e){}
+  if(masterGain) masterGain.gain.value = soundVol;
+}
+function audioReady(){ return actx && actx.state==='running'; }
+function noiseBuf(sec){
+  const b = actx.createBuffer(1, Math.ceil(actx.sampleRate*sec), actx.sampleRate), d = b.getChannelData(0);
+  let last = 0;
+  for(let i=0;i<d.length;i++){ const w = Math.random()*2-1; last = (last + 0.02*w)/1.02; d[i] = w*0.5 + last*3; }  // white + a little brown
+  return b;
+}
+const wait = ms => new Promise(r=>setTimeout(r, ms));
+
+/* Stu: bagpipes. Drones on A, chanter plays a short rising phrase with grace notes. */
+function playBagpipe(){
+  if(!audioReady()) return Promise.resolve();
+  const out = audioOut(), t0 = actx.currentTime + 0.03, dur = 1.9;
+  const bus = actx.createGain(); bus.gain.setValueAtTime(0.0001, t0); bus.gain.exponentialRampToValueAtTime(0.85, t0+0.12);
+  bus.gain.setValueAtTime(0.85, t0+dur-0.25); bus.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  const lp = actx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=3200;
+  bus.connect(lp); lp.connect(out);
+  for(const [f,v] of [[110,0.16],[110.4,0.12],[220,0.12]]){        // bass + tenor drones
+    const o = actx.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(f*0.9, t0); o.frequency.exponentialRampToValueAtTime(f, t0+0.18);
+    const g = actx.createGain(); g.gain.value=v; o.connect(g); g.connect(bus); o.start(t0); o.stop(t0+dur+0.05);
+  }
+  const ch = actx.createOscillator(); ch.type='square';
+  const nasal = actx.createBiquadFilter(); nasal.type='peaking'; nasal.frequency.value=1300; nasal.Q.value=2; nasal.gain.value=10;
+  const cg = actx.createGain(); cg.gain.value=0.22; ch.connect(nasal); nasal.connect(cg); cg.connect(bus);
+  const tune = [[784,.05],[440,.22],[784,.04],[494,.18],[554,.18],[880,.04],[659,.42],[740,.04],[659,.5]];
+  let t = t0+0.15;
+  for(const [f,d] of tune){ ch.frequency.setValueAtTime(f, t); t += d; }
+  ch.start(t0+0.15); ch.stop(t0+dur);
+  return wait(dur*1000+60);
+}
+/* Boet: vuvuzela. Two horns on B-flat, rough and buzzy, slightly out of tune with each other. */
+function playVuvuzela(){
+  if(!audioReady()) return Promise.resolve();
+  const out = audioOut(), t0 = actx.currentTime + 0.03, dur = 1.6;
+  const lp = actx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=1800; lp.Q.value=6;
+  const bus = actx.createGain(); bus.gain.value=0.75; bus.connect(lp); lp.connect(out);
+  [[233,0],[236.5,0.12]].forEach(([f,off])=>{
+    const st = t0+off, en = st+dur-off;
+    const o = actx.createOscillator(); o.type='sawtooth';
+    o.frequency.setValueAtTime(f*0.82, st); o.frequency.exponentialRampToValueAtTime(f, st+0.09);
+    const vib = actx.createOscillator(); vib.frequency.value = 5.5; const vg = actx.createGain(); vg.gain.value = 2.2; vib.connect(vg); vg.connect(o.frequency);
+    const g = actx.createGain(); g.gain.setValueAtTime(0.0001, st); g.gain.exponentialRampToValueAtTime(0.28, st+0.06);
+    g.gain.setValueAtTime(0.28, en-0.12); g.gain.exponentialRampToValueAtTime(0.0001, en);
+    o.connect(g); g.connect(bus); o.start(st); vib.start(st); o.stop(en+0.02); vib.stop(en+0.02);
+  });
+  const n = actx.createBufferSource(); n.buffer = noiseBuf(dur);       // breath
+  const bp = actx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=700; bp.Q.value=1.2;
+  const ng = actx.createGain(); ng.gain.setValueAtTime(0.0001,t0); ng.gain.exponentialRampToValueAtTime(0.05,t0+0.05); ng.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  n.connect(bp); bp.connect(ng); ng.connect(out); n.start(t0); n.stop(t0+dur);
+  return wait(dur*1000+60);
+}
+/* Crowd roar: filtered noise that swells, with the odd whoop on top. Does not block. */
+function playCrowd(sec){
+  if(!audioReady()) return;
+  const out = audioOut(), t0 = actx.currentTime + 0.02, dur = sec||3.2;
+  const n = actx.createBufferSource(); n.buffer = noiseBuf(dur);
+  const bp = actx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=900; bp.Q.value=0.6;
+  const lp = actx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=2600;
+  const g = actx.createGain(); g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.85,t0+0.45);
+  g.gain.setValueAtTime(0.85,t0+dur*0.55); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  const am = actx.createOscillator(); am.frequency.value = 3.1; const amg = actx.createGain(); amg.gain.value = 0.12; am.connect(amg); amg.connect(g.gain);
+  n.connect(bp); bp.connect(lp); lp.connect(g); g.connect(out); n.start(t0); am.start(t0); n.stop(t0+dur); am.stop(t0+dur);
+  for(let i=0;i<5;i++){                       // whoops
+    const st = t0 + 0.3 + Math.random()*dur*0.5, len = 0.35+Math.random()*0.3, f = 500+Math.random()*400;
+    const o = actx.createOscillator(); o.type='triangle'; o.frequency.setValueAtTime(f, st); o.frequency.exponentialRampToValueAtTime(f*1.6, st+len*0.6); o.frequency.exponentialRampToValueAtTime(f*1.2, st+len);
+    const og = actx.createGain(); og.gain.setValueAtTime(0.0001, st); og.gain.exponentialRampToValueAtTime(0.035, st+0.05); og.gain.exponentialRampToValueAtTime(0.0001, st+len);
+    o.connect(og); og.connect(out); o.start(st); o.stop(st+len+0.02);
+  }
+}
+/* Sad trombone: wah, wah, wah, wahhhh. */
+function playTrombone(){
+  if(!audioReady()) return Promise.resolve();
+  const out = audioOut(), t0 = actx.currentTime + 0.03;
+  const notes = [[293.7,.42],[277.2,.42],[261.6,.42],[246.9,1.25]];
+  let t = t0;
+  for(let i=0;i<notes.length;i++){
+    const [f,d] = notes[i], last = i===notes.length-1;
+    const o = actx.createOscillator(); o.type='sawtooth'; o.frequency.value=f;
+    if(last){ const v = actx.createOscillator(); v.frequency.value=5; const vg = actx.createGain(); vg.gain.setValueAtTime(0, t); vg.gain.linearRampToValueAtTime(7, t+0.4); v.connect(vg); vg.connect(o.frequency); v.start(t); v.stop(t+d); }
+    const lp = actx.createBiquadFilter(); lp.type='lowpass'; lp.Q.value=5;
+    lp.frequency.setValueAtTime(350, t); lp.frequency.linearRampToValueAtTime(1400, t+0.12); lp.frequency.linearRampToValueAtTime(600, t+d);
+    const g = actx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.32, t+0.05);
+    g.gain.setValueAtTime(0.32, t+d-0.12); g.gain.exponentialRampToValueAtTime(0.0001, t+d);
+    o.connect(lp); lp.connect(g); g.connect(out); o.start(t); o.stop(t+d+0.02);
+    t += d + 0.04;
+  }
+  return wait((t-t0)*1000+80);
+}
+/* Cash register: drawer clunk, then the bell. */
+function playRegister(){
+  if(!audioReady()) return Promise.resolve();
+  const out = audioOut(), t0 = actx.currentTime + 0.03;
+  const n = actx.createBufferSource(); n.buffer = noiseBuf(0.12);
+  const hp = actx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=1500;
+  const ng = actx.createGain(); ng.gain.setValueAtTime(0.5, t0); ng.gain.exponentialRampToValueAtTime(0.0001, t0+0.1);
+  n.connect(hp); hp.connect(ng); ng.connect(out); n.start(t0); n.stop(t0+0.12);
+  const k = actx.createOscillator(); k.type='square'; k.frequency.setValueAtTime(180, t0+0.08); k.frequency.exponentialRampToValueAtTime(60, t0+0.18);
+  const kg = actx.createGain(); kg.gain.setValueAtTime(0.25, t0+0.08); kg.gain.exponentialRampToValueAtTime(0.0001, t0+0.2);
+  k.connect(kg); kg.connect(out); k.start(t0+0.08); k.stop(t0+0.22);
+  const bt = t0 + 0.24;
+  for(const [f,a,d] of [[2093,.34,1.4],[2637,.22,1.1],[3136,.16,0.9],[4230,.09,0.6],[5274,.06,0.4]]){
+    const o = actx.createOscillator(); o.type='sine'; o.frequency.value=f;
+    const g = actx.createGain(); g.gain.setValueAtTime(0.0001, bt); g.gain.exponentialRampToValueAtTime(a, bt+0.005); g.gain.exponentialRampToValueAtTime(0.0001, bt+d);
+    o.connect(g); g.connect(out); o.start(bt); o.stop(bt+d+0.02);
+  }
+  return wait(1700);
+}
+function playSignature(who){ return who==='bruce' ? playVuvuzela() : playBagpipe(); }
+async function playFx(fx){
+  if(fx==='land'){ playCrowd(3.4); await playHorn(); }
+  else if(fx==='die'){ await playTrombone(); }
+  else if(fx==='cash'){ playCrowd(3); await playRegister(); }
+  else if(fx==='sweat'){ await playWhistle('kick'); }
+}
+
+/* ---------- speech helpers ---------- */
+function teamName(g, ab){ const t = g && g.teams.find(x=>x.ab===ab); return (t && t.name) || ab; }
+function sayNum(n){ return String(n).replace(/^-/, ''); }
+function sayLeg(g, leg){
+  if(!leg) return 'bet';
+  const nm = teamName(g, leg.team);
+  let main = '';
+  if(leg.type==='spread'){ const l = Number(leg.line); main = l===0 ? `${nm} pick 'em` : `${nm} ${l>0?'plus':'minus'} ${sayNum(Math.abs(l))}`; }
+  else if(leg.type==='ml') main = `${nm} to win`;
+  else if(leg.type==='total') main = `${leg.side==='over'?'over':'under'} ${sayNum(leg.line)} points in ${g?g.teams.map(t=>t.name).join(' versus '):'the game'}`;
+  else if(leg.type==='team_stat') main = `${nm} rushing attempts ${leg.side==='over'?'over':'under'} ${sayNum(leg.line)}`;
+  else main = `${nm} bet`;
+  const n = (leg.props||[]).length;
+  return n ? `${main}, with ${n} player prop${n>1?'s':''}` : main;
+}
+function sayPart(p){ return `${surname(p.player)} ${statUnit(p.stat).replace('yds','yards').replace('TD','touchdowns').replace('att','attempts')}`; }
+function leftText(g){
+  if(!g || g.state!=='in') return '';
+  if(Number(g.period)>4) return 'in overtime';
+  const m = String(g.clock||'').match(/(\d+):(\d+)/);
+  if(!m) return '';
+  const mins = Number(m[1]);
+  return mins<1 ? 'under a minute left' : `${mins} minute${mins===1?'':'s'} left`;
+}
+
+/* ---------- state tracking ---------- */
+const prevLegs = {};       // `${who}:${i}` -> {st, settled}
+const prevAccas = {};      // `${who}:${i}` -> 'alive' | 'dead' | 'won'
+let sweatLegs = new Set(); // leg objects sweating right now (read by pickRowHtml)
+const sweatSeen = {};      // `${who}:${i}` -> true while sweating
+let lastUserScroll = 0;
+['wheel','touchmove','keydown'].forEach(ev=>window.addEventListener(ev, ()=>{ lastUserScroll = Date.now(); }, {passive:true, capture:true}));
+
+function legObservable(g, leg){
+  // Props only grade properly once ESPN's box score has loaded; until then don't treat changes as events.
+  if((!(leg.props||[]).length && leg.type!=='team_stat') || g.state==='pre') return true;
+  const d = boxData(g); return !!(d && hasPlayerBox(d));
+}
+function legSettled(g, leg, st){
+  if(!g || g.state==='pre') return null;
+  if(st==='lose' && (g.state==='post' || leg._lock==='lose')) return 'lose';
+  if(st==='level' && g.state==='post') return 'level';
+  if(st==='win'){
+    if(g.state==='post') return 'win';
+    const props = leg.props||[];
+    const mainLocked = leg.type==='ml' || leg.type==='spread' ? false : leg._mainLock==='win';
+    if(mainLocked && props.every(p=>p._lock==='win')) return 'win';
+  }
+  return null;
+}
+function clockMins(g){
+  const m = String(g.clock||'').match(/(\d+):(\d+)/);
+  return m ? Number(m[1]) + Number(m[2])/60 : null;
+}
+function isLate(g){
+  if(!g || g.state!=='in') return false;
+  const p = Number(g.period)||0;
+  if(p>=5) return true;
+  if(p<4) return false;
+  const m = clockMins(g);
+  return m!=null && m < 8;
+}
+function closeProp(val, line, op){
+  const over = op==='>=' || op==='>';
+  const v = Number(val)||0;
+  if(over){
+    const need = op==='>' ? Math.floor(line)+1 : Math.ceil(line);
+    if(v>=need) return false;
+    const left = need - v;
+    return left <= Math.max(need*0.1, need<=12 ? 1 : 0);
+  }
+  const max = op==='<=' ? Math.floor(line) : Math.ceil(line)-1;
+  if(v>max) return false;
+  return (max - v) <= Math.max(max*0.1, max<=12 ? 1 : 0);
+}
+function legSweat(g, leg, st){
+  if(!isLate(g) || legSettled(g, leg, st)) return null;
+  if(st==='manual') return null;
+  const why = [];
+  const c = legCushion(g, leg);
+  if(c!=null && Math.abs(c)<=8 && !(leg.type==='total' && leg._mainLock)){
+    if(leg.type==='ml') why.push(c>0 ? `up ${fmtMarginNum(c)}` : c<0 ? `down ${fmtMarginNum(-c)}` : 'dead level');
+    else why.push(c>0 ? `${fmtMarginNum(c)} to spare` : c<0 ? `${fmtMarginNum(-c)} short` : 'dead level');
+  }
+  if(leg.type==='team_stat' && Number.isFinite(Number(leg._live)) && closeProp(leg._live, Number(leg.line), leg.side==='over'?'>':'<'))
+    why.push('rushing attempts on the edge');
+  for(const p of (leg.props||[])){
+    if(p._lock) continue;
+    if(closeProp(p._live==null?0:p._live, p.line, p.op)) why.push(`${sayPart(p)} on the edge`);
+  }
+  return why.length ? why[0] : null;
+}
+
+function funAfterGrade(players, stuStates, bruceStates, games, firstPass){
+  const states = {stu: stuStates, bruce: bruceStates};
+  const nextSweat = new Set();
+  let scrollTo = null;
+  for(const who of ['stu','bruce']){
+    const legs = players[who].legs||[];
+    const name = displayName(who);
+    let settledWins = 0;
+    legs.forEach((leg, i)=>{
+      const g = games.find(x=>gameHasLeg(x,leg));
+      const pv = prevLegs[who+':'+i];
+      if(g && legSettled(g, leg, states[who].get(leg))==='win' && (!pv || pv.settled==='win')) settledWins++;   // already landed before this update
+    });
+    legs.forEach((leg, i)=>{
+      const g = games.find(x=>gameHasLeg(x,leg));
+      if(!g) return;
+      const st = states[who].get(leg) || 'pre';
+      const key = who+':'+i;
+      // sweat
+      const sw = legSweat(g, leg, st);
+      if(sw){
+        nextSweat.add(leg);
+        if(!sweatSeen[key] && !firstPass){
+          queueAlert(`Sweat: ${possessiveName(who)} ${sayLeg(g, leg)}, ${sw}`, false, [], null,
+            {sig: who, fx: 'sweat', say: `Sweat alert. ${possessiveName(who)} ${sayLeg(g, leg)}. ${sw}, ${leftText(g)}.`});
+          if(!scrollTo) scrollTo = g.id;
+        }
+        sweatSeen[key] = true;
+      } else delete sweatSeen[key];
+      // landed / died
+      if(!legObservable(g, leg)) return;
+      const settled = legSettled(g, leg, st);
+      const pv = prevLegs[key];
+      prevLegs[key] = {st, settled};
+      if(!pv || firstPass || pv.settled===settled || !settled) return;
+      const label = sayLeg(g, leg);
+      if(settled==='win'){
+        settledWins++;
+        queueAlert(`${name} leg landed: ${pickLabel(leg)}`, false, [], null,
+          {sig: who, fx: 'land', say: `${possessiveName(who)} ${label} has landed! That's ${settledWins} of ${legs.length}.`});
+      } else if(settled==='lose'){
+        const killer = (leg.props||[]).find(p=>p._st==='lose');
+        const why = killer ? ` ${sayPart(killer)} came up short.` : '';
+        queueAlert(`${name} leg lost: ${pickLabel(leg)}`, false, [], null,
+          {sig: who, fx: 'die', say: `Oh no. ${possessiveName(who)} ${label} is dead.${why}`});
+      }
+    });
+    // accas
+    const bets = players[who].bets||[];
+    if(!bets.length) continue;
+    const ready = legs.every(l=>{ const g = games.find(x=>gameHasLeg(x,l)); return !g || legObservable(g, l); });
+    if(!ready) continue;
+    const tagged = legs.map(l=>{
+      const g = games.find(x=>gameHasLeg(x,l));
+      const raw = states[who].get(l) || 'pre';
+      return {...l, status: raw, final: !!(g && g.state==='post') || l._lock==='lose', _g: g};
+    });
+    const allSettled = legs.every((l)=>{ const g = games.find(x=>gameHasLeg(x,l)); return g && !!legSettled(g, l, states[who].get(l)); });
+    const died = [], won = [];
+    bets.forEach((bet, bi)=>{
+      let r; try{ r = accaStats(tagged, bet); }catch(e){ return; }
+      const now = r.dead ? 'dead' : (allSettled && r.onStand>0 ? 'won' : 'alive');
+      const key = who+':'+bi, pv = prevAccas[key];
+      prevAccas[key] = now;
+      if(!pv || firstPass || pv===now) return;
+      if(now==='dead') died.push(r); else if(now==='won') won.push(r);
+    });
+    const foldList = rs => {
+      const n = rs.map(r=>r.folds).sort((a,b)=>b-a);
+      if(n.length===1) return `${n[0]}-fold`;
+      return `${n.slice(0,-1).join(', ')} and ${n[n.length-1]}-folds`;
+    };
+    const betName = r => `${r.folds}-fold`;
+    if(won.length){
+      const total = won.reduce((s,r)=>s+(r.rem||0),0);
+      const money = total>0 ? ` Returns about ${Math.round(total)} pounds.` : '';
+      queueAlert(`${name} acca in: ${won.map(betName).join(', ')}`, false, [], null,
+        {sig: who, fx: 'cash', say: `Cash! ${possessiveName(who)} ${foldList(won)} ${won.length>1?'are':'is'} in!${money}`});
+    }
+    if(died.length){
+      const list = foldList(died);
+      queueAlert(`${name} acca dead: ${list}`, false, [], null,
+        {sig: who, fx: 'die', say: `${possessiveName(who)} ${list} ${died.length>1?'are':'is'} dead.`});
+    }
+  }
+  sweatLegs = nextSweat;
+  if(scrollTo && !selectedId && Date.now()-lastUserScroll > 20000){
+    setTimeout(()=>{ const el = document.querySelector(`.grow[data-id="${scrollTo}"]`); if(el) el.scrollIntoView({behavior:'smooth', block:'center'}); }, 60);
+  }
+}
+
+/* ---------- tonight's tug-of-war ---------- */
+function renderTug(players, stuStates, bruceStates, games, hasBruce){
+  const el = document.getElementById('tug');
+  if(!el) return;
+  const t1 = tallyLegs(players.stu.legs||[], stuStates, games);
+  const t2 = tallyLegs(players.bruce.legs||[], bruceStates, games);
+  const s1 = t1.w+t1.l+t1.d+t1.live, s2 = t2.w+t2.l+t2.d+t2.live;
+  const l1 = t1.w+t1.liveUp, l2 = t2.w+t2.liveUp;
+  if(!hasBruce || (!s1 && !s2)){ el.hidden = true; return; }
+  el.hidden = false;
+  const p1 = s1 ? l1/s1 : 0, p2 = s2 ? l2/s2 : 0;
+  let share = (p1+p2)>0 ? p1/(p1+p2) : 0.5;
+  share = Math.min(0.94, Math.max(0.06, share));
+  const n1 = displayName('stu'), n2 = displayName('bruce');
+  const gap = Math.abs(p1-p2);
+  const lead = gap < 0.04 ? 'Dead level' : `${p1>p2?n1:n2} ${gap>0.3?'running away with it':gap>0.12?'pulling ahead':'just ahead'}`;
+  const pct = (share*100).toFixed(1);
+  el.innerHTML = `
+    <span class="tg-n stu"><em>${esc(n1)}</em><b>${l1}<small>/${s1}</small></b></span>
+    <div class="tg-mid">
+      <div class="tg-track" role="img" aria-label="${esc(`${n1} ${l1} of ${s1} landing, ${n2} ${l2} of ${s2} landing. ${lead}.`)}">
+        <i class="tg-a" style="width:${pct}%"></i><i class="tg-b" style="left:${pct}%"></i>
+        <span class="tg-c"></span>
+        <span class="tg-ball" style="left:${pct}%"><svg viewBox="0 0 32 20" aria-hidden="true"><ellipse cx="16" cy="10" rx="15" ry="9" fill="#8a4a1f" stroke="#fff" stroke-width="1.5"/><path d="M10 10h12M13 7v6M16 7v6M19 7v6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </div>
+      <div class="tg-cap"><span class="tg-ton">Tonight · </span>${esc(lead)}</div>
+    </div>
+    <span class="tg-n bruce"><b>${l2}<small>/${s2}</small></b><em>${esc(n2)}</em></span>`;
+}
+
+/* ---------- sound panel + game-on ---------- */
+function soundPanelHtml(){
+  return `<div class="sp-row"><b>Game sound</b><button type="button" class="sp-tog ${soundOn?'on':''}" data-act="toggle" aria-pressed="${soundOn}">${soundOn?'On':'Off'}</button></div>
+    <label class="sp-row"><span>Volume</span><input type="range" min="0" max="1" step="0.05" value="${soundVol}" data-act="vol" aria-label="Volume"></label>
+    <div class="sp-h">Try them</div>
+    <div class="sp-try">
+      <button type="button" data-try="stu"><i class="d stu"></i>${esc(displayName('stu'))}</button>
+      <button type="button" data-try="bruce"><i class="d bruce"></i>${esc(displayName('bruce'))}</button>
+      <button type="button" data-try="land">Leg lands</button>
+      <button type="button" data-try="die">Leg dies</button>
+      <button type="button" data-try="cash">Acca in</button>
+      <button type="button" data-try="sweat">Sweat</button>
+    </div>
+    <p class="sp-note">Bagpipes = ${esc(displayName('stu'))}, vuvuzela = ${esc(displayName('bruce'))}. Then the crowd for a leg that lands, a trombone for one that dies, a till for an acca, and the phone reads out what happened.</p>`;
+}
+function openSoundPanel(open){
+  const p = document.getElementById('sndpanel'), b = document.getElementById('sndbtn');
+  if(!p) return;
+  const show = open==null ? p.hidden : open;
+  if(show){ p.innerHTML = soundPanelHtml(); }
+  p.hidden = !show; b.setAttribute('aria-expanded', String(show));
+}
+function setSound(on){
+  if(on!==soundOn) toggleSound();
+  try{ localStorage.setItem('st_sound', soundOn?'on':'off'); }catch(e){}
+}
+async function trySound(k){
+  unlockAudio();
+  await wait(audioReady() ? 0 : 150);
+  const demo = {
+    stu:  {sig:'stu', say:''},
+    bruce:{sig:'bruce', say:''},
+    land: {sig:'bruce', fx:'land', say:`${possessiveName('bruce')} Bills minus 3 and a half has landed! That's 4 of 8.`},
+    die:  {sig:'stu', fx:'die', say:`Oh no. ${possessiveName('stu')} over 41 points is dead.`},
+    cash: {sig:'stu', fx:'cash', say:`Cash! ${possessiveName('stu')} 4-fold is in! Returns about 126 pounds.`},
+    sweat:{sig:'bruce', fx:'sweat', say:`Sweat alert. ${possessiveName('bruce')} Jaguars minus 5 and a half. 2 points short, 3 minutes left.`}
+  }[k];
+  if(!demo) return;
+  if(!soundOn) setSound(true);
+  alertQueue.push({text:'demo '+k, ...demo}); runQueue();
+}
+function gameOnPrompt(){
+  let stored = null; try{ stored = localStorage.getItem('st_sound'); }catch(e){}
+  const el = document.getElementById('gameon');
+  if(!el) return;
+  if(stored==null){
+    el.innerHTML = `<div class="go-card" role="dialog" aria-modal="true" aria-labelledby="go-t">
+      <div class="go-ball"><svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="16" rx="14" ry="9" transform="rotate(-35 16 16)" fill="#8a4a1f" stroke="#f5c542" stroke-width="1.5"/><path d="M11 21l10-10M13 15l2 2M15.5 12.5l2 2M17 17l2 2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+      <h2 id="go-t">Game sound?</h2>
+      <p>Bagpipes when ${esc(displayName('stu'))} lands one, a vuvuzela for ${esc(displayName('bruce'))}, the crowd, the trombone and a voice telling you what happened.</p>
+      <button type="button" class="go-yes">Tap for game sound</button>
+      <button type="button" class="go-no">Not now</button></div>`;
+    el.hidden = false;
+    el.querySelector('.go-yes').addEventListener('click', ()=>{ setSound(true); el.hidden = true; unlockAudio(); setTimeout(()=>{ playCrowd(2.2); }, 120); });
+    el.querySelector('.go-no').addEventListener('click', ()=>{ setSound(false); el.hidden = true; });
+  } else if(stored==='on'){
+    unlockAudio();
+    setTimeout(()=>{ if(audioReady()) el.hidden = true; }, 400);
+    // Phones need a tap on every visit before they will play anything.
+    el.innerHTML = `<button type="button" class="go-wake">🔊 Tap to wake game sound</button>`;
+    el.className = 'gameon wake';
+    el.hidden = false;
+    const done = ()=>{ el.hidden = true; document.removeEventListener('pointerdown', done, true); };
+    document.addEventListener('pointerdown', done, true);
+  }
+}
+
+/* ---------- keep the screen awake while games are live ---------- */
+let wakeLock = null, wantWake = false;
+async function syncWakeLock(anyLive){
+  wantWake = !!anyLive;
+  if(!('wakeLock' in navigator)) return;
+  try{
+    if(wantWake && !wakeLock && document.visibilityState==='visible'){
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', ()=>{ wakeLock = null; });
+    } else if(!wantWake && wakeLock){ await wakeLock.release(); wakeLock = null; }
+  }catch(e){ wakeLock = null; }
+}
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') syncWakeLock(wantWake); });
+
+/* ---------- share card ---------- */
+let lastShare = null;   // {players, stuStates, bruceStates, games}
+function wrapFit(ctx, text, maxW){
+  if(ctx.measureText(text).width <= maxW) return text;
+  let t = text;
+  while(t.length>1 && ctx.measureText(t+'…').width > maxW) t = t.slice(0,-1);
+  return t+'…';
+}
+function roundRect(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+async function buildShareCard(){
+  const S = lastShare; if(!S) return null;
+  try{ await Promise.all([document.fonts.load('800 60px "Barlow Condensed"'), document.fonts.load('600 30px Inter'), document.fonts.load('700 30px Inter')]); }catch(e){}
+  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d');
+  const C = {bg:'#0a0f0c', panel:'#111915', line:'#22302a', txt:'#eef3ef', dim:'#9fb2a6', stu:'#f5c542', bruce:'#3cc8e6', win:'#4ade80', lose:'#f87171', open:'#93a9bd', lvl:'#d7dee0', man:'#c4a5ff'};
+  const NUM = '"Barlow Condensed","Arial Narrow",sans-serif', SANS = 'Inter,"Segoe UI",Roboto,Arial,sans-serif';
+  x.fillStyle = C.bg; x.fillRect(0,0,W,H);
+  // turf strip
+  for(let i=0;i<12;i++){ x.fillStyle = i%2 ? '#29612f' : '#2d6a35'; x.fillRect(i*W/12, H-56, W/12+1, 56); }
+  x.fillStyle = C.stu; x.fillRect(0, H-62, W/2, 6); x.fillStyle = C.bruce; x.fillRect(W/2, H-62, W/2, 6);
+  // header
+  x.fillStyle = C.txt; x.font = `800 64px ${NUM}`; x.textBaseline = 'alphabetic';
+  x.fillText('SUNDAY TICKET', 60, 108);
+  const wk = (typeof WEEK!=='undefined' && WEEK.espn_week) ? `WEEK ${WEEK.espn_week} · ` : '';
+  x.fillStyle = C.dim; x.font = `600 28px ${SANS}`;
+  x.fillText(wk + new Intl.DateTimeFormat('en-GB',{timeZone:UK, weekday:'short', day:'numeric', month:'short'}).format(new Date()).toUpperCase(), 62, 150);
+  x.textAlign = 'right'; x.font = `800 40px ${NUM}`;
+  const n1 = displayName('stu').toUpperCase(), n2 = displayName('bruce').toUpperCase();
+  x.fillStyle = C.bruce; const w2 = x.measureText(n2).width; x.fillText(n2, W-60, 108);
+  x.fillStyle = C.dim; x.font = `700 26px ${NUM}`; x.fillText('VS', W-60-w2-14, 108); const wv = x.measureText('VS').width;
+  x.fillStyle = C.stu; x.font = `800 40px ${NUM}`; x.fillText(n1, W-60-w2-28-wv, 108);
+  x.textAlign = 'left';
+  // tug
+  const t1 = tallyLegs(S.players.stu.legs||[], S.stuStates, S.games), t2 = tallyLegs(S.players.bruce.legs||[], S.bruceStates, S.games);
+  const s1 = t1.w+t1.l+t1.d+t1.live, s2 = t2.w+t2.l+t2.d+t2.live, l1 = t1.w+t1.liveUp, l2 = t2.w+t2.liveUp;
+  const p1 = s1 ? l1/s1 : 0, p2 = s2 ? l2/s2 : 0;
+  let share = (p1+p2)>0 ? p1/(p1+p2) : 0.5; share = Math.min(0.94, Math.max(0.06, share));
+  const ty = 200, tx = 60, tw = W-120;
+  x.font = `800 72px ${NUM}`; x.fillStyle = C.stu; x.fillText(`${l1}`, tx, ty+62); let a = x.measureText(`${l1}`).width;
+  const word = (t1.live+t2.live) ? 'landing' : 'landed';
+  x.font = `700 36px ${NUM}`; x.fillStyle = C.dim; x.fillText(`/${s1} ${word}`, tx+a+4, ty+62);
+  x.textAlign = 'right'; x.font = `700 36px ${NUM}`; x.fillText(`/${s2} ${word}`, W-60, ty+62); a = x.measureText(`/${s2} ${word}`).width;
+  x.font = `800 72px ${NUM}`; x.fillStyle = C.bruce; x.fillText(`${l2}`, W-60-a-4, ty+62); x.textAlign = 'left';
+  roundRect(x, tx, ty+88, tw, 22, 11); x.save(); x.clip();
+  x.fillStyle = C.stu; x.fillRect(tx, ty+88, tw*share, 22); x.fillStyle = C.bruce; x.fillRect(tx+tw*share, ty+88, tw*(1-share), 22); x.restore();
+  x.fillStyle = '#fff'; x.fillRect(tx+tw/2-1.5, ty+80, 3, 38);
+  const gap = Math.abs(p1-p2), lead = gap<0.04 ? 'DEAD LEVEL' : `${(p1>p2?n1:n2)} ${gap>0.3?'RUNNING AWAY WITH IT':gap>0.12?'PULLING AHEAD':'JUST AHEAD'}`;
+  x.font = `700 26px ${SANS}`; x.fillStyle = C.txt; x.textAlign = 'center'; x.fillText(lead, W/2, ty+156); x.textAlign = 'left';
+  // two columns of legs
+  const colY = ty+196, colH = H-62-36-colY, colW = (W-120-24)/2;
+  const glyph = {win:'✓', lose:'✗', level:'=', open:'○', manual:'?', pre:'·'};
+  const col = {win:C.win, lose:C.lose, level:C.lvl, open:C.open, manual:C.man, pre:C.dim};
+  [['stu', S.stuStates, 60], ['bruce', S.bruceStates, 60+colW+24]].forEach(([who, states, cx])=>{
+    const pc = who==='stu' ? C.stu : C.bruce;
+    roundRect(x, cx, colY, colW, colH, 22); x.fillStyle = C.panel; x.fill(); x.strokeStyle = C.line; x.lineWidth = 2; x.stroke();
+    x.save(); roundRect(x, cx, colY, colW, colH, 22); x.clip(); x.fillStyle = pc; x.fillRect(cx, colY, colW, 6); x.restore();
+    x.fillStyle = pc; x.font = `800 40px ${NUM}`; x.fillText(displayName(who).toUpperCase(), cx+28, colY+60);
+    const legs = (S.players[who].legs||[]).map(l=>{ const g = S.games.find(gg=>gameHasLeg(gg,l)); return {l, g, st: states.get(l)||'pre', t: g?+new Date(g.date):0}; }).sort((p,q)=>p.t-q.t);
+    const rows = legs.length, avail = colH - 100 - 120;
+    const rh = Math.max(34, Math.min(62, avail / Math.max(1, rows)));
+    const fs = Math.round(Math.min(28, rh*0.48));
+    let y = colY + 100;
+    for(const o of legs.slice(0, Math.floor(avail/rh))){
+      const st = o.g && o.g.state==='post' ? o.st : (o.g && o.g.state==='in' ? o.st : 'pre');
+      x.fillStyle = col[st]||C.dim; x.font = `800 ${fs+4}px ${SANS}`; x.fillText(glyph[st]||'·', cx+28, y+fs*0.9);
+      x.fillStyle = C.txt; x.font = `600 ${fs}px ${SANS}`;
+      const res = o.g ? (legNote(o.g, o.l, st).text || (st==='pre'?'to play':'')) : '';
+      x.font = `700 ${fs}px ${NUM}`; const rw = x.measureText(res).width;
+      x.font = `600 ${fs}px ${SANS}`; x.fillText(wrapFit(x, rowTitle(o.l), colW-56-28-rw-16), cx+64, y+fs*0.9);
+      x.textAlign = 'right'; x.fillStyle = col[st]||C.dim; x.font = `700 ${fs}px ${NUM}`; x.fillText(res, cx+colW-28, y+fs*0.9); x.textAlign = 'left';
+      y += rh;
+    }
+    // accas summary
+    const bets = S.players[who].bets||[];
+    if(bets.length){
+      const tagged = (S.players[who].legs||[]).map(l=>{ const g = S.games.find(gg=>gameHasLeg(gg,l)); return {...l, status: states.get(l)||'pre', final: !!(g&&g.state==='post') || l._lock==='lose'}; });
+      const parts = bets.map(b=>{ try{ return accaBarPart(accaStats(tagged, b)).replace(/<[^>]+>/g,''); }catch(e){ return ''; } }).filter(Boolean);
+      const alive = parts.filter(p=>!/DEAD|✗| 0\//.test(p)), dead = parts.length - alive.length;
+      x.fillStyle = C.line; x.fillRect(cx+28, colY+colH-110, colW-56, 2);
+      x.fillStyle = C.dim; x.font = `700 20px ${SANS}`; x.fillText('ACCAS', cx+28, colY+colH-76);
+      x.font = `600 22px ${SANS}`; x.fillStyle = alive.length ? C.win : C.lose;
+      x.fillText(wrapFit(x, alive.length ? alive.slice(0,3).join(' · ') : 'none on', colW-56), cx+28, colY+colH-44);
+      if(dead && alive.length){ x.fillStyle = C.lose; x.font = `600 20px ${SANS}`; x.fillText(`${dead} dead or off`, cx+28, colY+colH-18); }
+    }
+  });
+  x.fillStyle = 'rgba(255,255,255,.85)'; x.font = `600 22px ${SANS}`; x.textAlign = 'center';
+  x.fillText(`Made with Sunday Ticket · ${fmtKoToday.format(new Date())} UK`, W/2, H-20); x.textAlign = 'left';
+  return new Promise(res=>c.toBlob(b=>res(b), 'image/png'));
+}
+async function openShare(){
+  const m = document.getElementById('sharebox');
+  if(!m) return;
+  m.hidden = false;
+  m.innerHTML = `<div class="sh-card" role="dialog" aria-modal="true" aria-label="Share tonight's card"><p class="sh-wait">Making the card…</p></div>`;
+  const blob = await buildShareCard();
+  if(!blob){ m.hidden = true; return; }
+  const url = URL.createObjectURL(blob);
+  const file = new File([blob], 'sunday-ticket.png', {type:'image/png'});
+  const canShare = !!(navigator.canShare && navigator.canShare({files:[file]}));
+  m.innerHTML = `<div class="sh-card" role="dialog" aria-modal="true" aria-label="Share tonight's card">
+    <img src="${url}" alt="Tonight's Sunday Ticket card">
+    <div class="sh-btns">${canShare?'<button type="button" class="sh-go">Share</button>':''}<a class="sh-save" href="${url}" download="sunday-ticket.png">Save image</a><button type="button" class="sh-x">Close</button></div></div>`;
+  const close = ()=>{ m.hidden = true; m.innerHTML = ''; URL.revokeObjectURL(url); };
+  m.querySelector('.sh-x').addEventListener('click', close);
+  m.addEventListener('click', e=>{ if(e.target===m) close(); }, {once:true});
+  const go = m.querySelector('.sh-go');
+  if(go) go.addEventListener('click', async ()=>{ try{ await navigator.share({files:[file], title:'Sunday Ticket'}); }catch(e){} });
+}
+
+/* ---------- wire up header ---------- */
+(function initFun(){
+  const b = document.getElementById('sndbtn');
+  b.setAttribute('aria-haspopup', 'true'); b.setAttribute('aria-expanded', 'false');
+  b.addEventListener('click', e=>{ e.stopPropagation(); unlockAudio(); openSoundPanel(); });
+  const p = document.getElementById('sndpanel');
+  p.addEventListener('click', e=>{
+    e.stopPropagation();
+    const t = e.target.closest('[data-act],[data-try]');
+    if(!t) return;
+    if(t.dataset.act==='toggle'){ setSound(!soundOn); openSoundPanel(true); }
+    if(t.dataset.try) trySound(t.dataset.try);
+  });
+  p.addEventListener('input', e=>{ if(e.target.dataset.act==='vol') setVolume(parseFloat(e.target.value)); });
+  document.addEventListener('click', e=>{ if(!p.hidden && !e.target.closest('#sndpanel')) openSoundPanel(false); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !p.hidden) openSoundPanel(false); });
+  document.getElementById('sharebtn').addEventListener('click', openShare);
+  gameOnPrompt();
+})();
+let finHidden = (()=>{ try{ return localStorage.getItem('st_fin')==='1'; }catch(e){ return false; } })();
+document.getElementById('board').addEventListener('click', e=>{
+  const t = e.target.closest('.fin-tog');
+  if(!t) return;
+  e.stopPropagation();
+  finHidden = !finHidden;
+  try{ localStorage.setItem('st_fin', finHidden?'1':'0'); }catch(err){}
+  safeRender();
+}, true);
+
 // any click/key unlocks audio (browsers block sound until a user gesture)
 ['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev, ()=>{ if(soundOn) unlockAudio(); }, {capture:true}));
 updateSoundBtn();
