@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
-<meta name="st-build" content="20261122-192619">
+<meta name="st-build" content="20261122-193303">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SUNDAY TICKET</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3511,7 +3511,7 @@ function legNote(g, leg, st){
   if(leg.type==='team_stat'){
     const v = Number(leg._live), line = Number(leg.line);
     if(!Number.isFinite(v)) text = 'waiting for stats';
-    else if(leg.side==='under') text = v<line ? `${fmtMarginNum(line-v)} spare` : `over by ${fmtMarginNum(v-line)}`;
+    else if(leg.side==='under'){ const max = Math.ceil(line)-1; text = v<=max ? `${fmtMarginNum(max-v)} spare` : `over by ${fmtMarginNum(v-max)}`; }
     else text = v>line ? `in by ${fmtMarginNum(v-line)}` : `needs ${fmtMarginNum(Math.floor(line)+1-v)}`;
   } else if(leg.type==='total'){
     const total = g.teams.reduce((s,t)=>s+t.score,0), line = Number(leg.line);
@@ -3773,7 +3773,7 @@ function setLiveStatus(ok){
     upd.textContent = 'updated ' + fmtTime.format(new Date()) + ' UK';
   } else {
     dot.className = 'dot bad';
-    upd.textContent = 'offline';
+    upd.textContent = "can't reach ESPN · retrying";
   }
 }
 
@@ -3835,6 +3835,9 @@ async function prefetchPropSummaries(){
   if(!ids.length) return;
   await Promise.all(ids.map(id => loadSummary(id, false)));
 }
+function safeRender(){
+  try{ render(); }catch(e){ console.error('render failed', e); }
+}
 async function poll(){
   try{
     const src = new URLSearchParams(location.search).get('src') || ESPN_URL; // ?src= only for testing
@@ -3844,11 +3847,11 @@ async function poll(){
     lastData = data;
     mergeLive(data.events||[]);
     try{ localStorage.setItem('st_last', JSON.stringify({t:Date.now(), games:GAMES})); }catch(e){}
-    render();
+    safeRender();
     setLiveStatus(true);
-    await prefetchPropSummaries();
-    if(selectedId) await loadSummary(selectedId, true);
-    render();
+    try{ await prefetchPropSummaries(); }catch(e){ console.warn('box scores failed', e); }
+    if(selectedId){ try{ await loadSummary(selectedId, true); }catch(e){} }
+    safeRender();
     pollTicks++;
     if(pollTicks % BUILD_CHECK_EVERY === 0) checkForNewBuild();
   }catch(e){
