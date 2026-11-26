@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
-<meta name="st-build" content="20261126-1145">
+<meta name="st-build" content="20261126-1355">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -471,8 +471,111 @@ const WEEK = /* ===== WEEK TICKET JSON START (same structure as week.json - swap
     },
     "bruce": {
       "name": "Boet",
-      "legs": [],
-      "bets": []
+      "legs": [
+        {
+          "team": "CHI",
+          "opp": "DET",
+          "line": "-1.5",
+          "odds": 1.926
+        },
+        {
+          "team": "PHI",
+          "opp": "DAL",
+          "line": "+8.5",
+          "odds": 1.917
+        },
+        {
+          "team": "BUF",
+          "opp": "KC",
+          "line": "-2.5",
+          "odds": 1.781
+        },
+        {
+          "team": "DEN",
+          "opp": "PIT",
+          "line": "O 36.5",
+          "odds": 1.855
+        },
+        {
+          "team": "MIN",
+          "opp": "ATL",
+          "line": "-6.5",
+          "odds": 1.84
+        },
+        {
+          "team": "HOU",
+          "opp": "BAL",
+          "line": "U 47.5",
+          "odds": 1.877
+        },
+        {
+          "team": "CIN",
+          "opp": "NO",
+          "line": "-9.5",
+          "odds": 1.833
+        },
+        {
+          "team": "NYG",
+          "opp": "IND",
+          "line": "-6.5",
+          "odds": 1.943
+        },
+        {
+          "team": "MIA",
+          "opp": "NYJ",
+          "line": "+5.5",
+          "odds": 1.909
+        },
+        {
+          "team": "TEN",
+          "opp": "JAX",
+          "line": "+14.5",
+          "odds": 1.885
+        },
+        {
+          "team": "NE",
+          "opp": "LAC",
+          "line": "-1.5",
+          "odds": 1.952
+        },
+        {
+          "team": "ARI",
+          "opp": "WSH",
+          "line": "+6.5",
+          "odds": 1.952
+        },
+        {
+          "team": "SF",
+          "opp": "SEA",
+          "line": "both 25+",
+          "odds": 15.0,
+          "label": "Bet Builder: both 25+ pts, JSN & CMC 5+ rec",
+          "props": [
+            {
+              "player": "Jaxon Smith-Njigba",
+              "stat": "receptions",
+              "op": ">=",
+              "line": 5
+            },
+            {
+              "player": "Christian McCaffrey",
+              "stat": "receptions",
+              "op": ">=",
+              "line": 5
+            }
+          ]
+        }
+      ],
+      "bets": [
+        {
+          "type": "13-fold",
+          "lines": 1,
+          "stake_per_line": 7.8,
+          "total_stake": 7.8,
+          "potential": 58516.69
+        }
+      ],
+      "bookmaker": "Betfair"
     }
   },
   "bookmaker": "Betfair"
@@ -2205,6 +2308,8 @@ function mapLeg(l){
   let leg;
   if(rush){
     leg = { team:l.team, opp:l.opp, type:'team_stat', stat:'rushingAttempts', side:rush[2][0].toUpperCase()==='O'?'over':'under', line:Number(rush[3]), odds };
+  } else if(/^both\s+(\d+)\+$/i.test(raw)){
+    leg = { team:l.team, opp:l.opp, type:'both_min', line:Number(raw.match(/(\d+)/)[1]), odds };
   } else if(!raw && props.length){
     leg = { team:l.team, opp:l.opp, type:'prop', odds };
   } else if(/^(ml|moneyline|money line|to win|win)$/i.test(raw)){
@@ -3260,7 +3365,8 @@ function legFor(g){
 }
 function gradeMainLine(g, leg){
   if(leg.type==='team_stat') return gradeTeamStat(g, leg);
-  if(leg.type==='prop') return 'win';   // prop-only leg: the props decide it
+  if(leg.type==='prop') return 'win';
+  if(leg.type==='both_min'){ if(g.teams.every(t=>t.score>=leg.line)) return 'win'; return g.state==='post' ? 'lose' : 'open'; }   // prop-only leg: the props decide it
   if(leg.type==='manual') return 'manual';
   if(leg.type==='total'){
     const total = g.teams.reduce((s,t)=>s+t.score,0);
