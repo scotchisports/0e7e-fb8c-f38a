@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
-<meta name="st-build" content="20261122-224739">
+<meta name="st-build" content="20261126-1145">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -38,125 +38,219 @@
    ===================================================================== */
 const WEEK = /* ===== WEEK TICKET JSON START (same structure as week.json - swap this block each week) ===== */
 {
-  "week_of": "2026-11-22",
-  "espn_week": 11,
-  "canvas_id": "b8f16348-e54b-4852-8d3c-71798030d2b0",
+  "week_of": "2026-11-26",
+  "espn_week": 12,
   "no_bet_games": [
-    "IND at HOU",
-    "CIN at WSH"
+    "GB at LAR",
+    "CAR at TB"
   ],
   "legs": [
     {
-      "team": "PIT",
-      "opp": "PHI",
-      "line": "ML",
-      "odds": 3.4
+      "team": "DET",
+      "opp": "CHI",
+      "line": "",
+      "label": "St. Brown anytime TD",
+      "odds": 1.73,
+      "props": [
+        {
+          "player": "Amon-Ra St. Brown",
+          "stat": "anytimeTouchdowns",
+          "op": ">=",
+          "line": 1
+        }
+      ]
     },
     {
-      "team": "BAL",
-      "opp": "CAR",
+      "team": "CHI",
+      "opp": "DET",
+      "line": "ML",
+      "odds": 2.75,
+      "label": "Swift TD + CHI win",
+      "props": [
+        {
+          "player": "D'Andre Swift",
+          "stat": "anytimeTouchdowns",
+          "op": ">=",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "team": "CHI",
+      "opp": "DET",
+      "line": "ML",
+      "odds": 1.83
+    },
+    {
+      "team": "DAL",
+      "opp": "PHI",
+      "line": "ML",
+      "odds": 1.2
+    },
+    {
+      "team": "BUF",
+      "opp": "KC",
+      "line": "each team rush TD + pass TD",
+      "label": "Both teams 1+ rush TD & 1+ pass TD",
+      "odds": 3.25
+    },
+    {
+      "team": "BUF",
+      "opp": "KC",
+      "line": "Cook 10+ rush yds every qtr",
+      "label": "Cook 10+ rush yds every quarter",
+      "odds": 2.4
+    },
+    {
+      "team": "BUF",
+      "opp": "KC",
+      "line": "ML",
+      "odds": 2.88,
+      "label": "Cook TD + BUF win",
+      "props": [
+        {
+          "player": "James Cook",
+          "stat": "anytimeTouchdowns",
+          "op": ">=",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "team": "BUF",
+      "opp": "KC",
+      "line": "ML",
+      "odds": 2.8,
+      "label": "Allen TD + BUF win",
+      "props": [
+        {
+          "player": "Josh Allen",
+          "stat": "anytimeTouchdowns",
+          "op": ">=",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "team": "BUF",
+      "opp": "KC",
+      "line": "",
+      "label": "Kincaid anytime TD",
+      "odds": 4.0,
+      "props": [
+        {
+          "player": "Dalton Kincaid",
+          "stat": "anytimeTouchdowns",
+          "op": ">=",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "team": "BUF",
+      "opp": "KC",
+      "line": "ML",
+      "odds": 1.62
+    },
+    {
+      "team": "DEN",
+      "opp": "PIT",
+      "line": "ML",
+      "odds": 1.4
+    },
+    {
+      "team": "CIN",
+      "opp": "NO",
+      "line": "ML",
+      "odds": 1.2
+    },
+    {
+      "team": "HOU",
+      "opp": "BAL",
+      "line": "ML",
+      "odds": 1.33
+    },
+    {
+      "team": "NYG",
+      "opp": "IND",
+      "line": "ML",
+      "odds": 1.33
+    },
+    {
+      "team": "NYJ",
+      "opp": "MIA",
+      "line": "ML",
+      "odds": 1.4
+    },
+    {
+      "team": "JAX",
+      "opp": "TEN",
+      "line": "ML",
+      "odds": 1.1
+    },
+    {
+      "team": "MIN",
+      "opp": "ATL",
       "line": "ML",
       "odds": 1.3
     },
     {
       "team": "LAC",
-      "opp": "NYJ",
+      "opp": "NE",
       "line": "ML",
-      "odds": 1.57
+      "odds": 1.91
+    },
+    {
+      "team": "SF",
+      "opp": "SEA",
+      "line": "ML",
+      "odds": 1.67
+    },
+    {
+      "team": "WSH",
+      "opp": "ARI",
+      "line": "ML",
+      "odds": 1.29
     },
     {
       "team": "LV",
-      "opp": "DEN",
+      "opp": "CLE",
       "line": "ML",
-      "odds": 5.5
-    },
-    {
-      "team": "BUF",
-      "opp": "MIA",
-      "line": "ML",
-      "odds": 1.02
-    },
-    {
-      "team": "CHI",
-      "opp": "NO",
-      "line": "ML",
-      "odds": 1.14
-    },
-    {
-      "team": "DAL",
-      "opp": "TEN",
-      "line": "-7.5",
-      "odds": 1.5
-    },
-    {
-      "team": "DET",
-      "opp": "TB",
-      "line": "-3.5",
-      "odds": 1.53
-    },
-    {
-      "team": "KC",
-      "opp": "ARI",
-      "line": "ML",
-      "odds": 1.0
+      "odds": 2.75
     }
   ],
   "bets": [
     {
-      "type": "9-fold",
+      "type": "Bet Builder double",
       "lines": 1,
-      "stake_per_line": 30,
-      "total_stake": 30,
-      "potential": 3085.0
-    },
-    {
-      "type": "8-folds",
-      "lines": 9,
-      "stake_per_line": 5,
-      "total_stake": 45,
-      "potential": 3111.62
-    },
-    {
-      "type": "7-folds",
-      "lines": 36,
-      "stake_per_line": 0.5,
-      "total_stake": 18,
-      "potential": 820.59
-    },
-    {
-      "type": "6-folds",
-      "lines": 84,
-      "stake_per_line": 0.1,
-      "total_stake": 8.4,
-      "potential": 246.9
-    },
-    {
-      "type": "5-folds",
-      "lines": 126,
-      "stake_per_line": 0.1,
-      "total_stake": 12.6,
-      "potential": 232.74
-    },
-    {
-      "type": "4-folds",
-      "lines": 126,
-      "stake_per_line": 0.1,
-      "total_stake": 12.6,
-      "potential": 141.95
-    },
-    {
-      "type": "trebles",
-      "lines": 84,
-      "stake_per_line": 0.1,
-      "total_stake": 8.4,
-      "potential": 55.7
+      "stake_per_line": 20,
+      "total_stake": 20,
+      "potential": 63.3,
+      "legs": [
+        0,
+        2
+      ]
     },
     {
       "type": "doubles",
-      "lines": 36,
-      "stake_per_line": 0.5,
-      "total_stake": 18,
-      "potential": 67.26
+      "lines": 192,
+      "stake_per_line": 0.1,
+      "total_stake": 19.2,
+      "potential": 60.02
+    },
+    {
+      "type": "12-folds",
+      "lines": 1297,
+      "stake_per_line": 0.1,
+      "total_stake": 129.7,
+      "potential": 25399.1
+    },
+    {
+      "type": "14-folds",
+      "lines": 18,
+      "stake_per_line": 2,
+      "total_stake": 36,
+      "potential": 14406.12
     }
   ],
   "final_result_sent": false,
@@ -165,223 +259,220 @@ const WEEK = /* ===== WEEK TICKET JSON START (same structure as week.json - swap
       "name": "Scotchi",
       "legs": [
         {
-          "team": "PIT",
-          "opp": "PHI",
-          "line": "ML",
-          "odds": 3.4
+          "team": "DET",
+          "opp": "CHI",
+          "line": "",
+          "label": "St. Brown anytime TD",
+          "odds": 1.73,
+          "props": [
+            {
+              "player": "Amon-Ra St. Brown",
+              "stat": "anytimeTouchdowns",
+              "op": ">=",
+              "line": 1
+            }
+          ]
         },
         {
-          "team": "BAL",
-          "opp": "CAR",
+          "team": "CHI",
+          "opp": "DET",
+          "line": "ML",
+          "odds": 2.75,
+          "label": "Swift TD + CHI win",
+          "props": [
+            {
+              "player": "D'Andre Swift",
+              "stat": "anytimeTouchdowns",
+              "op": ">=",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "team": "CHI",
+          "opp": "DET",
+          "line": "ML",
+          "odds": 1.83
+        },
+        {
+          "team": "DAL",
+          "opp": "PHI",
+          "line": "ML",
+          "odds": 1.2
+        },
+        {
+          "team": "BUF",
+          "opp": "KC",
+          "line": "each team rush TD + pass TD",
+          "label": "Both teams 1+ rush TD & 1+ pass TD",
+          "odds": 3.25
+        },
+        {
+          "team": "BUF",
+          "opp": "KC",
+          "line": "Cook 10+ rush yds every qtr",
+          "label": "Cook 10+ rush yds every quarter",
+          "odds": 2.4
+        },
+        {
+          "team": "BUF",
+          "opp": "KC",
+          "line": "ML",
+          "odds": 2.88,
+          "label": "Cook TD + BUF win",
+          "props": [
+            {
+              "player": "James Cook",
+              "stat": "anytimeTouchdowns",
+              "op": ">=",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "team": "BUF",
+          "opp": "KC",
+          "line": "ML",
+          "odds": 2.8,
+          "label": "Allen TD + BUF win",
+          "props": [
+            {
+              "player": "Josh Allen",
+              "stat": "anytimeTouchdowns",
+              "op": ">=",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "team": "BUF",
+          "opp": "KC",
+          "line": "",
+          "label": "Kincaid anytime TD",
+          "odds": 4.0,
+          "props": [
+            {
+              "player": "Dalton Kincaid",
+              "stat": "anytimeTouchdowns",
+              "op": ">=",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "team": "BUF",
+          "opp": "KC",
+          "line": "ML",
+          "odds": 1.62
+        },
+        {
+          "team": "DEN",
+          "opp": "PIT",
+          "line": "ML",
+          "odds": 1.4
+        },
+        {
+          "team": "CIN",
+          "opp": "NO",
+          "line": "ML",
+          "odds": 1.2
+        },
+        {
+          "team": "HOU",
+          "opp": "BAL",
+          "line": "ML",
+          "odds": 1.33
+        },
+        {
+          "team": "NYG",
+          "opp": "IND",
+          "line": "ML",
+          "odds": 1.33
+        },
+        {
+          "team": "NYJ",
+          "opp": "MIA",
+          "line": "ML",
+          "odds": 1.4
+        },
+        {
+          "team": "JAX",
+          "opp": "TEN",
+          "line": "ML",
+          "odds": 1.1
+        },
+        {
+          "team": "MIN",
+          "opp": "ATL",
           "line": "ML",
           "odds": 1.3
         },
         {
           "team": "LAC",
-          "opp": "NYJ",
+          "opp": "NE",
           "line": "ML",
-          "odds": 1.57
+          "odds": 1.91
+        },
+        {
+          "team": "SF",
+          "opp": "SEA",
+          "line": "ML",
+          "odds": 1.67
+        },
+        {
+          "team": "WSH",
+          "opp": "ARI",
+          "line": "ML",
+          "odds": 1.29
         },
         {
           "team": "LV",
-          "opp": "DEN",
+          "opp": "CLE",
           "line": "ML",
-          "odds": 5.5
-        },
-        {
-          "team": "BUF",
-          "opp": "MIA",
-          "line": "ML",
-          "odds": 1.02
-        },
-        {
-          "team": "CHI",
-          "opp": "NO",
-          "line": "ML",
-          "odds": 1.14
-        },
-        {
-          "team": "DAL",
-          "opp": "TEN",
-          "line": "-7.5",
-          "odds": 1.5
-        },
-        {
-          "team": "DET",
-          "opp": "TB",
-          "line": "-3.5",
-          "odds": 1.53
-        },
-        {
-          "team": "KC",
-          "opp": "ARI",
-          "line": "ML",
-          "odds": 1.0
+          "odds": 2.75
         }
       ],
       "bets": [
         {
-          "type": "9-fold",
+          "type": "Bet Builder double",
           "lines": 1,
-          "stake_per_line": 30,
-          "total_stake": 30,
-          "potential": 3085.0
-        },
-        {
-          "type": "8-folds",
-          "lines": 9,
-          "stake_per_line": 5,
-          "total_stake": 45,
-          "potential": 3111.62
-        },
-        {
-          "type": "7-folds",
-          "lines": 36,
-          "stake_per_line": 0.5,
-          "total_stake": 18,
-          "potential": 820.59
-        },
-        {
-          "type": "6-folds",
-          "lines": 84,
-          "stake_per_line": 0.1,
-          "total_stake": 8.4,
-          "potential": 246.9
-        },
-        {
-          "type": "5-folds",
-          "lines": 126,
-          "stake_per_line": 0.1,
-          "total_stake": 12.6,
-          "potential": 232.74
-        },
-        {
-          "type": "4-folds",
-          "lines": 126,
-          "stake_per_line": 0.1,
-          "total_stake": 12.6,
-          "potential": 141.95
-        },
-        {
-          "type": "trebles",
-          "lines": 84,
-          "stake_per_line": 0.1,
-          "total_stake": 8.4,
-          "potential": 55.7
+          "stake_per_line": 20,
+          "total_stake": 20,
+          "potential": 63.3,
+          "legs": [
+            0,
+            2
+          ]
         },
         {
           "type": "doubles",
-          "lines": 36,
-          "stake_per_line": 0.5,
-          "total_stake": 18,
-          "potential": 67.26
+          "lines": 192,
+          "stake_per_line": 0.1,
+          "total_stake": 19.2,
+          "potential": 60.02
+        },
+        {
+          "type": "12-folds",
+          "lines": 1297,
+          "stake_per_line": 0.1,
+          "total_stake": 129.7,
+          "potential": 25399.1
+        },
+        {
+          "type": "14-folds",
+          "lines": 18,
+          "stake_per_line": 2,
+          "total_stake": 36,
+          "potential": 14406.12
         }
       ],
       "bookmaker": "Betfair",
-      "placed_at": "2026-11-22T18:37:00Z"
+      "placed_at": "2026-11-26T17:25:00Z"
     },
     "bruce": {
       "name": "Boet",
-      "legs": [
-        {
-          "team": "CAR",
-          "opp": "BAL",
-          "line": "-2.5"
-        },
-        {
-          "team": "NO",
-          "opp": "CHI",
-          "line": "U 48"
-        },
-        {
-          "team": "TB",
-          "opp": "DET",
-          "line": "O 48"
-        },
-        {
-          "team": "MIN",
-          "opp": "SF",
-          "line": "O 46"
-        },
-        {
-          "team": "LV",
-          "opp": "DEN",
-          "line": "O 41"
-        },
-        {
-          "team": "JAX",
-          "opp": "NYG",
-          "line": "-5.5"
-        },
-        {
-          "team": "NYJ",
-          "opp": "LAC",
-          "line": "U 44"
-        },
-        {
-          "team": "TEN",
-          "opp": "DAL",
-          "line": "U 55"
-        },
-        {
-          "team": "PIT",
-          "opp": "PHI",
-          "line": "O 37"
-        },
-        {
-          "team": "KC",
-          "opp": "ARI",
-          "line": "O 40",
-          "props": [
-            {
-              "player": "Patrick Mahomes",
-              "stat": "passingTouchdowns",
-              "op": ">=",
-              "line": 3
-            }
-          ]
-        },
-        {
-          "team": "BUF",
-          "opp": "MIA",
-          "line": "-16.5",
-          "props": [
-            {
-              "player": "Josh Allen",
-              "stat": "passingTouchdowns",
-              "op": ">=",
-              "line": 2
-            },
-            {
-              "player": "DJ Moore",
-              "stat": "receivingYards",
-              "op": ">=",
-              "line": 50
-            },
-            {
-              "player": "Khalil Shakir",
-              "stat": "receivingYards",
-              "op": ">=",
-              "line": 50
-            }
-          ]
-        },
-        {
-          "team": "MIA",
-          "opp": "BUF",
-          "line": "rush att U 21.5",
-          "label": "MIA rush att < 22"
-        }
-      ],
-      "bets": [
-        {
-          "type": "12-fold",
-          "lines": 1,
-          "stake_per_line": null,
-          "total_stake": null,
-          "potential": null
-        }
-      ]
+      "legs": [],
+      "bets": []
     }
   },
   "bookmaker": "Betfair"
@@ -413,15 +504,15 @@ const BETS = {
 };
 const BET_LINES = _stuBets.map(b => ({ name:b.type, note:b.lines>1?b.lines+' lines':'', folds:foldsOf(b.type), lines:b.lines, stake:0, stake_per_line:b.stake_per_line, total_stake:b.total_stake, potential:b.potential, boost:b.boost }));
 const NO_BET = (WEEK.no_bet_games||[]).map(s => s.toUpperCase().split(/\s+AT\s+/));
-const ALWAYS_SHOW = ['CHI', 'LV'];
+const ALWAYS_SHOW = [];
 const POLL_SECONDS = 30;
 const SHOW_ALL = true; // every game on ESPN's current scoreboard
-const ESPN_URL = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=11';
+const ESPN_URL = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=12';
 const GAMES = /* ===== BAKED GAMES START ===== */
 [
   {
-    "id": "401873066",
-    "date": "2026-11-20T01:15Z",
+    "id": "401873079",
+    "date": "2026-11-26T01:00:00.000Z",
     "state": "post",
     "completed": true,
     "detail": "Final",
@@ -430,273 +521,218 @@ const GAMES = /* ===== BAKED GAMES START ===== */
     "clock": "0:00",
     "teams": [
       {
-        "id": "11",
-        "ab": "IND",
-        "name": "Colts",
-        "logo": "",
-        "score": 3,
-        "color": "003b75"
+        "id": "9",
+        "ab": "GB",
+        "name": "Packers",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/gb.png",
+        "score": 13,
+        "color": "204e32"
       },
       {
-        "id": "34",
-        "ab": "HOU",
-        "name": "Texans",
-        "logo": "",
+        "id": "14",
+        "ab": "LAR",
+        "name": "Rams",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lar.png",
         "score": 26,
-        "color": "021018"
+        "color": "003594"
       }
     ],
-    "yardLine": null,
-    "down": null,
     "possessionText": "",
-    "possession": null,
     "redZone": false,
     "dd": ""
   },
   {
-    "id": "401873070",
-    "date": "2026-11-22T18:00Z",
-    "state": "in",
+    "id": "401873081",
+    "date": "2026-11-26T18:00:00.000Z",
+    "state": "pre",
     "completed": false,
-    "detail": "15:00 - 2nd",
-    "name": "STATUS_IN_PROGRESS",
-    "period": 2,
-    "clock": "15:00",
+    "detail": "11/26 - 1:00 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
     "teams": [
-      {
-        "id": "15",
-        "ab": "MIA",
-        "name": "Dolphins",
-        "logo": "",
-        "score": 0,
-        "color": "008e97"
-      },
-      {
-        "id": "2",
-        "ab": "BUF",
-        "name": "Bills",
-        "logo": "",
-        "score": 6,
-        "color": "00338d"
-      }
-    ],
-    "yardLine": 67,
-    "down": 3,
-    "possessionText": "MIA 33",
-    "possession": "2",
-    "redZone": false,
-    "dd": "3rd & 4"
-  },
-  {
-    "id": "401873068",
-    "date": "2026-11-22T18:00Z",
-    "state": "in",
-    "completed": false,
-    "detail": "2:42 - 1st",
-    "name": "STATUS_IN_PROGRESS",
-    "period": 1,
-    "clock": "2:42",
-    "teams": [
-      {
-        "id": "33",
-        "ab": "BAL",
-        "name": "Ravens",
-        "logo": "",
-        "score": 12,
-        "color": "29126f"
-      },
-      {
-        "id": "29",
-        "ab": "CAR",
-        "name": "Panthers",
-        "logo": "",
-        "score": 0,
-        "color": "0085ca"
-      }
-    ],
-    "yardLine": 21,
-    "down": 1,
-    "possessionText": "CAR 21",
-    "possession": null,
-    "redZone": false,
-    "dd": "1st & 10"
-  },
-  {
-    "id": "401873071",
-    "date": "2026-11-22T18:00Z",
-    "state": "in",
-    "completed": false,
-    "detail": "15:00 - 2nd",
-    "name": "STATUS_IN_PROGRESS",
-    "period": 2,
-    "clock": "15:00",
-    "teams": [
-      {
-        "id": "18",
-        "ab": "NO",
-        "name": "Saints",
-        "logo": "",
-        "score": 0,
-        "color": "d3bc8d"
-      },
       {
         "id": "3",
         "ab": "CHI",
         "name": "Bears",
-        "logo": "",
-        "score": 3,
-        "color": "0b1c3a"
-      }
-    ],
-    "yardLine": 65,
-    "down": 2,
-    "possessionText": "NO 35",
-    "possession": "18",
-    "redZone": false,
-    "dd": "2nd & 5"
-  },
-  {
-    "id": "401873073",
-    "date": "2026-11-22T18:00Z",
-    "state": "in",
-    "completed": false,
-    "detail": "15:00 - 2nd",
-    "name": "STATUS_IN_PROGRESS",
-    "period": 2,
-    "clock": "15:00",
-    "teams": [
-      {
-        "id": "10",
-        "ab": "TEN",
-        "name": "Titans",
-        "logo": "",
-        "score": 3,
-        "color": "4495d2"
-      },
-      {
-        "id": "6",
-        "ab": "DAL",
-        "name": "Cowboys",
-        "logo": "",
-        "score": 13,
-        "color": "002a5c"
-      }
-    ],
-    "yardLine": 91,
-    "down": 4,
-    "possessionText": "TEN 9",
-    "possession": "10",
-    "redZone": false,
-    "dd": "4th & 14"
-  },
-  {
-    "id": "401873072",
-    "date": "2026-11-22T18:00Z",
-    "state": "in",
-    "completed": false,
-    "detail": "10:37 - 2nd",
-    "name": "STATUS_IN_PROGRESS",
-    "period": 2,
-    "clock": "10:37",
-    "teams": [
-      {
-        "id": "27",
-        "ab": "TB",
-        "name": "Buccaneers",
-        "logo": "",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/chi.png",
         "score": 0,
-        "color": "bd1c36"
+        "color": "0b1c3a"
       },
       {
         "id": "8",
         "ab": "DET",
         "name": "Lions",
-        "logo": "",
-        "score": 7,
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/det.png",
+        "score": 0,
         "color": "0076b6"
       }
     ],
-    "yardLine": 35,
-    "down": -1,
     "possessionText": "",
-    "possession": "8",
-    "redZone": true,
+    "redZone": false,
     "dd": ""
   },
   {
-    "id": "401873067",
-    "date": "2026-11-22T18:00Z",
-    "state": "in",
+    "id": "401873080",
+    "date": "2026-11-26T21:30:00.000Z",
+    "state": "pre",
     "completed": false,
-    "detail": "14:20 - 2nd",
-    "name": "STATUS_IN_PROGRESS",
-    "period": 2,
-    "clock": "14:20",
+    "detail": "11/26 - 4:30 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
     "teams": [
-      {
-        "id": "22",
-        "ab": "ARI",
-        "name": "Cardinals",
-        "logo": "",
-        "score": 0,
-        "color": "a40227"
-      },
-      {
-        "id": "12",
-        "ab": "KC",
-        "name": "Chiefs",
-        "logo": "",
-        "score": 14,
-        "color": "e31837"
-      }
-    ],
-    "yardLine": 48,
-    "down": 3,
-    "possessionText": "KC 48",
-    "possession": "22",
-    "redZone": false,
-    "dd": "3rd & 6"
-  },
-  {
-    "id": "401873076",
-    "date": "2026-11-22T18:00Z",
-    "state": "in",
-    "completed": false,
-    "detail": "15:00 - 2nd",
-    "name": "STATUS_IN_PROGRESS",
-    "period": 2,
-    "clock": "15:00",
-    "teams": [
-      {
-        "id": "23",
-        "ab": "PIT",
-        "name": "Steelers",
-        "logo": "",
-        "score": 0,
-        "color": "000000"
-      },
       {
         "id": "21",
         "ab": "PHI",
         "name": "Eagles",
-        "logo": "",
-        "score": 13,
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/phi.png",
+        "score": 0,
         "color": "06424d"
+      },
+      {
+        "id": "6",
+        "ab": "DAL",
+        "name": "Cowboys",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/dal.png",
+        "score": 0,
+        "color": "002a5c"
       }
     ],
-    "yardLine": 58,
-    "down": 1,
-    "possessionText": "PIT 42",
-    "possession": "23",
+    "possessionText": "",
     "redZone": false,
-    "dd": "1st & 10"
+    "dd": ""
   },
   {
-    "id": "401873074",
-    "date": "2026-11-22T21:05Z",
+    "id": "401873082",
+    "date": "2026-11-27T01:20:00.000Z",
     "state": "pre",
     "completed": false,
-    "detail": "11/22 - 4:05 PM EST",
+    "detail": "11/26 - 8:20 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "12",
+        "ab": "KC",
+        "name": "Chiefs",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/kc.png",
+        "score": 0,
+        "color": "e31837"
+      },
+      {
+        "id": "2",
+        "ab": "BUF",
+        "name": "Bills",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/buf.png",
+        "score": 0,
+        "color": "00338d"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873083",
+    "date": "2026-11-27T20:00:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/27 - 3:00 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "7",
+        "ab": "DEN",
+        "name": "Broncos",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/den.png",
+        "score": 0,
+        "color": "0a2343"
+      },
+      {
+        "id": "23",
+        "ab": "PIT",
+        "name": "Steelers",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/pit.png",
+        "score": 0,
+        "color": "000000"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873087",
+    "date": "2026-11-29T18:00:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/29 - 1:00 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "18",
+        "ab": "NO",
+        "name": "Saints",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/no.png",
+        "score": 0,
+        "color": "d3bc8d"
+      },
+      {
+        "id": "4",
+        "ab": "CIN",
+        "name": "Bengals",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/cin.png",
+        "score": 0,
+        "color": "fb4f14"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873088",
+    "date": "2026-11-29T18:00:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/29 - 1:00 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "19",
+        "ab": "NYG",
+        "name": "Giants",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/nyg.png",
+        "score": 0,
+        "color": "003c7f"
+      },
+      {
+        "id": "11",
+        "ab": "IND",
+        "name": "Colts",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ind.png",
+        "score": 0,
+        "color": "003b75"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873089",
+    "date": "2026-11-29T18:00:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/29 - 1:00 PM EST",
     "name": "STATUS_SCHEDULED",
     "period": 0,
     "clock": "0:00",
@@ -705,32 +741,215 @@ const GAMES = /* ===== BAKED GAMES START ===== */
         "id": "20",
         "ab": "NYJ",
         "name": "Jets",
-        "logo": "",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/nyj.png",
         "score": 0,
         "color": "115740"
+      },
+      {
+        "id": "15",
+        "ab": "MIA",
+        "name": "Dolphins",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/mia.png",
+        "score": 0,
+        "color": "008e97"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873084",
+    "date": "2026-11-29T18:00:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/29 - 1:00 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "1",
+        "ab": "ATL",
+        "name": "Falcons",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
+        "score": 0,
+        "color": "a71930"
+      },
+      {
+        "id": "16",
+        "ab": "MIN",
+        "name": "Vikings",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/min.png",
+        "score": 0,
+        "color": "4f2683"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873090",
+    "date": "2026-11-29T18:00:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/29 - 1:00 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "10",
+        "ab": "TEN",
+        "name": "Titans",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ten.png",
+        "score": 0,
+        "color": "4495d2"
+      },
+      {
+        "id": "30",
+        "ab": "JAX",
+        "name": "Jaguars",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/jax.png",
+        "score": 0,
+        "color": "007487"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873085",
+    "date": "2026-11-29T18:00:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/29 - 1:00 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "33",
+        "ab": "BAL",
+        "name": "Ravens",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/bal.png",
+        "score": 0,
+        "color": "29126f"
+      },
+      {
+        "id": "34",
+        "ab": "HOU",
+        "name": "Texans",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/hou.png",
+        "score": 0,
+        "color": "021018"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873093",
+    "date": "2026-11-29T21:05:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/29 - 4:05 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "17",
+        "ab": "NE",
+        "name": "Patriots",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ne.png",
+        "score": 0,
+        "color": "002a5c"
       },
       {
         "id": "24",
         "ab": "LAC",
         "name": "Chargers",
-        "logo": "",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lac.png",
         "score": 0,
         "color": "0080c6"
       }
     ],
-    "yardLine": null,
-    "down": null,
     "possessionText": "",
-    "possession": null,
     "redZone": false,
     "dd": ""
   },
   {
-    "id": "401873075",
-    "date": "2026-11-22T21:25Z",
+    "id": "401873092",
+    "date": "2026-11-29T21:25:00.000Z",
     "state": "pre",
     "completed": false,
-    "detail": "11/22 - 4:25 PM EST",
+    "detail": "11/29 - 4:25 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "28",
+        "ab": "WSH",
+        "name": "Commanders",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/wsh.png",
+        "score": 0,
+        "color": "5a1414"
+      },
+      {
+        "id": "22",
+        "ab": "ARI",
+        "name": "Cardinals",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ari.png",
+        "score": 0,
+        "color": "a40227"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873091",
+    "date": "2026-11-29T21:25:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/29 - 4:25 PM EST",
+    "name": "STATUS_SCHEDULED",
+    "period": 0,
+    "clock": "0:00",
+    "teams": [
+      {
+        "id": "26",
+        "ab": "SEA",
+        "name": "Seahawks",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sea.png",
+        "score": 0,
+        "color": "002a5c"
+      },
+      {
+        "id": "25",
+        "ab": "SF",
+        "name": "49ers",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sf.png",
+        "score": 0,
+        "color": "aa0000"
+      }
+    ],
+    "possessionText": "",
+    "redZone": false,
+    "dd": ""
+  },
+  {
+    "id": "401873086",
+    "date": "2026-11-30T01:20:00.000Z",
+    "state": "pre",
+    "completed": false,
+    "detail": "11/29 - 8:20 PM EST",
     "name": "STATUS_SCHEDULED",
     "period": 0,
     "clock": "0:00",
@@ -739,125 +958,51 @@ const GAMES = /* ===== BAKED GAMES START ===== */
         "id": "13",
         "ab": "LV",
         "name": "Raiders",
-        "logo": "",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lv.png",
         "score": 0,
         "color": "000000"
       },
       {
-        "id": "7",
-        "ab": "DEN",
-        "name": "Broncos",
-        "logo": "",
+        "id": "5",
+        "ab": "CLE",
+        "name": "Browns",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/cle.png",
         "score": 0,
-        "color": "0a2343"
+        "color": "472a08"
       }
     ],
-    "yardLine": null,
-    "down": null,
     "possessionText": "",
-    "possession": null,
     "redZone": false,
     "dd": ""
   },
   {
-    "id": "401873069",
-    "date": "2026-11-22T21:25Z",
+    "id": "401873094",
+    "date": "2026-12-01T01:15:00.000Z",
     "state": "pre",
     "completed": false,
-    "detail": "11/22 - 4:25 PM EST",
+    "detail": "11/30 - 8:15 PM EST",
     "name": "STATUS_SCHEDULED",
     "period": 0,
     "clock": "0:00",
     "teams": [
       {
-        "id": "30",
-        "ab": "JAX",
-        "name": "Jaguars",
-        "logo": "",
+        "id": "29",
+        "ab": "CAR",
+        "name": "Panthers",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/car.png",
         "score": 0,
-        "color": "007487"
+        "color": "0085ca"
       },
       {
-        "id": "19",
-        "ab": "NYG",
-        "name": "Giants",
-        "logo": "",
+        "id": "27",
+        "ab": "TB",
+        "name": "Buccaneers",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/tb.png",
         "score": 0,
-        "color": "003c7f"
+        "color": "bd1c36"
       }
     ],
-    "yardLine": null,
-    "down": null,
     "possessionText": "",
-    "possession": null,
-    "redZone": false,
-    "dd": ""
-  },
-  {
-    "id": "401873077",
-    "date": "2026-11-23T01:20Z",
-    "state": "pre",
-    "completed": false,
-    "detail": "11/22 - 8:20 PM EST",
-    "name": "STATUS_SCHEDULED",
-    "period": 0,
-    "clock": "0:00",
-    "teams": [
-      {
-        "id": "16",
-        "ab": "MIN",
-        "name": "Vikings",
-        "logo": "",
-        "score": 0,
-        "color": "4f2683"
-      },
-      {
-        "id": "25",
-        "ab": "SF",
-        "name": "49ers",
-        "logo": "",
-        "score": 0,
-        "color": "aa0000"
-      }
-    ],
-    "yardLine": null,
-    "down": null,
-    "possessionText": "",
-    "possession": null,
-    "redZone": false,
-    "dd": ""
-  },
-  {
-    "id": "401873078",
-    "date": "2026-11-24T01:15Z",
-    "state": "pre",
-    "completed": false,
-    "detail": "11/23 - 8:15 PM EST",
-    "name": "STATUS_SCHEDULED",
-    "period": 0,
-    "clock": "0:00",
-    "teams": [
-      {
-        "id": "4",
-        "ab": "CIN",
-        "name": "Bengals",
-        "logo": "",
-        "score": 0,
-        "color": "fb4f14"
-      },
-      {
-        "id": "28",
-        "ab": "WSH",
-        "name": "Commanders",
-        "logo": "",
-        "score": 0,
-        "color": "5a1414"
-      }
-    ],
-    "yardLine": null,
-    "down": null,
-    "possessionText": "",
-    "possession": null,
     "redZone": false,
     "dd": ""
   }
@@ -2060,6 +2205,8 @@ function mapLeg(l){
   let leg;
   if(rush){
     leg = { team:l.team, opp:l.opp, type:'team_stat', stat:'rushingAttempts', side:rush[2][0].toUpperCase()==='O'?'over':'under', line:Number(rush[3]), odds };
+  } else if(!raw && props.length){
+    leg = { team:l.team, opp:l.opp, type:'prop', odds };
   } else if(/^(ml|moneyline|money line|to win|win)$/i.test(raw)){
     leg = { team:l.team, opp:l.opp, type:'ml', odds };
   } else if(ou){
@@ -2113,6 +2260,7 @@ function propShort(p){
   const stat = String(p.stat||'');
   let unit = stat;
   if(/passingTouchdowns/i.test(stat)) unit = 'pass TD';
+  else if(/anytimeTouchdowns/i.test(stat)) unit = 'TD';
   else if(/receivingYards/i.test(stat)) unit = 'rec yds';
   else if(/rushingYards/i.test(stat)) unit = 'rush yds';
   else if(/rushingAttempts/i.test(stat)) unit = 'rush att';
@@ -2173,6 +2321,7 @@ function lookupPlayerStat(rows, player, stat, team){
     else return {found:false, ambiguous:true, value:null};
   }
   if(!hits.length) return {found:false, value:null};
+  if(stat==='anytimeTouchdowns'){ let v=0; for(const h of hits){ v+=(h.stats.rushingTouchdowns||0)+(h.stats.receivingTouchdowns||0); } return {found:true, value:v, name:hits[0].name}; }
   for(const h of hits){
     if(h.stats && h.stats[stat]!=null) return {found:true, value:Number(h.stats[stat]), name:h.name};
   }
@@ -2275,6 +2424,7 @@ function mapBet(b){
     stake_per_line: stakePer, total_stake: total,
     potential: b.potential == null ? null : Number(b.potential),
     boost: Number(b.boost || 0),
+    only: Array.isArray(b.legs) ? b.legs.map(Number) : null,
     stakeUnknown
   };
 }
@@ -2399,10 +2549,23 @@ function sumProducts(odds, n){
   if(n<=0) return 0;
   return combos(odds, n).reduce((s,c)=>s+c.reduce((a,b)=>a*b,1),0);
 }
+function gameGroupKey(l){ return [l.team, l.opp].sort().join('|'); }
+// Lines/returns where legs from the same game can't share a line (Betfair blocks same-game multiples).
+function groupedSum(legs, n, w, key){
+  if(n<0) return 0;
+  const m = new Map();
+  for(const l of legs){ const k = (key||gameGroupKey)(l); m.set(k, (m.get(k)||0) + w(l)); }
+  const e = new Array(n+1).fill(0); e[0] = 1;
+  for(const x of m.values()) for(let j=n;j>0;j--) e[j] += e[j-1]*x;
+  return e[n];
+}
+function groupedCount(legs, n, key){ return Math.round(groupedSum(legs, n, ()=>1, key)); }
 function accaStats(legs, bet){
+  if(bet.only) legs = bet.only.map(i=>legs[i]).filter(Boolean);
+  const K = bet.only ? (l=>l) : gameGroupKey;   // a bet builder is same-game by design
   const N = legs.length;
   const n = bet.folds;
-  const total = bet.lines || choose(N, n);
+  const total = bet.lines || groupedCount(legs, n, K);
   const isFull = n===N && total===1;
   const win = legs.filter(l=>l.status==='win');
   const lose = legs.filter(l=>l.status==='lose');
@@ -2414,15 +2577,13 @@ function accaStats(legs, bet){
   // On as it stands: winning, level/push, and not-yet-started keep a combo on.
   // Only a live-not-covering or final-lost leg knocks a combo off.
   const onPool = win.concat(level, open, pending);
-  const onStand = choose(onPool.length, n);
-  const alreadyWon = choose(win.length + level.length, n);
+  const onStand = groupedCount(onPool, n, K);
+  const alreadyWon = groupedCount(win.concat(level), n, K);
   const standBusted = onStand<=0;
-  const settledAlive = choose(N - loseFinal.length, n);
-  const dead = loseFinal.length > N-n || settledAlive<=0;
-  const allOdds = legs.map(l=>l.odds);
-  const allRaw = sumProducts(allOdds, n);
-  const onOdds = onPool.map(l=>l.status==='level' ? 1 : l.odds);
-  const onRaw = sumProducts(onOdds, n);
+  const settledAlive = groupedCount(legs.filter(l=>!loseFinal.includes(l)), n, K);
+  const dead = settledAlive<=0;
+  const allRaw = groupedSum(legs, n, l=>Number(l.odds)||1, K);
+  const onRaw = groupedSum(onPool, n, l=>l.status==='level' ? 1 : (Number(l.odds)||1), K);
   let rem = 0;
   if(onStand && n && !bet.stakeUnknown){
     if(bet.potential && allRaw>0) rem = bet.potential * onRaw / allRaw;
@@ -3099,6 +3260,7 @@ function legFor(g){
 }
 function gradeMainLine(g, leg){
   if(leg.type==='team_stat') return gradeTeamStat(g, leg);
+  if(leg.type==='prop') return 'win';   // prop-only leg: the props decide it
   if(leg.type==='manual') return 'manual';
   if(leg.type==='total'){
     const total = g.teams.reduce((s,t)=>s+t.score,0);
